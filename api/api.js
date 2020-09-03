@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const User = require('./models/user');
 const Profile = require('./models/profile')
+const Review = require('./models/reviews')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -26,6 +27,14 @@ app.get('/api/profile/:user', (req, res) => {
         }
     )
 });
+app.get('/api/review', (req, res) => {
+    Review.find({}, (err, profile) => {
+            return err
+            ? res.send(err)
+            : res.send(profile);
+        }
+    )
+});
 app.post('/api/profile', (req, res) =>{
     const {user, height, weight, age, gender} = req.body;
     const NewProfile = new Profile({
@@ -40,7 +49,23 @@ app.post('/api/profile', (req, res) =>{
  		? res.send(err)
  		: res.json({
  			success: true,
- 			message: 'Created new user'
+ 			message: 'Created new profile'
+ 		});
+    })
+});
+app.post('/api/review', (req, res) =>{
+    const {user, comment, likes} = req.body;
+    const NewReview = new Review({
+        user,
+        comment,
+        likes
+    });
+    NewReview.save(err =>{
+        return err
+ 		? res.send(err)
+ 		: res.json({
+ 			success: true,
+ 			message: 'Created new review'
  		});
     })
 });
