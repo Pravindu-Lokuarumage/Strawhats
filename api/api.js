@@ -14,6 +14,11 @@ mongoose.connect("mongodb+srv://Pravindu:1234567890@cluster0.mbsfj.mongodb.net",
 		useNewUrlParser:true, 
 		useUnifiedTopology: true 
 });
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-RequestedWith, Content-Type, Accept");
+    next();
+});
 
 app.get('/api/test', (req, res) => {
     res.send('The API is working!');
@@ -36,9 +41,10 @@ app.get('/api/review', (req, res) => {
     )
 });
 app.post('/api/profile', (req, res) =>{
-    const {user, height, weight, age, gender} = req.body;
+    const {user, name, height, weight, age, gender} = req.body;
     const NewProfile = new Profile({
         user,
+        name,
         height,
         weight,
         age,
