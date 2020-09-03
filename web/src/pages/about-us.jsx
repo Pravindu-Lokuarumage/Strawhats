@@ -3,14 +3,25 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import '../myStyle.css'
 import $ from "jquery";
+const API_URL = 'http://localhost:5000/api';
+const currentUser = localStorage.getItem('user');
 
 class  AboutUs extends Component {
     handleClick(){
-        //login funtionality
+    /*    const name = localStorage.getItem('user')
+        const comment = $('#comment').val();
+        $.post(`${API_URL}/reviews`, { name, comment})
+        .then((response) =>{
+			if (response.success) {
+                console.log(response);
+				window.location.href="/"				  
+			}
+		});*/
     }
     
 	render(){
 		return(
+            //Note: might have to change 3rd picture for a clipart for the Future plans.
             //page html
             //1.Welcome --//Our Goal
             //2.Our Team
@@ -52,7 +63,7 @@ class  AboutUs extends Component {
                     </div>
                     <div class="col-md-6 secondCol float-right">
                         <h2 class="text-center secondHeader">MEET OUR TEAM</h2>
-                        <h4 class="text-center teamHeader"> Our Team</h4>
+                        <h4 class="text-center teamHeader"> Our Developers</h4>
                         <p class="text-left">At Health and Prosperity (HAP) 
                         We have a very dedicated and hard-working team working at HAP.
                         Our team ensures that we keep improving and keep working on more 
