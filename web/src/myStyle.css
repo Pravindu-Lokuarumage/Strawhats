@@ -1,5 +1,32 @@
 /*------------------------ABOUT_US_PAGE---------------------*/
+.logoHeader{
+    align-items: center;
+}
 .firstRow{
-    background-color: lightblue;
+    padding: 2%;
+    background-color: orange;
+    font-family: 'Times New Roman', Times, serif;
+}
+.firstHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.secondRow{
+    padding: 2%;
+    background-color: grey;
+    font-family: 'Times New Roman', Times, serif;
+}
+.secondHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.thirdRow{
+    padding: 2%;
+    background-color: orange;
+    font-family: 'Times New Roman', Times, serif;
+}
+.thirdHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
 }
 /*------------------------ABOUT_US_PAGE---------------------*/
