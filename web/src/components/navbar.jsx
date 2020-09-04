@@ -14,6 +14,7 @@ class Navigation extends Component {
           <Nav className="mr-auto">
             <Link className="nav-item nav-link" to="/">Profile</Link>
             <Link className="nav-item nav-link" to="/Login">Login</Link>
+            <Link className="nav-item nav-link" to="/about-me">About Us</Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
