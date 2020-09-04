@@ -10,19 +10,10 @@ class Review extends Component {
 	} 
   render(){
     return(
-<<<<<<< HEAD
-        <div className="container">
-            <div className="text-center"><h3>Reviews</h3></div>
-            <div>{}</div>
-            <div></div>
-        </div>
-=======
       <Card>
         <div>{this.props.user}</div>
         <div>{this.props.comment}</div>
-      </Card>
-            
->>>>>>> 1c3e0b2231e8653774fd30943f3f115a9695b38d
+      </Card>            
     );
   }
     
