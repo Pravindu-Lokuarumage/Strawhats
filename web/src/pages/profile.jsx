@@ -42,7 +42,10 @@ class  Profile extends Component {
 							<h2>Dashboard </h2>
 							<ul>
 							<li>Name</li>
+							<li>Gender</li>
 							<li>Age</li>
+							<li>Height</li>
+							<li>Weight</li>
 							<li>BMI</li>
 							<li>Goals</li>
 							</ul> 
