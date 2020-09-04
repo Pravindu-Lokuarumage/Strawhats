@@ -24,9 +24,9 @@ class  Profile extends Component {
 		}
 		else{
 			const path = window.location.pathname;
-    		if (path !== '/login' && path !== '/registration') { 
-				window.location.href = '/login'; 
-			}
+    		// if (path !== '/login' && path !== '/registration') { 
+			// 	window.location.href = '/login'; 
+			// }
 		}
 	}
 	render(){

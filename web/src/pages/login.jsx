@@ -42,7 +42,7 @@ class Login extends Component {
 				 <h1>Login</h1>
 				 <div className="form-group">
 					<label htmlFor="name">User</label>
-					<input type="text" className="form-control" id="name" />
+					<input type="text" className="form-control" id="user" />
 				</div>
 				<div className="form-group">
 					<label htmlFor="password">Password</label>
@@ -53,7 +53,7 @@ class Login extends Component {
 				<div id="message">
 					<p className={this.state.className}>{this.state.msg}</p>
 				</div>
-                
+
 				<div id="footer"><Footer></Footer></div>
 
 			 </div>
