@@ -40,6 +40,41 @@ app.get('/api/review', (req, res) => {
         }
     )
 });
+app.post('/api/authenticate', (req, res) => {
+    const { user, password } = req.body;
+    User.findOne({ user, password }, (error, user) => {
+        if (user == null) {
+            return res.json({ error: "Incorrect username or password", user: user })
+        } else {
+            return res.json({
+                success: true,
+                message: 'Authenticated successfully',
+            });
+        }
+    })
+})
+app.post('/api/registration', (req, res) => {
+    const { user, password} = req.body;
+    User.findOne({ user: user }, (error, username) => {
+        if (username == null) {
+        	const newUser = new User({
+			 user,
+			 password
+			});
+			newUser.save(err => {
+ 				return err
+ 				? res.send(err)
+ 				: res.json({
+ 					success: true,
+ 					message: 'Created new user'
+ 				});
+			});
+        } else {
+            return res.json({ error:"User already exists"})
+        }
+    })
+})
+
 app.post('/api/profile', (req, res) =>{
     const {user, name, height, weight, age, gender} = req.body;
     const NewProfile = new Profile({
