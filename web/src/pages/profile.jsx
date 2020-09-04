@@ -36,7 +36,7 @@ class  Profile extends Component {
                 <div id="navbar"><Navbar></Navbar></div>
                 <div className="container">
                     <div>
-                        
+					<h1>Profile</h1>
                     </div>
                 </div>
 			    <div id="footer"><Footer></Footer></div>
