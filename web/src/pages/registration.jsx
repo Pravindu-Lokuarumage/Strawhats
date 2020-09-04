@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 
 import $ from 'jquery';
 
+const API_URL = 'http://localhost:5000/api';
 
 class Registration extends Component {
 	constructor(props){
@@ -16,7 +17,36 @@ class Registration extends Component {
 	}
 	
 	handleClick(){
-        //functionality        
+		const user = $('#name').val();
+			const password = $('#password').val();
+			const confirm = $('#confirm_password').val();
+			if (password === confirm){
+				if (user === '' || password === ''){
+					this.setState({
+						msg:"Username or password cannot be empty",
+						className:"alert alert-danger"
+					});
+				} else{
+					$.post(`${API_URL}/registration`, { user, password})
+					.then((response) =>{
+						console.log(response)
+						if (response.success) {
+							window.location.href="/login"			
+						} else {
+							this.setState({
+								msg: response.error,
+								className:"alert alert-danger"
+							});
+						}
+					});
+				}
+			}
+			else{
+				this.setState({
+					msg:"Passwords do not match",
+					className:"alert alert-danger"
+				});
+			}
 	}
 	render(){
     	return(
@@ -30,11 +60,11 @@ class Registration extends Component {
 			    </div>
 			    <div class="form-group">
 			    	<label htmlfor="password">Password</label>
-			    	<input type="text" className="form-control" id="password" />
+			    	<input type="password" className="form-control" id="password" />
 			    </div>
 			    <div class="form-group">
 			    	<label htmlfor="confirm">Confirm</label>
-			    	<input type="text" className="form-control" id="confirm_password" />
+			    	<input type="password" className="form-control" id="confirm_password" />
 			    </div>
 			    <button className="btn btn-success" id="register" onClick={this.handleClick}>Register</button>
 			    <p>Already have an accouint? Login <a href="/login">here</a>.</p>
