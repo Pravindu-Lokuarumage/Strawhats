@@ -42,14 +42,14 @@ class Login extends Component {
 				 <h1>Login</h1>
 				 <div className="form-group">
 					<label htmlFor="name">User</label>
-					<input type="text" className="form-control" id="name" />
+					<input type="text" className="form-control" id="user" />
 				</div>
 				<div className="form-group">
 					<label htmlFor="password">Password</label>
-					<input type="text" className="form-control" id="password" />
+					<input type="password" className="form-control" id="password" />
 				</div>
 				<button className="btn btn-success" onClick={this.handleClick}>Login</button>
-				<p>Dont have an accouint? Create one <a href="/registeration">here</a>.</p>
+				<p>Dont have an account? Create one <a href="/registeration">here</a>.</p>
 				<div id="message">
 					<p className={this.state.className}>{this.state.msg}</p>
 				</div>
