@@ -33,10 +33,10 @@ app.get('/api/profile/:user', (req, res) => {
     )
 });
 app.get('/api/review', (req, res) => {
-    Review.find({}, (err, profile) => {
+    Review.find({}, (err, reviews) => {
             return err
             ? res.send(err)
-            : res.send(profile);
+            : res.send(reviews);
         }
     )
 });
@@ -95,7 +95,8 @@ app.post('/api/profile', (req, res) =>{
     })
 });
 app.post('/api/review', (req, res) =>{
-    const {user, comment, likes} = req.body;
+    const likes = 0;
+    const {user, comment} = req.body;
     const NewReview = new Review({
         user,
         comment,
