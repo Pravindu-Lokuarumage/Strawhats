@@ -33,15 +33,25 @@ class  Profile extends Component {
 		return(
             //page html
         	<div>
-                <div id="navbar"><Navbar></Navbar></div>
                 <div className="container">
-                    <div>
-					<h1>Profile</h1>
-                    </div>
-                </div>
+					<div id="navbar"><Navbar></Navbar></div>
+					<h1>User Profile</h1>
+					<div class="profile">
+						<div class="image">
+							<img src="https://cdn1.vectorstock.com/i/1000x1000/43/45/male-and-female-avatar-profile-picture-silhouette-vector-4684345.jpg" class="float-right" alt="profile avatar" width="220" height="160"></img>
+							<h2>Dashboard </h2>
+							<ul>
+							<li>Name</li>
+							<li>Age</li>
+							<li>BMI</li>
+							<li>Goals</li>
+							</ul> 
+						</div>
+					</div>
+					 
 			    <div id="footer"><Footer></Footer></div>
-
-        </div>
+				</div>
+        	</div>
     	);
 	}
     
