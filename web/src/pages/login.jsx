@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from 'jquery';
 
+const API_URL = 'http://localhost:5000/api';
 
 class Login extends Component {
 
@@ -17,6 +18,21 @@ class Login extends Component {
 
 	handleClick(){
 		//login funtionality
+		const user = $('#user').val();
+		const password = $('#password').val();
+		$.post(`${API_URL}/authenticate`, { user, password })
+		.then((response) =>{
+			if (response.success) {
+				localStorage.setItem('user', user);
+				localStorage.setItem('isAuthenticated', true);
+				window.location.href = '/';
+			} 	else {
+					this.setState({
+						msg: response.error,
+						className:"alert alert-danger"
+				});
+			}
+		});
 	}
 	render(){
 		return(
