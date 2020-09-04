@@ -49,11 +49,11 @@ class Login extends Component {
 					<input type="password" className="form-control" id="password" />
 				</div>
 				<button className="btn btn-success" onClick={this.handleClick}>Login</button>
-				<p>Dont have an accouint? Create one <a href="/registeration">here</a>.</p>
+				<p>Dont have an account? Create one <a href="/registeration">here</a>.</p>
 				<div id="message">
 					<p className={this.state.className}>{this.state.msg}</p>
 				</div>
-                
+
 				<div id="footer"><Footer></Footer></div>
 
 			 </div>

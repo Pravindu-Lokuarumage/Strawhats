@@ -1,25 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component,useEffect } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
 
-
-
-class  Info extends Component {
-	render(){
-		return(
-            //page html
-        	<div>
+const Info = () => {
+    return(
+        <div>
                 <div id="navbar"><Navbar></Navbar></div>
                 <div>
                     here
                 </div>
 			    <div id="footer"><Footer></Footer></div>
-
-        </div>
-    	);
-	}
-    
+            </div>
+    );
 }
 
 export default Info;

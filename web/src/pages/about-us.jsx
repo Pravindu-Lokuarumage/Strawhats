@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import '../myStyle.css'
 import $ from "jquery";
-import Review from '../components/review';
+import Reviews from '../components/review';
 const API_URL = 'http://localhost:5000/api';
 const currentUser = localStorage.getItem('user');
 
@@ -113,7 +113,13 @@ class  AboutUs extends Component {
 					<input type="text" className="form-control" id="comment" />
 				</div>
 				<button className="btn btn-danger" onClick={this.handleClick}>Submit</button>
-                <div id="reviews"><Review></Review></div>
+                <div id="reviews">
+                    
+                    <div className="text-center"><h3>Reviews</h3></div>
+                    {this.state.reviews.map(reviews =>(
+							<Reviews key={reviews._id} comment={reviews.comment} user={reviews.user}></Reviews>
+						))}
+                </div>
                 <div className="row contactInfo">
                     <div className="col-md-3 text-center">FACEBOOK</div>
                     <div className="col-md-3 text-center">INSTAGRAM</div>
