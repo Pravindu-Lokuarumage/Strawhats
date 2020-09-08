@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 
 const port = 5000;
 
-mongoose.connect("mongodb+srv://Pravindu:1234567890@cluster0.mbsfj.mongodb.net", {
+mongoose.connect("mongodb+srv://strawHats:zX9.5stzTe@nJ8j@cluster0.r2r2h.mongodb.net", {
 		useNewUrlParser:true, 
 		useUnifiedTopology: true 
 });
