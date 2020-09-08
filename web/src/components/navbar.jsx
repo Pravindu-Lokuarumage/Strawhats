@@ -38,7 +38,7 @@ class Navigation extends Component {
     }
     render(){
         return(
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="dark" expand="lg" variant="dark">
             <a className="navbar-brand" href="/">HAP</a>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
