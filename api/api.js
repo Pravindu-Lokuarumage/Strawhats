@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const User = require('./models/user');
 const Profile = require('./models/profile');
 const Review = require('./models/reviews');
-const Data = require('./models/user');
+const Data = require('./models/data');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -42,12 +42,12 @@ app.get('/api/review', (req, res) => {
     )
 });
 app.post('/api/data/:user', (req, res) => {
-    const {user, heart} = req.body;
-    const NewProfile = new Data({
+    const {user, heartrate} = req.body;
+    const NewData = new Data({
         user,
-        heart
+        heartrate
     });
-    NewProfile.save(err =>{
+    NewData.save(err =>{
         return err
  		? res.send(err)
  		: res.json({
