@@ -7,6 +7,9 @@ import Profile from './pages/profile';
 import NewProfile from './pages/create-profile';
 import NotFound from './pages/404';
 import Registration from './pages/registration';
+import TrackMe from './pages/trackMe';
+import CalorieIntake from './pages/calorieIntake';
+import Features from './pages/features';
 import Login from './pages/login';
 
 
@@ -20,6 +23,9 @@ class App extends Component {
         <Route exact path="/info" component = {Info}/>
         <Route exact path="/about-me" component = {AboutUe}/>
         <Route exact path="/login" component = {Login}/>
+        <Route exact path="/features" component = {Features}/>
+        <Route exact path="/trackMe" component = {TrackMe}/>
+        <Route exact path="/calorieIntake" component = {CalorieIntake}/>
         <Route exact path="/registeration" component = {Registration}/>
 
         <Route exact path ="/404" component = {NotFound}/>
