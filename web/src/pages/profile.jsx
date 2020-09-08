@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
 
-const API_URL = 'https://api-cyan-six.vercel.app/api/';
+const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
 
 
