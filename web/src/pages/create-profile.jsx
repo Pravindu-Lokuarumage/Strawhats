@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import $ from "jquery";
 
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://api-cyan-six.vercel.app/api';
 
 
 class  NewProfile extends Component {
