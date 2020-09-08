@@ -59,7 +59,6 @@ class Features extends Component {
 			 </div>
     	);
 	}
-    
 }
 
 export default Features;
