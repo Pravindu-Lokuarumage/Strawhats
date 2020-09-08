@@ -42,18 +42,33 @@ app.get('/api/review', (req, res) => {
     )
 });
 app.post('/api/data/:user', (req, res) => {
-    const {user, heartrate} = req.body;
-    const NewData = new Data({
-        user,
-        heartrate
-    });
-    NewData.save(err =>{
-        return err
- 		? res.send(err)
- 		: res.json({
- 			success: true,
- 			message: 'Created new data'
- 		});
+    const {heartrate} = req.body;
+    const { user } = req.params;
+    Data.findOne({ user: user}, (error, username) => {
+        if (username == null) {
+            const NewData = new Data({
+                user,
+                heartrate
+            });
+            NewData.save(err =>{
+                return err
+                 ? res.send(err)
+                 : res.json({
+                     success: true,
+                     message: 'Created new data'
+                 });
+            })
+        } else {
+            username.heartrate.push(heartrate);
+            username.save(err =>{
+                return err
+                 ? res.send(err)
+                 : res.json({
+                     success: true,
+                     message: 'updated data'
+                 });
+            })
+        }
     })
 })
 app.post('/api/authenticate', (req, res) => {
