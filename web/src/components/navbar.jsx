@@ -33,7 +33,7 @@ class Navigation extends Component {
         if (isAuthenticated){
             localStorage.removeItem('user');
             localStorage.removeItem('isAuthenticated');
-            this.setState({Auth:true,name:"Login"})
+            this.setState({Auth:false,name:"Login"})
         }
     }
     render(){

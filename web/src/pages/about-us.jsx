@@ -4,7 +4,7 @@ import Footer from '../components/footer';
 import '../myStyle.css'
 import $ from "jquery";
 import Reviews from '../components/review';
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://api.pravindu-lokuarumage.vercel.app/api';
 const currentUser = localStorage.getItem('user');
 
 class  AboutUs extends Component {
