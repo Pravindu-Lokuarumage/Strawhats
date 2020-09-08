@@ -1,53 +1,19 @@
 import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import '../myStyle.css'
 import $ from "jquery";
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
-const currentUser = localStorage.getItem('user');
 
 class Features extends Component {
-    constructor(props){
-		super(props)
-		this.state = {
-			profile:{}
-		};
-	}
-	componentDidMount(){
-		if (currentUser){
-			$.get(`${API_URL}/profile/${currentUser}`)
-			.then(response => {
-                if (response[0]== null){
-                    window.location.href = '/create'; 
-                }
-                else{
-                    this.setState({profile:response[0]})
-                }
 
-			})
-		}
-		else{
-			const path = window.location.pathname;
-    		if (path !== '/login' && path !== '/registration') { 
-				window.location.href = '/login'; 
-			}
-		}
-	}
 	render(){
 		return(
-            //Note: might have to change 3rd picture for a clipart for the Future plans.
-            //page html
-            //1.Welcome --//Our Goal
-            //2.Our Team
-            //3.Our Future
-            //3.User Reviews
-            //4.Our contact info
             <div className="container mainFeatures">
 				<div id="navbar"><Navbar></Navbar></div>
-                <div className="row logoRow">
-                    <div className="col-md-7 position-relative logoCol">
-                        <h2 className="text-left logoHeader d-flex align-items-center"> FEATURES</h2>
-                    </div>
+                <div className="text-center">
+                    <h2 className="logoHeader1"> FEATURES</h2>
                 </div>
                  <div className="row firstRowFeatures">
                     <div className="col-md-5 firstCol">
