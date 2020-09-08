@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 const User = require('./models/user');
-const Profile = require('./models/profile')
-const Review = require('./models/reviews')
+const Profile = require('./models/profile');
+const Review = require('./models/reviews');
+const Data = require('./models/user');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -40,6 +41,21 @@ app.get('/api/review', (req, res) => {
         }
     )
 });
+app.post('/api/data/:user', (req, res) => {
+    const {user, heart} = req.body;
+    const NewProfile = new Data({
+        user,
+        heart
+    });
+    NewProfile.save(err =>{
+        return err
+ 		? res.send(err)
+ 		: res.json({
+ 			success: true,
+ 			message: 'Created new data'
+ 		});
+    })
+})
 app.post('/api/authenticate', (req, res) => {
     const { user, password } = req.body;
     User.findOne({ user, password }, (error, user) => {
