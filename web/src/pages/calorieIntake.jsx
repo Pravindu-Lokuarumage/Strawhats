@@ -48,11 +48,11 @@ class CalorieIntake extends Component {
 		...queryParams,
 		format: 'json',
 		};
-		$.get(queryParam['oauth_signature'])
+		$.get(queryParam['oauth_signature'] = this.getSignature(queryParam, httpMethod))
 		.then(response => {
 			if (response){
 				console.log("Fetched")
-				queryParam['oauth_signature'] = this.getSignature(queryParam, httpMethod);
+				//queryParam['oauth_signature'] = this.getSignature(queryParam, httpMethod);
 				return fetch(`${API_PATH}?${stringify(queryParam)}`, {method: httpMethod});
 			}
 			else{
@@ -64,7 +64,7 @@ class CalorieIntake extends Component {
 		return(
 			<div className="container"> 
                 <div id="navbar"><Navbar></Navbar></div>
-				<h1>Calorie1 Intake</h1>
+				<h1>Calorie Intake</h1>
 				{/* { console.log(this.getOauthParameters())}
 				{ console.log(this.getSignature())} */}
 				{ console.log(this.makeApiCall())}
