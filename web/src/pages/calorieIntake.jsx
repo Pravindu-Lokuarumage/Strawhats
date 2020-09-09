@@ -48,7 +48,7 @@ class CalorieIntake extends Component {
 		...queryParams,
 		format: 'json',
 		};
-		$.get(queryParam)
+		$.get(queryParam['oauth_signature'])
 		.then(response => {
 			if (response){
 				console.log("Fetched")
@@ -60,23 +60,11 @@ class CalorieIntake extends Component {
 			}
 		})
 	}
-	// componentDidMount{
-	// 	$.get(`${API_URL}/profile/${currentUser}`)
-	// 	.then(response => {
-	// 		if (response[0]== null){
-	// 			window.location.href = '/create'; 
-	// 		}
-	// 		else{
-	// 			this.setState({profile:response[0]})
-	// 		}
-
-	// 	})
-	// }
 	render(){
 		return(
 			<div className="container"> 
                 <div id="navbar"><Navbar></Navbar></div>
-				<h1>Calorie Intake</h1>
+				<h1>Calorie1 Intake</h1>
 				{/* { console.log(this.getOauthParameters())}
 				{ console.log(this.getSignature())} */}
 				{ console.log(this.makeApiCall())}
