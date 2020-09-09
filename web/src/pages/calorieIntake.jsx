@@ -32,28 +32,28 @@ class CalorieIntake extends Component {
 		  oauth_version: OAUTH_VERSION,
 		};
 	}
-	queryParams = $.param(this.getOauthParameters());
-	getSignature(queryParams, httpMethod = 'GET') {
+	MqueryParams = $.param(this.getOauthParameters());
+	getSignature(MqueryParams, httpMethod = 'GET') {
 		const signatureBaseString = [
 		  httpMethod,
 		  encodeURIComponent(API_PATH),
-		  encodeURIComponent(stringify(queryParams)),
+		  encodeURIComponent(stringify(MqueryParams)),
 		].join('&');
 		const signatureKey = `${APP_SECRET}&`;
 		return hmacsha1(signatureKey, signatureBaseString);
 	  }
-	makeApiCall(queryParams, httpMethod = 'GET'){
+	makeApiCall(MqueryParams, httpMethod = 'GET'){
 		const queryParam = {
 		...this.getOauthParameters(),
-		...queryParams,
+		...MqueryParams,
 		format: 'json',
 		};
-		$.get(queryParam['oauth_signature'] = this.getSignature(queryParam, httpMethod))
+		queryParam['oauth_signature'] = this.getSignature(queryParam, httpMethod);
+		$.get(`${API_PATH}?${stringify(queryParam)}`, {method: httpMethod})
 		.then(response => {
 			if (response){
 				console.log("Fetched")
-				//queryParam['oauth_signature'] = this.getSignature(queryParam, httpMethod);
-				return fetch(`${API_PATH}?${stringify(queryParam)}`, {method: httpMethod});
+				return response;
 			}
 			else{
 				console.log("Couldn't Fetch")
