@@ -33,6 +33,15 @@ app.get('/api/profile/:user', (req, res) => {
         }
     )
 });
+app.get('/api/data/:user', (req, res) => {
+    const { user } = req.params;
+    Data.find({"user":user}, (err, data) => {
+            return err
+            ? res.send(err)
+            : res.send(data);
+        }
+    )
+});
 app.get('/api/review', (req, res) => {
     Review.find({}, (err, reviews) => {
             return err
@@ -42,13 +51,13 @@ app.get('/api/review', (req, res) => {
     )
 });
 app.post('/api/data/:user', (req, res) => {
-    const {heartrate} = req.body;
+    const {heartrate,stepsperd} = req.body;
     const { user } = req.params;
     Data.findOne({ user: user}, (error, username) => {
         if (username == null) {
             const NewData = new Data({
-                user,
-                heartrate
+                user
+                //heartrate:{heartrate,time}
             });
             NewData.save(err =>{
                 return err
@@ -59,7 +68,14 @@ app.post('/api/data/:user', (req, res) => {
                  });
             })
         } else {
-            username.heartrate.push(heartrate);
+            const time = new Date();
+            if (heartrate !== undefined){
+                username.heartrate.push({heartrate, time});
+            }
+
+            if (stepsperd !== undefined){
+                username.stepsperd.push({stepsperd, time});
+            }
             username.save(err =>{
                 return err
                  ? res.send(err)
