@@ -41,7 +41,7 @@ class Login extends Component {
 	render(){
 		return(
 			<div className="container h-100">
-        <div id="navbar"><navbar /></div>
+        <div id="navbar"><Navbar></Navbar></div>
         <div className="d-flex justify-content-center h-100">
           <div className="user_card">
             <div className="d-flex justify-content-center">
