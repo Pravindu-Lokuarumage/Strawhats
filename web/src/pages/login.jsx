@@ -64,7 +64,7 @@ class Login extends Component {
                   <input type="password" className="form-control " placeholder="Password" id="password" />
                 </div>
                 <div className="d-flex justify-content-center mt-3 login_container">
-                  <button type="button" name="button" className="btn login_btn">Login</button>
+                  <button type="button" name="button" className="btn login_btn" onClick={this.handleClick}>Login</button>
                 </div>
               </form>
             </div>
