@@ -1,35 +1,40 @@
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
 
-var data = '';
-console.log(location.href);
+
+setInterval(heartData,5000);
+setInterval(stepData,10000);
+
+
+
 if (currentUser){
-    loop();
+    getHeart();
+    getStep();
 }
 else{
     const path = window.location.pathname;
     if (path !== '/test.html') { location.href = '/test.html'; }
 }
-async function getData(){
+async function getHeartData(){
     const res = await fetch('mock.csv');
-    data = await res.text();
+    const data = await res.text();
     var lines = data.split("\n").slice(1);  
     return lines
 }
-async function loop() {
-    lines = await getData();
-    console.log(lines);
+async function getHeart() {
+    heart = await getHeartData();
+    console.log(heart);
     
 }
-setInterval(myTimer,5000);
-async function myTimer() {
+async function heartData() {
     if (currentUser){
-        if (typeof lines[0] !== "undefined")
+        if (typeof heart[0] !== "undefined")
         {
-            var line = lines.shift();
+            var line = heart.shift();
             var split = line.split(',');
             console.log(split[2]);
-            $.post(`${API_URL}/data/Test`, {heartrate: split[2]})
+            const val = split[2];
+            $.post(`${API_URL}/data/${currentUser}`, {heartrate: val})
             .then((response) =>{
 	    		if (response.success) {
                     console.log(response);
@@ -40,7 +45,36 @@ async function myTimer() {
     }
     
 }
-
+async function getStepData(){
+    const res = await fetch('hourlySteps_merged.csv');
+    const data = await res.text();
+    var lines = data.split("\n").slice(1);  
+    return lines
+}
+async function getStep() {
+    step = await getStepData();
+    console.log(step);
+    
+}
+async function stepData() {
+    if (currentUser){
+        if (typeof step[0] !== "undefined")
+        {
+            var line = step.shift();
+            var split = line.split(',');
+            console.log(split[2]);
+            const val = split[2];
+            $.post(`${API_URL}/data/${currentUser}`, {stepsperd: val})
+            .then((response) =>{
+	    		if (response.success) {
+                    console.log(response);
+                    
+	    		}
+	    	});
+        }
+    }
+    
+}
 $('#login').on('click', () => {
     const user = $('#name').val();
     const password = $('#password').val();
@@ -49,7 +83,6 @@ $('#login').on('click', () => {
     if (response.success) {
         console.log(user);
         localStorage.setItem('user', user);
-        localStorage.setItem('isAdmin', response.isAdmin);
         localStorage.setItem('isAuthenticated', true);
         location.href = '/home.html';
     } else {
