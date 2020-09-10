@@ -61,6 +61,7 @@ app.get('/api/test', (req, res) => {
  * }
  * */
 app.get('/api/profile/:user', (req, res) => {
+    const { user } = req.params;
     Profile.find({"user":user}, (err, profile) => {
             return err
             ? res.send(err)
