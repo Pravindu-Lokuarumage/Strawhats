@@ -60,7 +60,7 @@ app.get('/api/test', (req, res) => {
  *      "User does not exist"
  * }
  * */
-app.get('/api/profile', (req, res) => {
+app.get('/api/profile/:user', (req, res) => {
     Profile.find({"user":user}, (err, profile) => {
             return err
             ? res.send(err)
@@ -69,7 +69,7 @@ app.get('/api/profile', (req, res) => {
     )
 });
 /**
- * @api {get} /api/profile/    Request all user profile
+ * @api {get} /api/profile    Request all user profile
  * @apiName GetProfiles
  * @apiGroup Profile
  * 
@@ -99,7 +99,7 @@ app.get('/api/profile', (req, res) => {
  *      "User does not exist"
  * }
  * */
-app.get('/api/profile/:user', (req, res) => {
+app.get('/api/profile', (req, res) => {
     Profile.find({}, (err, profile) => {
             return err
             ? res.send(err)
