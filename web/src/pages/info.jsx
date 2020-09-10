@@ -12,7 +12,8 @@ class Info extends Component {
         super(props);
         this.state = {
           hchartData:{},
-          schartData:{}
+          schartData:{},
+          time:[]
         }
     }
     componentWillMount(){
@@ -35,14 +36,11 @@ class Info extends Component {
 
                 response[0].heartrate.forEach(element => {
                     htime.push(new Date(element.time).toTimeString().slice(0,8));
-                });
-                response[0].heartrate.forEach(element => {
                     hdata.push(element.heartrate);
+
                 });
                 response[0].stepsperd.forEach(element => {
                     stime.push(new Date(element.time).toTimeString().slice(0,8));
-                });
-                response[0].stepsperd.forEach(element => {
                     sdata.push(element.stepsperd);
                 });
                 
@@ -51,7 +49,7 @@ class Info extends Component {
                       labels: htime,
                       datasets:[
                         {
-                          label:'Population',
+                          label:'Heart Rate',
                           data:hdata,
                           backgroundColor:'rgba(255, 99, 132, 0.6)'
                         }
@@ -61,7 +59,7 @@ class Info extends Component {
                         labels: stime,
                         datasets:[
                           {
-                            label:'Population',
+                            label:'Steps',
                             data:sdata,
                             backgroundColor:'rgba(255, 99, 132, 0.6)'
                           }

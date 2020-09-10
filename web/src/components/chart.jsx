@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card';
 import {Bar,Line} from 'react-chartjs-2';
 
 class Chart extends Component { 
@@ -12,7 +11,7 @@ class Chart extends Component {
       displayTitle:true,
       displayLegend: true,
       legendPosition:'right',
-      location:'City'
+      title:'City'
     } 
   render(){
     return(
@@ -22,7 +21,7 @@ class Chart extends Component {
           options={{
             title:{
               display:this.props.displayTitle,
-              text:'Largest Cities In '+this.props.location,
+              text:this.props.title,
               fontSize:25
             },
             legend:{
