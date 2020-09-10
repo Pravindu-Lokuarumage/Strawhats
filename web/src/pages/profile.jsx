@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
-
+// const API_URL = 'http://localhost:5000/api';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
 
