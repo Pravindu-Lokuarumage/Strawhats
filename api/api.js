@@ -208,7 +208,7 @@ app.get('/api/review', (req, res) => {
  * }
  * */
 app.post('/api/data/:user', (req, res) => {
-    const {heartrate,stepsperd} = req.body;
+    const {heartrate,stepsperd, calories} = req.body;
     const { user } = req.params;
     Data.findOne({ user: user}, (error, username) => {
         if (username == null) {
@@ -231,6 +231,10 @@ app.post('/api/data/:user', (req, res) => {
 
             if (stepsperd !== undefined){
                 username.stepsperd.push({stepsperd, time});
+            }
+
+            if (calories !== undefined){
+                username.calories.push(calories);
             }
             username.save(err =>{
                 return err
