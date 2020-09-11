@@ -1,4 +1,4 @@
-import React, { Component,useEffect } from 'react';
+import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Chart from '../components/chart';
@@ -13,8 +13,29 @@ class Info extends Component {
         this.state = {
           hchartData:{},
           schartData:{},
-          time:[]
-        }
+          time:new Date()
+        };
+        this.handlePrevious = this.handlePrevious.bind(this);
+        this.handleNext = this.handleNext.bind(this);
+        this.handleToday = this.handleToday.bind(this);
+
+    }
+    handlePrevious(){
+      var temp = this.state.time;
+      temp.setDate(temp.getDate() -1);
+      this.setState({time:temp})
+      this.getData();
+    }
+    handleNext(){
+      var temp = this.state.time;
+      temp.setDate(temp.getDate() +1);
+      this.setState({time:temp})
+      this.getData();
+    }
+    handleToday(){
+      var temp = new Date();
+      this.setState({time:temp})
+      this.getData();
     }
     componentWillMount(){
         this.getData();
@@ -35,9 +56,12 @@ class Info extends Component {
 
 
                 response[0].heartrate.forEach(element => {
-                    htime.push(new Date(element.time).toTimeString().slice(0,8));
-                    hdata.push(element.heartrate);
-
+                    var timestamp = new Date(element.time)
+                    if (timestamp.getDate()== this.state.time.getDate())
+                    {
+                      htime.push(timestamp.toTimeString().slice(0,8));
+                      hdata.push(element.heartrate);
+                    }
                 });
                 response[0].stepsperd.forEach(element => {
                     stime.push(new Date(element.time).toTimeString().slice(0,8));
@@ -66,6 +90,7 @@ class Info extends Component {
                         ]
                       }
                   });
+                console.log(this.state)
             }
         })
     }
@@ -74,9 +99,11 @@ class Info extends Component {
             <div>
                     <div id="navbar"><Navbar></Navbar></div>
                     <div>
-                        <Chart chartData={this.state.hchartData}/>
-                        <Chart chartData={this.state.schartData}/>
-
+                      <Chart chartData={this.state.hchartData}/>
+                      <button onClick={() => this.handlePrevious()}>Yesterday</button>
+                      <button onClick={() => this.handleToday()}>Today</button>
+                      <button onClick={() => this.handleNext()}>Tommorow</button>
+                      <Chart chartData={this.state.schartData}/>
                     </div>
                     <div id="footer"><Footer></Footer></div>
                 </div>
