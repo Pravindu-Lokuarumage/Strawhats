@@ -3,7 +3,7 @@ const currentUser = localStorage.getItem('user');
 
 
 setInterval(heartData,5000);
-setInterval(stepData,10000);
+setInterval(stepData,1000*60*15);
 
 
 

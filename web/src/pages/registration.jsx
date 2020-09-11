@@ -49,7 +49,7 @@ class Registration extends Component {
 			}
 	}
 	render(){
-    	return(
+    	return(	
     	    <div className="container">
     	        <div id="navbar"><Navbar></Navbar></div>
 
