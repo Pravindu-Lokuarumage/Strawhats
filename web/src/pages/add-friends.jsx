@@ -16,6 +16,13 @@ class  AddFriends extends Component {
 		}
     }
 
+    handleClick(element){
+            console.log(element)
+				window.location.href="/friend-profile/" + element;				                
+			}
+
+    
+
     componentDidMount(){
         $.get(`${API_URL}/profile`)
         .then((response) => {
@@ -33,8 +40,13 @@ class  AddFriends extends Component {
                     <div>
                     <div class="profiles">						
                         {this.state.profile.map(friends =>(
-							<Friend key={friends._id} user={friends.user}></Friend>
-						))}						
+                            <div>
+                            <Friend key={friends._id} user={friends.user}></Friend> 
+                            <button type="button" name="button" className="viewfrnd_btn" id ={friends.user} onClick={()=>this.handleClick(friends.user)}>View Profile</button>
+                            <button type="button" name="button" className="addfrnd_btn"  onClick={()=>this.handleClick}>Add Friend</button>   
+                            </div>                        
+                        ))}	                        
+                                               			
 					</div>
                     </div>
 			    <div id="footer"><Footer></Footer></div>

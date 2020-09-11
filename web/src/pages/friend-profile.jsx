@@ -8,7 +8,9 @@ import Friend from '../components/friend';
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
-const UserFriend = localStorage.getItem('user');
+var str =window.location.pathname.split("/")
+console.log(str)
+const UserFriend = str[2];
 
 class  FriendProfile extends Component {
    
@@ -19,12 +21,24 @@ class  FriendProfile extends Component {
 		}
     }
 
-    componentDidMount(){
+    
+
+    componentWillMount(){
         $.get(`${API_URL}/profile/${UserFriend}`)
         .then((response) => {
-            this.setState({profile:response[0]}) 
-            console.log(this.state.profile);             
-        })
+            console.log(response)
+            if (response.length === 0)
+            {
+                window.location.href ='/404';
+            }
+            else{
+                this.setState({profile:response[0]}) 
+            
+            console.log(this.state.profile); 
+
+            }
+                        
+        }) 
     }
            
 	render(){
