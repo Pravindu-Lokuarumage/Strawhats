@@ -6,6 +6,5 @@ module.exports = mongoose.model('profile', new mongoose.Schema({
     weight: Number,
     age: Number,
     gender: String,
-    BMI: Number,
-    Goals: String,
+    friends: Array
 }));
