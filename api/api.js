@@ -208,7 +208,7 @@ app.get('/api/review', (req, res) => {
  * }
  * */
 app.post('/api/data/:user', (req, res) => {
-    const {heartrate,stepsperd, calories} = req.body;
+    const {heartrate,stepsperd, breakfast, lunch, dinner, day} = req.body;
     const { user } = req.params;
     Data.findOne({ user: user}, (error, username) => {
         if (username == null) {
@@ -225,6 +225,7 @@ app.post('/api/data/:user', (req, res) => {
             })
         } else {
             const time = new Date();
+            var exist = false;
             if (heartrate !== undefined){
                 username.heartrate.push({heartrate, time});
             }
@@ -232,9 +233,23 @@ app.post('/api/data/:user', (req, res) => {
             if (stepsperd !== undefined){
                 username.stepsperd.push({stepsperd, time});
             }
-
-            if (calories !== undefined){
-                username.calories.push(calories);
+            username.calories.forEach(element => {
+                if (element.day === day)
+                {
+                    exist = true;
+                    if (breakfast !== undefined){
+                        element.breakfast = breakfast;
+                    }
+                    if (lunch !== undefined){
+                        element.lunch = lunch;
+                    }
+                    if (dinner !== undefined){
+                        element.dinner = dinner;
+                    }
+                }
+            });
+            if (exist){
+                username.calories.push({breakfast,lunch,dinner,day});
             }
             username.save(err =>{
                 return err
@@ -352,7 +367,8 @@ app.post('/api/profile', (req, res) =>{
         height,
         weight,
         age,
-        gender
+        gender,
+        friends:[]
     });
     NewProfile.save(err =>{
         return err
@@ -361,6 +377,27 @@ app.post('/api/profile', (req, res) =>{
  			success: true,
  			message: 'Created new profile'
  		});
+    })
+});
+
+app.post('/api/profile/friend/:user', (req, res) =>{
+    const {friends} = req.body;
+    const { user } = req.params;
+    Profile.findOne({ user: user}, (error, username) => {
+        if (username == null) {
+        } else {
+            if (friends !== undefined){
+                username.friends.push({friends});
+            }
+            username.save(err =>{
+                return err
+                 ? res.send(err)
+                 : res.json({
+                     success: true,
+                     message: 'Updated friends'
+                 });
+            })
+        }
     })
 });
 /**
