@@ -4,6 +4,7 @@ const currentUser = localStorage.getItem('user');
 
 setInterval(heartData,5000);
 setInterval(stepData,1000*60*15);
+setInterval(stepData,10000*60*15);
 
 
 
@@ -62,8 +63,9 @@ async function stepData() {
         {
             var line = step.shift();
             var split = line.split(',');
-            console.log(split[2]);
-            const val = split[2];
+            const val = split[2]/100;
+            val.toFixed(0);
+            console.log(val);
             $.post(`${API_URL}/data/${currentUser}`, {stepsperd: val})
             .then((response) =>{
 	    		if (response.success) {

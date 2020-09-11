@@ -5,7 +5,7 @@ import Footer from '../components/footer';
 import $ from 'jquery';
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
-
+// const API_URL = 'http://localhost:5000/api';
 class Registration extends Component {
 	constructor(props){
 		super(props)

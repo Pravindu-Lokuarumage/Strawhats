@@ -49,8 +49,7 @@ class  NewProfile extends Component {
         .then((response) =>{
 			if (response.success) {
                 console.log(response);
-				window.location.href="/"				
-                
+				window.location.href="/"				                
 			}
 		});
     }
