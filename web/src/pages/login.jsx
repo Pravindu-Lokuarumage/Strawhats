@@ -3,12 +3,11 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from 'jquery';
 import '../myStyle.css'
-import Form  from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
+
 
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
-
+// const API_URL = 'http://localhost:5000/api';
 class Login extends Component {
 
 	constructor(props){
@@ -72,7 +71,7 @@ class Login extends Component {
               <div className="d-flex justify-content-center links">
                 Don't have an account? <a href="/registeration">Register here</a>
                 <div id="message">
-                  <p classname="{this.state.className}"></p>
+                  <p className="{this.state.className}"></p>
                 </div>
               </div>
             </div>

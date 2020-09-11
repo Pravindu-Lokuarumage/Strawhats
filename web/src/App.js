@@ -11,7 +11,8 @@ import TrackMe from './pages/trackMe';
 import CalorieIntake from './pages/calorieIntake';
 import Features from './pages/features';
 import Login from './pages/login';
-
+import AddFriends from './pages/add-friends';
+import FriendProfile from './pages/friend-profile';
 
 class App extends Component {  
   render () {
@@ -26,6 +27,8 @@ class App extends Component {
         <Route exact path="/features" component = {Features}/>
         <Route exact path="/trackMe" component = {TrackMe}/>
         <Route exact path="/calorieIntake" component = {CalorieIntake}/>
+        <Route exact path="/add-friends" component = {AddFriends}/>
+        <Route path="/friend-profile" component = {FriendProfile}/>
         <Route exact path="/registeration" component = {Registration}/>
 
         <Route exact path ="/404" component = {NotFound}/>

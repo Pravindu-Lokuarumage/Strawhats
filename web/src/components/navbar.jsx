@@ -47,6 +47,7 @@ class Navigation extends Component {
                 <Link className="nav-item nav-link" to="/info">Info</Link>
                 <Link className="nav-item nav-link" to="/features">Features</Link>
                 <Link className="nav-item nav-link" to="/about-me">About Us</Link>
+                <Link className="nav-item nav-link" to="/add-friends">Friends</Link>
                 <Link to='/login' className="nav-item nav-link" onClick={this.handleClick}>{this.state.name}</Link>
             </Nav>
             </Navbar.Collapse>
