@@ -233,23 +233,26 @@ app.post('/api/data/:user', (req, res) => {
             if (stepsperd !== undefined){
                 username.stepsperd.push({stepsperd, time});
             }
-            username.calories.forEach(element => {
-                if (element.day === day)
-                {
-                    exist = true;
-                    if (breakfast !== undefined){
-                        element.breakfast = breakfast;
+            if (day !== null)
+            {
+                username.calories.forEach(element => {
+                    if (element.day === day)
+                    {
+                        exist = true;
+                        if (breakfast !== undefined){
+                            element.breakfast = breakfast;
+                        }
+                        if (lunch !== undefined){
+                            element.lunch = lunch;
+                        }
+                        if (dinner !== undefined){
+                            element.dinner = dinner;
+                        }
                     }
-                    if (lunch !== undefined){
-                        element.lunch = lunch;
-                    }
-                    if (dinner !== undefined){
-                        element.dinner = dinner;
-                    }
+                });
+                if (exist === false){
+                    username.calories.push({breakfast,lunch,dinner,day});
                 }
-            });
-            if (exist){
-                username.calories.push({breakfast,lunch,dinner,day});
             }
             username.save(err =>{
                 return err
