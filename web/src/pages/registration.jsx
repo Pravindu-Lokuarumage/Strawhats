@@ -49,32 +49,52 @@ class Registration extends Component {
 			}
 	}
 	render(){
-    	return(	
-    	    <div className="container">
-    	        <div id="navbar"><Navbar></Navbar></div>
-
- 			    <h1>Registration</h1>
- 			    <div className="form-group">
-			    	<label htmlFor="name">User</label>
-			    	<input type="text" className="form-control" id="name" />
-			    </div>
-			    <div className="form-group">
-			    	<label htmlFor="password">Password</label>
-			    	<input type="password" className="form-control" id="password" />
-			    </div>
-			    <div className="form-group">
-			    	<label htmlFor="confirm">Confirm</label>
-			    	<input type="password" className="form-control" id="confirm_password" />
-			    </div>
-			    <button className="btn btn-success" id="register" onClick={this.handleClick}>Register</button>
-			    <p>Already have an accouint? Login <a href="/login">here</a>.</p>
-			    <div id="message">
-					<p className={this.state.className}>{this.state.msg}</p>
+    	return(				
+			<div className="container h-100">
+			<div id="navbar"><Navbar></Navbar></div>
+			<div className="d-flex justify-content-center h-100">
+			<div className="user_card">
+				<div className="d-flex justify-content-center">
+				<div className="brand_logo_container">
+					<img src="https://i.imgur.com/SWp00yl.png" className="brand_logo" alt="Logo" />
 				</div>
-
-				<div id="footer"><Footer></Footer></div>
-
- 		    </div>
+				</div>
+				<div className="d-flex justify-content-center form_container">
+				<form>
+					<div className="input-group mb-3">
+					<div className="input-group-append">
+						<span className="input-group-text"><i className="fas fa-user" /></span>
+					</div>
+					<input type="text" className="form-control" placeholder="Username" id="name" />
+					</div>
+					<div className="input-group mb-2">
+					<div className="input-group-append">
+						<span className="input-group-text"><i className="fas fa-key" /></span>
+					</div>
+					<input type="password" className="form-control " placeholder="Password" id="password" />	
+					<div className="input-group-append">
+						<span className="input-group-text"><i className="fas fa-key" /></span>
+					</div>				
+					<input type="password" className="form-control " placeholder="Confirm Password" id="confirm_password" />
+					</div>
+					<div className="d-flex justify-content-center mt-3 login_container">
+					<button type="button" name="button" className="btn login_btn" onClick={this.handleClick}>Register</button>
+					</div>
+				</form>
+				</div>
+				<div className="mt-4">
+				<div className="d-flex justify-content-center links">					
+					<h6>Already have an account? <a href="/login"> Login here </a></h6>										
+				</div>
+					<div id="message" className="d-flex justify-content-center links">
+					<div className="{this.state.className}">
+                    	{this.state.msg}
+					</div>				        
+              	</div>
+				</div>
+			</div>
+			</div>
+      </div>    	    
 		);
 	}
 }

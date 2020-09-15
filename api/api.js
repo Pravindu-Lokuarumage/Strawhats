@@ -208,7 +208,7 @@ app.get('/api/review', (req, res) => {
  * }
  * */
 app.post('/api/data/:user', (req, res) => {
-    const {heartrate,stepsperd, breakfast, lunch, dinner, day} = req.body;
+    const {heartrate,stepsperd} = req.body;
     const { user } = req.params;
     Data.findOne({ user: user}, (error, username) => {
         if (username == null) {
@@ -233,24 +233,6 @@ app.post('/api/data/:user', (req, res) => {
             if (stepsperd !== undefined){
                 username.stepsperd.push({stepsperd, time});
             }
-            username.calories.forEach(element => {
-                if (element.day === day)
-                {
-                    exist = true;
-                    if (breakfast !== undefined){
-                        element.breakfast = breakfast;
-                    }
-                    if (lunch !== undefined){
-                        element.lunch = lunch;
-                    }
-                    if (dinner !== undefined){
-                        element.dinner = dinner;
-                    }
-                }
-            });
-            if (exist){
-                username.calories.push({breakfast,lunch,dinner,day});
-            }
             username.save(err =>{
                 return err
                  ? res.send(err)
@@ -260,6 +242,43 @@ app.post('/api/data/:user', (req, res) => {
                  });
             })
         }
+    })
+})
+app.put('/api/data/calories/:user', (req, res) => {
+    const {breakfast,lunch,dinner, day} = req.body;
+    const { user } = req.params;
+    Data.findOne({ user: user}, (error, username) => {
+        if (username !== null) {
+            cond = username.calories;
+            exist = false
+            cond.forEach(function(element,index,theArray){
+                if (element.day === day)
+                {
+                    exist = true;
+                    cal = theArray[index]
+                    if (breakfast !== undefined){
+                        cal.breakfast = breakfast
+                    }
+                    if (lunch !== undefined){
+                        cal.lunch = lunch
+                    }
+                    if (dinner !== undefined){
+                        cal.dinner = dinner
+                    }
+                    theArray[index] = cal
+                }
+            });
+            if (exist === false){
+                cond.push({breakfast: breakfast,lunch: lunch,dinner: dinner,day: day})
+            }
+            condition = {calories: cond}
+            username.update(condition)
+            .then(doc =>{
+                if (!doc) {return res.status(404).end();}
+                return res.status(200).json(doc)
+            })
+            .catch(err => next(err));
+        } 
     })
 })
 /**

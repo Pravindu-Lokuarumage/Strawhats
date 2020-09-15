@@ -69,10 +69,12 @@ class Login extends Component {
             </div>
             <div className="mt-4">
               <div className="d-flex justify-content-center links">
-                Don't have an account? <a href="/registeration">Register here</a>
-                <div id="message">
-                  <p className="{this.state.className}"></p>
+                <h6>Don't have an account? <a href="/registeration">Register here</a></h6>
                 </div>
+                <div id="message" className="d-flex justify-content-center links">
+					        <div className="{this.state.className}">
+                    {this.state.msg}
+					        </div>				        
               </div>
             </div>
           </div>
