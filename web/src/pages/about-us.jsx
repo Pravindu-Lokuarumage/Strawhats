@@ -109,23 +109,26 @@ class  AboutUs extends Component {
                             <img src="https://i.pinimg.com/originals/e1/6f/73/e16f73c8290a000a261d54fea57a80d0.png" className="float-right" width="350" height="270" alt="Cinque Terre"></img>
                         </div>
                     </div>
-
-                    <div className="form-group">
-                        <label htmlFor="review">Review</label>
-                        <input type="text" className="form-control" id="comment" />
-                    </div>
-                    <button className="btn btn-danger" onClick={this.handleClick}>Submit</button>
-                    <div id="reviews">
-                        
-                        <div className="text-center"><h3>Reviews</h3></div>
-                        {this.state.reviews.map(reviews =>(
-                                <Reviews key={reviews._id} comment={reviews.comment} user={reviews.user}></Reviews>
-                            ))}
-                    </div>
-                    <div className="row contactInfo">
-                        <div className="col-md-3 text-center">FACEBOOK</div>
-                        <div className="col-md-3 text-center">INSTAGRAM</div>
-                        <div className="col-md-3 text-center">GMAIL</div>
+                    <div className="review">
+                        <br></br>
+                        <div className="form-group">
+                            <div className="text-center"><h3>Reviews</h3></div>
+                            <label htmlFor="review">Give us your feedback</label>
+                            <input type="text" className="form-control" id="comment" />
+                        </div>
+                        <button className="btn btn-danger" onClick={this.handleClick}>Submit</button>
+                        <div id="reviews" className="topReviews">
+                            <div className="text-left"><h3>Top Reviews</h3></div>
+                            {this.state.reviews.map(reviews =>(
+                                    <Reviews key={reviews._id} comment={reviews.comment} user={reviews.user}></Reviews>
+                                ))}
+                        </div>
+                    
+                        <div className="row contactInfo">
+                            <div className="col-md-3 text-center">FACEBOOK</div>
+                            <div className="col-md-3 text-center">INSTAGRAM</div>
+                            <div className="col-md-3 text-center">GMAIL</div>
+                        </div>
                     </div>
                     <div id="footer"><Footer></Footer></div>
                 </div>
