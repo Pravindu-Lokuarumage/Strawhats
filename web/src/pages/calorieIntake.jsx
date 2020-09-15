@@ -15,11 +15,14 @@ class CalorieIntake extends Component {
 			CchartData:{},
 			day: new Date().toString().slice(0,15),
 			checkDay: Boolean,
-			checkWeek: Boolean
+			checkWeek: Boolean,
+			weekValue: 1
 		  };
 		this.handleDay = this.handleDay.bind(this);
 		this.handleToday = this.handleToday.bind(this);
 		this.handleWeek = this.handleWeek.bind(this);
+		this.prevWeek= this.prevWeek.bind(this);
+		this.nextWeek= this.nextWeek.bind(this);
 		this.handleClickB = this.handleClickB.bind(this);
 		this.handleClickL = this.handleClickL.bind(this);
 		this.handleClickD = this.handleClickD.bind(this);
@@ -54,10 +57,10 @@ class CalorieIntake extends Component {
 			console.log(this.state.day);
 		}
 		this.setState({checkDay:true})
-		console.log("hello");
 		this.getData();
 	}
 	handleWeek(){
+		this.setState({weekValue: 1})
 		this.setState({checkWeek:true});
 		this.getData();
 	}
@@ -76,18 +79,33 @@ class CalorieIntake extends Component {
 		});
 		this.setState({check:false})
 	}
+	prevWeek(){
+		this.setState({weekValue: this.state.weekValue + 7})
+		this.setState({checkWeek:true});
+		this.getData();
+	}
+	nextWeek(){
+		this.setState({weekValue: this.state.weekValue - 7})
+		this.setState({checkWeek:true});
+		this.getData();
+	}
 	weeklyChart(weeklyC, days){
 		var i;
 		var j = 6;
 		var weekValues = [];
 		var weekDays = []
-		for(i = days.length - 1; i >= days.length - 7; i--)
+		for(i = days.length - this.state.weekValue; i >= days.length - (this.state.weekValue+6); i--)
 		{
-			weekValues[j] = weeklyC[i];
-			weekDays[j] = days[i];
-			j--;
+			if (weeklyC[i] !== undefined && days[i] !== undefined)
+			{
+				weekValues[j] = weeklyC[i];
+				weekDays[j] = days[i];
+				j--;
+			}
+			else
+			{
+			}
 		}
-		console.log(weekDays);
 		this.setState({
 			CchartData:{
 				labels: weekDays,
@@ -130,7 +148,6 @@ class CalorieIntake extends Component {
 				{
 					this.dailyChart(dailyC);
 				}
-				console.log(CaloriesD);
 				if (this.state.checkWeek)
 				{
 					this.weeklyChart(Tcalories, CaloriesD);
@@ -237,7 +254,11 @@ class CalorieIntake extends Component {
 					</form>
 					<button onClick={() => this.handleDay()}>See graph</button>
 					<button onClick={() => this.handleToday()}>Today's Graph</button>
+					<div>
+					<button onClick={() => this.prevWeek()}>Previous Week</button>
 					<button onClick={() => this.handleWeek()}>Weekly Graph</button>
+					<button onClick={() => this.nextWeek()}>Next Week</button>
+					</div>
 					<Chart chartData={this.state.CchartData}/>
 					<div id="footer"><Footer></Footer></div>
 				</div>
