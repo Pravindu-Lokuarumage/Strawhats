@@ -14,27 +14,29 @@ class CalorieIntake extends Component {
         this.state = {
 			CchartData:{},
 			day: new Date().toString().slice(0,15),
+			monthValue: new Date().toString().slice(4,7),
 			checkDay: Boolean,
 			checkWeek: Boolean,
+			checkMonth: Boolean,
 			weekValue: 1
+			
 		  };
 		this.handleDay = this.handleDay.bind(this);
 		this.handleToday = this.handleToday.bind(this);
 		this.handleWeek = this.handleWeek.bind(this);
 		this.prevWeek= this.prevWeek.bind(this);
 		this.nextWeek= this.nextWeek.bind(this);
+		this.handleMonth = this.handleMonth.bind(this);
+		this.prevMonth= this.prevMonth.bind(this);
+		this.nextMonth= this.nextMonth.bind(this);
 		this.handleClickB = this.handleClickB.bind(this);
 		this.handleClickL = this.handleClickL.bind(this);
 		this.handleClickD = this.handleClickD.bind(this);
 	}
-	componentDidUpdate(){
-	}
-	componentDidMount(){
-
-	}
 	componentWillMount(){
         this.getData();
 	}
+	//Handles the Graph for only Today
 	handleToday(){
 		const date = $('#unique_date').val();
 		var Cday = new Date().toString().slice(0,15); 
@@ -42,6 +44,7 @@ class CalorieIntake extends Component {
 		this.setState({checkDay:true})
 		this.getData();
 	}
+	//Handles the Graph for any custom day selected by the User.
 	handleDay(){
 		const date = $('#unique_date').val();
 		var Cday = new Date().toString().slice(0,15); 
@@ -59,11 +62,7 @@ class CalorieIntake extends Component {
 		this.setState({checkDay:true})
 		this.getData();
 	}
-	handleWeek(){
-		this.setState({weekValue: 1})
-		this.setState({checkWeek:true});
-		this.getData();
-	}
+	//Generates the Charts for 1 day
 	dailyChart(dailyC){
 		this.setState({
 			CchartData:{
@@ -72,23 +71,32 @@ class CalorieIntake extends Component {
 					{
 					label:'Calories Taken',
 					data: dailyC,
-					backgroundColor:'rgba(255, 99, 132, 0.6)'
+					backgroundColor:'rgba(101, 228, 207, 0.63)'
 					}
 				]
 			}
 		});
 		this.setState({check:false})
 	}
+	//Handles the current Week
+	handleWeek(){
+		this.setState({weekValue: 1})
+		this.setState({checkWeek:true});
+		this.getData();
+	}
+	//Handles the Graph Element for the Previous Week
 	prevWeek(){
 		this.setState({weekValue: this.state.weekValue + 7})
 		this.setState({checkWeek:true});
 		this.getData();
 	}
+	//Handles the Graph Element for the Next Weel
 	nextWeek(){
 		this.setState({weekValue: this.state.weekValue - 7})
 		this.setState({checkWeek:true});
 		this.getData();
 	}
+	//Generates the Charts for weeks
 	weeklyChart(weeklyC, days){
 		var i;
 		var j = 6;
@@ -120,6 +128,103 @@ class CalorieIntake extends Component {
 		});
 		this.setState({checkWeek:false});
 	}
+	handleMonth(){
+		var month = new Date().toString().slice(4,7); 
+		this.setState({monthValue: month})
+		this.setState({checkMonth:true});
+		this.getData();
+	}
+	prevMonth(){
+		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		if (this.state.monthValue == months[0])
+		{
+			this.setState({monthValue: months[months.length - 1]});
+			console.log(this.state.monthValue);
+		}
+		else {
+			for (var i = 1; i < months.length; i++)
+			{
+				if (this.state.monthValue == months[i])
+				{
+					// console.log("hello");
+					this.setState({monthValue: months[i-1]})
+					console.log(this.state.monthValue);
+				}
+			}
+		}	
+		this.setState({checkMonth:true});
+		this.getData();
+	}
+	nextMonth(){
+		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		if (this.state.monthValue == months[12])
+		{
+			this.setState({monthValue: months[0]});
+			console.log(this.state.monthValue);
+		}
+		else {
+			for (var i = 0; i < months.length-1; i++)
+			{
+				if (this.state.monthValue == months[i])
+				{
+					this.setState({monthValue: months[i+1]})
+					console.log(this.state.monthValue);
+				}
+			}
+		}	
+		this.setState({checkMonth:true});
+		this.getData();
+	}
+	monthlyChart(monthlyC, days){
+		var i;
+		var j;
+		var monthValues = [];
+		var monthDays = [];
+		if (this.state.monthValue == new Date().toString().slice(4,7))
+		{
+			var date = new Date().getDate();
+			console.log(date);
+			j = parseInt(date) - 1;
+			console.log(j);
+		}
+		else if (this.state.monthValue == 'Feb')
+		{
+			j = 27;
+		}
+		else if (this.state.monthValue == 'Jan', 'Mar', 'May', 'Jul', 'Aug', 'Oct', 'Dec')
+		{
+			j = 30;
+		}
+		else if (this.state.monthValue == 'Apr', 'Jun', 'Sep', 'Oct', 'Nov')
+		{
+			j = 29;
+		}
+		for (i = days.length - 1; i >= 0; i--)
+		{
+			if (days[i].slice(0,3) == this.state.monthValue)
+			{
+				monthValues[j] = monthlyC[i];
+				monthDays[j] = days[i];
+				j--;
+			}
+			else{
+
+			}
+		}
+		this.setState({
+			CchartData:{
+				labels: monthDays,
+				datasets:[
+					{
+					label:'Calories Taken',
+					data: monthValues,
+					backgroundColor:'rgba(160, 160, 224, 0.63)'
+					}
+				]
+			}
+		});
+		this.setState({checkMonth:false});
+	}
 	getData(){
         $.get(`${API_URL}/data/${currentUser}`)
         .then(response => {
@@ -143,7 +248,6 @@ class CalorieIntake extends Component {
 					dinnerC.push(parseInt(element.dinner, 10))
 					Tcalories.push(parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10))
 				});
-				console.log(this.state.check);
 				if(this.state.checkDay || this.state.day == new Date().toString().slice(0,15))
 				{
 					this.dailyChart(dailyC);
@@ -152,8 +256,13 @@ class CalorieIntake extends Component {
 				{
 					this.weeklyChart(Tcalories, CaloriesD);
 				}
-				
-				console.log(this.state.check);
+				if (this.state.checkMonth)
+				{
+					console.log(this.state.checkMonth);
+					this.monthlyChart(Tcalories, CaloriesD);
+				}
+				console.log(this.state.checkMonth);
+				// console.log(this.state.checkMonth);
             }
         })
     }
@@ -220,6 +329,7 @@ class CalorieIntake extends Component {
 			})	
 		}
 	}
+
 	render(){
 		return(
 			<div>
@@ -248,6 +358,7 @@ class CalorieIntake extends Component {
 						</div>
 					</form>
 					</div>
+					<h3 className="text-center">Graphical Summary </h3>
 					<form action="/action_page.php">
 						<label htmlFor="Date">Select Date:  </label>
 						<input type="date" id="unique_date" name="date"></input>
@@ -258,6 +369,11 @@ class CalorieIntake extends Component {
 					<button onClick={() => this.prevWeek()}>Previous Week</button>
 					<button onClick={() => this.handleWeek()}>Weekly Graph</button>
 					<button onClick={() => this.nextWeek()}>Next Week</button>
+					</div>
+					<div>
+					<button onClick={() => this.prevMonth()}>Prev Month</button>
+					<button onClick={() => this.handleMonth()}>Monthly Graph</button>
+					<button onClick={() => this.nextMonth()}>Next Month</button>
 					</div>
 					<Chart chartData={this.state.CchartData}/>
 					<div id="footer"><Footer></Footer></div>
