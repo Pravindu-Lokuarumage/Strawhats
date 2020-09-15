@@ -71,6 +71,12 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 500;
 }
+.review{
+    background-color: grey;
+}
+.topReviews{
+    background-color: orange;
+}
 /*------------------------ABOUT_US_PAGE---------------------*/
 
 /*------------------------LOGIN_PAGE---------------------*/
