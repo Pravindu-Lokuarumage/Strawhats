@@ -3,8 +3,8 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
 
-const API_URL = 'https://api-cyan-six.vercel.app/api';
-// const API_URL = 'http://localhost:5000/api';
+//const API_URL = 'https://api-cyan-six.vercel.app/api';
+const API_URL = 'http://localhost:5000/api';
 const currentUser = localStorage.getItem('user');
 
 class CalorieIntake extends Component {
@@ -15,7 +15,6 @@ class CalorieIntake extends Component {
 			msg: '',
 			className:'',
 			breakFast: Boolean, lunch: Boolean, dinner: Boolean,
-			check: Boolean, check1: Boolean, check2: Boolean
 		}
 		this.handleClick = this.handleClickBf.bind(this);
 		this.handleClick = this.handleClickL.bind(this);
@@ -25,21 +24,51 @@ class CalorieIntake extends Component {
 	componentDidUpdate(){
 		
 	}
-	handleClickBf(){}
-	// // 	this.setState({breakFast:true}) 
-	// 	this.setState({lunch:false}) 
-	// 	this.setState({dinner:false}) 
-	//  }
-	handleClickL(){}
-	// 	this.setState({breakFast:false}) 
-	// // 	this.setState({lunch:true}) 
-	// 	this.setState({dinner:false}) 
-	//  }
-	 handleClickD(){} 
-	// 	// this.setState({breakFast:false}) 
-	// 	// this.setState({lunch:false}) 
-	// 	this.setState({dinner:true}) 
-	// }
+	handleClickBf(){
+		if (currentUser)
+		{
+			const day = new Date();
+			const value = $('#calories').val();
+				$.post(`${API_URL}/data/${currentUser}`, {breakfast: value, day: day})
+				.then((response) =>{
+					if (response.success) {
+						console.log(response);  
+						console.log(value)
+						window.location.href = '/calorieIntake';
+					}
+				});
+			}
+		}
+	handleClickL(){
+		if (currentUser)
+		{
+			const day = new Date();
+			const value = $('#calories').val();
+				$.post(`${API_URL}/data/${currentUser}`, {lunch: value, day: day})
+				.then((response) =>{
+					if (response.success) {
+						console.log(response);  
+						console.log(value)
+						window.location.href = '/calorieIntake';
+					}
+				});
+			}
+	}
+	handleClickD(){
+		if (currentUser)
+		{
+			const day = new Date();
+			const value = $('#calories').val();
+				$.post(`${API_URL}/data/${currentUser}`, {dinner: value, day: day})
+				.then((response) =>{
+					if (response.success) {
+						console.log(response);  
+						console.log(value)
+						window.location.href = '/calorieIntake';
+					}
+				});
+			}
+	} 
 	handleClickAdd(){
 		if (currentUser)
 		{
@@ -49,13 +78,12 @@ class CalorieIntake extends Component {
 					if (response.success) {
 						console.log(response);  
 						console.log(value)
-
 						window.location.href = '/calorieIntake';
 					}
 				});
 			}
 		}
-	
+
 	render(){
 		return(
 			<div className="container"> 
