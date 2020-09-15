@@ -34,6 +34,13 @@
 
 
 /*------------------------ABOUT_US_PAGE---------------------*/
+.forBackground{
+    background-color: rgb(48, 47, 47);
+}
+.logoRow{
+    background-color: grey;
+    align-items: center;
+}
 .logoHeader{
     align-items: center;
 }
