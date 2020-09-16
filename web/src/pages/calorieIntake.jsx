@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Chart from '../components/chart';
+import '../myStyle.css'
 import {Bar,Line} from 'react-chartjs-2';
 import $ from "jquery";
 
@@ -23,8 +24,10 @@ class CalorieIntake extends Component {
 			title: ""
 			
 		  };
+		this.handleClick = this.handleClick.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleDay = this.handleDay.bind(this);
-		this.handleToday = this.handleToday.bind(this);
+		// this.handleToday = this.handleToday.bind(this);
 		this.handleWeek = this.handleWeek.bind(this);
 		this.prevWeek= this.prevWeek.bind(this);
 		this.nextWeek= this.nextWeek.bind(this);
@@ -36,16 +39,21 @@ class CalorieIntake extends Component {
 		this.handleClickD = this.handleClickD.bind(this);
 	}
 	componentWillMount(){
-        this.getData();
-	}
-	//Handles the Graph for only Today
-	handleToday(){
-		const date = $('#unique_date').val();
-		var Cday = new Date().toString().slice(0,15); 
-		this.setState({day:Cday});
-		this.setState({checkDay:true})
 		this.getData();
+		document.addEventListener('mousedown', this.handleClick, false)
 	}
+	componentWillUnmount(){
+		document.removeEventListener('mousedown', this.handleClick, false)
+	}
+
+	//Handles the Graph for only Today
+	// handleToday(){
+	// 	const date = $('#unique_date').val();
+	// 	var Cday = new Date().toString().slice(0,15); 
+	// 	this.setState({day:Cday});
+	// 	this.setState({checkDay:true})
+	// 	this.getData();
+	// }
 	//Handles the Graph for any custom day selected by the User.
 	handleDay(){
 		const date = $('#unique_date').val();
@@ -253,6 +261,10 @@ class CalorieIntake extends Component {
 					dinnerC.push(parseInt(element.dinner, 10))
 					Tcalories.push(parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10))
 				});
+				if (this.state.checkMonth)
+				{
+					this.monthlyChart(Tcalories, CaloriesD);
+				}
 				if(this.state.checkDay || this.state.day == new Date().toString().slice(0,15))
 				{
 					this.dailyChart(dailyC);
@@ -261,13 +273,6 @@ class CalorieIntake extends Component {
 				{
 					this.weeklyChart(Tcalories, CaloriesD);
 				}
-				if (this.state.checkMonth)
-				{
-					console.log(this.state.checkMonth);
-					this.monthlyChart(Tcalories, CaloriesD);
-				}
-				console.log(this.state.checkMonth);
-				// console.log(this.state.checkMonth);
             }
         })
     }
@@ -334,13 +339,47 @@ class CalorieIntake extends Component {
 			})	
 		}
 	}
-
+	handleClickOutside(){
+		var dropdownsM = document.getElementsByClassName("dropdown-contentM");
+		var i;
+		for (i = 0; i < dropdownsM.length; i++) {
+		  var openDropdown = dropdownsM[i];
+		  if (openDropdown.classList.contains('show')) {
+			openDropdown.classList.remove('show');
+		  }
+		}
+		var dropdownsW = document.getElementsByClassName("dropdown-contentW");
+		var j;
+		for (j = 0; j < dropdownsW.length; j++) {
+		  var openDropdown = dropdownsW[j];
+		  if (openDropdown.classList.contains('show')) {
+			openDropdown.classList.remove('show');
+		  }
+		}
+	}
+	handleClick = (e) => {
+		if (this.node.contains(e.target))
+		{
+			return;
+		}
+		else if (this.nodeW.contains(e.target))
+		{
+			return;
+		}
+		this.handleClickOutside();
+	}
+	dropdownM(){
+		document.getElementById("myDropdownM").classList.toggle("show");
+	}
+	dropdownW(){
+		document.getElementById("myDropdownW").classList.toggle("show");
+	}
 	render(){
 		return(
-			<div>
+			<div className="calorieIntakePage">
 				<div className="container"> 
 					<div id="navbar"><Navbar></Navbar></div>
-					<h1 className="text-center">Calorie Intake</h1>
+					<h1 className="text-center calorieH">Calorie Intake</h1>
 					<br></br>
 					<div id={"my_container"} className={"fatsecret_container"}></div>
 					<br></br>
@@ -369,19 +408,32 @@ class CalorieIntake extends Component {
 						<input type="date" id="unique_date" name="date"></input>
 					</form>
 					<button onClick={() => this.handleDay()}>See graph</button>
-					<button onClick={() => this.handleToday()}>Today's Graph</button>
-					<div>
-					<button onClick={() => this.prevWeek()}>Previous Week</button>
-					<button onClick={() => this.handleWeek()}>Weekly Graph</button>
-					<button onClick={() => this.nextWeek()}>Next Week</button>
-					</div>
-					<div>
-					<button onClick={() => this.prevMonth()}>Prev Month</button>
-					<button onClick={() => this.handleMonth()}>Monthly Graph</button>
-					<button onClick={() => this.nextMonth()}>Next Month</button>
-					</div>
-					<div className="chartSize">
-					<Chart title={this.state.title} legendPosition='bottom' chartData={this.state.CchartData} />
+					{/* <button onClick={() => this.handleToday()}>Today's Graph</button> */}
+					<br></br>
+					<div className="row">
+						<div className="chartSize col-md-10 position-relative">
+						<Chart title={this.state.title} legendPosition='bottom' chartData={this.state.CchartData} />
+						</div>
+						<div className="col-md-2 position-relative">
+						<div><br></br><br></br></div>
+							<div className="dropdownW" ref={nodeW => this.nodeW = nodeW}>
+								<button onClick={() => this.dropdownW()} className="dropbtnW">Weekly Graphs</button>
+								<div id="myDropdownW" className="dropdown-contentW">
+									<button onClick={() => this.handleWeek()}>This Week</button>
+									<button onClick={() => this.prevWeek()}>Previous Week</button>
+									<button onClick={() => this.nextWeek()}>Next Week</button>
+								</div>
+							</div>
+							<div><br></br><br></br><br></br><br></br></div>
+							<div className="dropdownM" ref={node => this.node = node}>
+								<button onClick={() => this.dropdownM()} className="dropbtnM">Monthly Graphs</button>
+								<div id="myDropdownM" className="dropdown-contentM">
+									<button onClick={() => this.handleMonth()}>This Month</button>
+									<button onClick={() => this.prevMonth()}>Previous Month</button>
+									<button onClick={() => this.nextMonth()}>Next Month</button>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div id="footer"><Footer></Footer></div>
 				</div>
