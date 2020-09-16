@@ -13,6 +13,7 @@ import Features from './pages/features';
 import Login from './pages/login';
 import AddFriends from './pages/add-friends';
 import FriendProfile from './pages/friend-profile';
+import Dashboard from './pages/dashboard'
 
 class App extends Component {  
   render () {
@@ -30,7 +31,7 @@ class App extends Component {
         <Route exact path="/add-friends" component = {AddFriends}/>
         <Route path="/friend-profile" component = {FriendProfile}/>
         <Route exact path="/registeration" component = {Registration}/>
-
+        <Route exact path="/dashboard" component = {Dashboard}/>
         <Route exact path ="/404" component = {NotFound}/>
         <Redirect to="/404" />
       </Switch>
