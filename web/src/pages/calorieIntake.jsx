@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Chart from '../components/chart';
+import {Bar,Line} from 'react-chartjs-2';
 import $ from "jquery";
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
@@ -18,7 +19,8 @@ class CalorieIntake extends Component {
 			checkDay: Boolean,
 			checkWeek: Boolean,
 			checkMonth: Boolean,
-			weekValue: 1
+			weekValue: 1,
+			title: ""
 			
 		  };
 		this.handleDay = this.handleDay.bind(this);
@@ -76,6 +78,7 @@ class CalorieIntake extends Component {
 				]
 			}
 		});
+		this.setState({title:"Daily Calories"})
 		this.setState({check:false})
 	}
 	//Handles the current Week
@@ -126,6 +129,7 @@ class CalorieIntake extends Component {
 				]
 			}
 		});
+		this.setState({title:"Weekly Calories"})
 		this.setState({checkWeek:false});
 	}
 	handleMonth(){
@@ -223,6 +227,7 @@ class CalorieIntake extends Component {
 				]
 			}
 		});
+		this.setState({title:"Monthly Calories"})
 		this.setState({checkMonth:false});
 	}
 	getData(){
@@ -375,7 +380,9 @@ class CalorieIntake extends Component {
 					<button onClick={() => this.handleMonth()}>Monthly Graph</button>
 					<button onClick={() => this.nextMonth()}>Next Month</button>
 					</div>
-					<Chart chartData={this.state.CchartData}/>
+					<div className="chartSize">
+					<Chart title={this.state.title} legendPosition='bottom' chartData={this.state.CchartData} />
+					</div>
 					<div id="footer"><Footer></Footer></div>
 				</div>
 			</div>
