@@ -21,13 +21,13 @@ class CalorieIntake extends Component {
 			checkWeek: Boolean,
 			checkMonth: Boolean,
 			weekValue: 1,
-			title: ""
+			title: "",
+			error: ""
 			
 		  };
 		this.handleClick = this.handleClick.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleDay = this.handleDay.bind(this);
-		// this.handleToday = this.handleToday.bind(this);
 		this.handleWeek = this.handleWeek.bind(this);
 		this.prevWeek= this.prevWeek.bind(this);
 		this.nextWeek= this.nextWeek.bind(this);
@@ -45,16 +45,6 @@ class CalorieIntake extends Component {
 	componentWillUnmount(){
 		document.removeEventListener('mousedown', this.handleClick, false)
 	}
-
-	//Handles the Graph for only Today
-	// handleToday(){
-	// 	const date = $('#unique_date').val();
-	// 	var Cday = new Date().toString().slice(0,15); 
-	// 	this.setState({day:Cday});
-	// 	this.setState({checkDay:true})
-	// 	this.getData();
-	// }
-	//Handles the Graph for any custom day selected by the User.
 	handleDay(){
 		const date = $('#unique_date').val();
 		var Cday = new Date().toString().slice(0,15); 
@@ -287,10 +277,11 @@ class CalorieIntake extends Component {
 			var selectedDay = day1.toString().slice(8,10)
 			if (day2.toString().slice(4,7) == month && day2.toString().slice(10,15) == year && selectedDay > day2.slice(8,10))
 			{
-				console.log("hello")
+				this.setState({error:"Please choose a valid date"})
 			}
 			else
 			{
+				this.setState({error:""})
 				if (date !== "")
 				{
 					day = new Date(date).toString().slice(0,15);
@@ -320,9 +311,10 @@ class CalorieIntake extends Component {
 			var selectedDay = day1.toString().slice(8,10)
 			if (day2.toString().slice(4,7) == month && day2.toString().slice(10,15) == year && selectedDay > day2.slice(8,10))
 			{
-				console.log("hello")
+				this.setState({error:"Please choose a valid date"})
 			}
 			else{
+				this.setState({error:""})
 				if (date !== "")
 				{
 					day = new Date(date).toString().slice(0,15);
@@ -353,9 +345,10 @@ class CalorieIntake extends Component {
 			var selectedDay = day1.toString().slice(8,10)
 			if (day2.toString().slice(4,7) == month && day2.toString().slice(10,15) == year && selectedDay > day2.slice(8,10))
 			{
-				console.log("hello")
+				this.setState({error:"Please choose a valid date"})
 			}
 			else{
+				this.setState({error:""})
 				if (date !== "")
 				{
 					day = new Date(date).toString().slice(0,15);
@@ -418,32 +411,38 @@ class CalorieIntake extends Component {
 					<br></br>
 					<div id={"my_container"} className={"fatsecret_container"}></div>
 					<br></br>
+					<div className="dateSelector text-center">
+						<form action="/action_page.php" className="dateForm" >
+							<label htmlFor="Date"> </label>
+							<input type="date" id="unique_date" name="date"></input>
+						</form>
+						<button onClick={() => this.handleDay()} className="graphBtn">See graph</button>
+						<div>
+							{this.state.error}
+						</div>
+					</div>
 					<div className="d-flex justify-content-left mt-2 login_container">
 					<br></br>
-					<form>
-						<div className="input-group mb-3 row">
-							<input type="text" className="form-control" placeholder="Calories Taken" id="bfcalories" />
-							<div className="d-flex justify-content-center login_container">
-								<button type="button" name="button" className="btn login_btn" onClick={this.handleClickB}>Add to Breakfast</button>
+					<div>
+						<form>
+							<div className="input-group mb-3 row">
+								<input type="text" className="form-control" placeholder="Calories Taken" id="bfcalories" />
+								<div className="d-flex justify-content-center login_container">
+									<button type="button" name="button" className="btn login_btn" onClick={this.handleClickB}>Add to Breakfast</button>
+								</div>
+								<input type="text" className="form-control" placeholder="Calories Taken" id="lcalories" />
+								<div className="d-flex justify-content-center login_container">
+									<button type="button" name="button" className="btn login_btn" onClick={this.handleClickL}>Add to Lunch</button>
+								</div>
+								<input type="text" className="form-control" placeholder="Calories Taken" id="dcalories" />
+								<div className="d-flex justify-content-center login_container">
+									<button type="button" name="button" className="btn login_btn" onClick={this.handleClickD}>Add to Dinner</button>
+								</div>
 							</div>
-							<input type="text" className="form-control" placeholder="Calories Taken" id="lcalories" />
-							<div className="d-flex justify-content-center login_container">
-								<button type="button" name="button" className="btn login_btn" onClick={this.handleClickL}>Add to Lunch</button>
-							</div>
-							<input type="text" className="form-control" placeholder="Calories Taken" id="dcalories" />
-							<div className="d-flex justify-content-center login_container">
-								<button type="button" name="button" className="btn login_btn" onClick={this.handleClickD}>Add to Dinner</button>
-							</div>
-						</div>
-					</form>
+						</form>
 					</div>
-					<h3 className="text-center">Graphical Summary </h3>
-					<form action="/action_page.php">
-						<label htmlFor="Date">Select Date:  </label>
-						<input type="date" id="unique_date" name="date"></input>
-					</form>
-					<button onClick={() => this.handleDay()}>See graph</button>
-					{/* <button onClick={() => this.handleToday()}>Today's Graph</button> */}
+					</div>
+					<h3 className="text-center"> Summary </h3>
 					<br></br>
 					<div className="row">
 						<div className="chartSize col-md-10 position-relative">
@@ -454,18 +453,18 @@ class CalorieIntake extends Component {
 							<div className="dropdownW" ref={nodeW => this.nodeW = nodeW}>
 								<button onClick={() => this.dropdownW()} className="dropbtnW">Weekly Graphs</button>
 								<div id="myDropdownW" className="dropdown-contentW">
-									<button onClick={() => this.handleWeek()}>This Week</button>
-									<button onClick={() => this.prevWeek()}>Previous Week</button>
-									<button onClick={() => this.nextWeek()}>Next Week</button>
+									<button onClick={() => this.handleWeek()} className="handleW">This Week</button>
+									<button onClick={() => this.prevWeek()} className="handlePW">Previous Week</button>
+									<button onClick={() => this.nextWeek()} className="handleNW">Next Week</button>
 								</div>
 							</div>
 							<div><br></br><br></br><br></br><br></br></div>
 							<div className="dropdownM" ref={node => this.node = node}>
 								<button onClick={() => this.dropdownM()} className="dropbtnM">Monthly Graphs</button>
 								<div id="myDropdownM" className="dropdown-contentM">
-									<button onClick={() => this.handleMonth()}>This Month</button>
-									<button onClick={() => this.prevMonth()}>Previous Month</button>
-									<button onClick={() => this.nextMonth()}>Next Month</button>
+									<button onClick={() => this.handleMonth()} className="handleM">This Month</button>
+									<button onClick={() => this.prevMonth()} className="handlePM">Previous Month</button>
+									<button onClick={() => this.nextMonth()} className="handleNM">Next Month</button>
 								</div>
 							</div>
 						</div>
