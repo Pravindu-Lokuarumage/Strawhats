@@ -101,8 +101,8 @@
   .dropdown-contentW, .dropdown-contentM{
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
+    background-color:rgb(86, 163, 218);
+    min-width: 120px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -114,6 +114,40 @@
     text-decoration: none;
     display: block;
   }
+  .handleW, .handlePW, .handleNW{
+    background-color:  rgb(86, 163, 218);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  .handleM, .handlePM, .handleNM{
+    background-color:  rgb(86, 163, 218);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  .graphBtn{
+    background-color:  rgb(86, 163, 218);
+    color: white;
+    min-width: 172px;
+    padding: 2px;
+    font-size: 16px;
+    border: black;
+    cursor: pointer;
+  }
+.dateSelector{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+.dateForm{
+    padding: 2px;
+}
+
 .dropdownM a:hover {background-color: #ddd;}
 .dropdownW a:hover {background-color: #ddd;}
 .show {display: block;}
