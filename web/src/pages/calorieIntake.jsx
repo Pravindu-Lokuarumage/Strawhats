@@ -261,13 +261,13 @@ class CalorieIntake extends Component {
 					dinnerC.push(parseInt(element.dinner, 10))
 					Tcalories.push(parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10))
 				});
-				if (this.state.checkMonth)
-				{
-					this.monthlyChart(Tcalories, CaloriesD);
-				}
 				if(this.state.checkDay || this.state.day == new Date().toString().slice(0,15))
 				{
 					this.dailyChart(dailyC);
+				}
+				if (this.state.checkMonth)
+				{
+					this.monthlyChart(Tcalories, CaloriesD);
 				}
 				if (this.state.checkWeek)
 				{
@@ -279,64 +279,99 @@ class CalorieIntake extends Component {
 	handleClickB(){
 		if (currentUser){
 			const date =  $('#unique_date').val();
-			var day = new Date().toString().slice(0,15); 
-			if (date !== "")
+			var day = new Date().toString().slice(0,15);
+			var day1 = new Date(date).toString().slice(0,15);
+			var day2 = new Date().toString().slice(0,15);
+			var year = day1.toString().slice(10,15);
+			var month = day1.toString().slice(4,7)
+			var selectedDay = day1.toString().slice(8,10)
+			if (day2.toString().slice(4,7) == month && day2.toString().slice(10,15) == year && selectedDay > day2.slice(8,10))
 			{
-				day = new Date(date).toString().slice(0,15);
+				console.log("hello")
 			}
-			const value = $('#bfcalories').val();
-			$.ajax({
-				url: `${API_URL}/data/calories/${currentUser}`,
-				type: 'PUT',
-				data: {breakfast: value, day: day},
-				success: function(response){
-					console.log(response);
-					console.log(value);
-					window.location.href = '/calorieIntake';
-				} 
-			})
+			else
+			{
+				if (date !== "")
+				{
+					day = new Date(date).toString().slice(0,15);
+				}
+				const value = $('#bfcalories').val();
+				$.ajax({
+					url: `${API_URL}/data/calories/${currentUser}`,
+					type: 'PUT',
+					data: {breakfast: value, day: day},
+					success: function(response){
+						console.log(response);
+						console.log(value);
+						window.location.href = '/calorieIntake';
+					} 
+				})
+			}
 		}
 	}
 	handleClickL(){
 		if (currentUser){
 			const date =  $('#unique_date').val();
-			var day = new Date().toString().slice(0,15); 
-			if (date !== "")
+			var day = new Date().toString().slice(0,15);
+			var day1 = new Date(date).toString().slice(0,15);
+			var day2 = new Date().toString().slice(0,15);
+			var year = day1.toString().slice(10,15);
+			var month = day1.toString().slice(4,7)
+			var selectedDay = day1.toString().slice(8,10)
+			if (day2.toString().slice(4,7) == month && day2.toString().slice(10,15) == year && selectedDay > day2.slice(8,10))
 			{
-				day = new Date(date).toString().slice(0,15);
+				console.log("hello")
 			}
-			const value = $('#lcalories').val();
-			$.ajax({
-				url: `${API_URL}/data/calories/${currentUser}`,
-				type: 'PUT',
-				data: {lunch: value, day: day},
-				success: function(response){
-					console.log(response);
-					console.log(value);
-					window.location.href = '/calorieIntake';
-				} 
-			})
+			else{
+				if (date !== "")
+				{
+					day = new Date(date).toString().slice(0,15);
+				}
+				const value = $('#lcalories').val();
+				$.ajax({
+					url: `${API_URL}/data/calories/${currentUser}`,
+					type: 'PUT',
+					data: {lunch: value, day: day},
+					success: function(response){
+						console.log(response);
+						console.log(value);
+						window.location.href = '/calorieIntake';
+					} 
+				})
+			}
+
 		}
 	}
 	handleClickD(){
 		if (currentUser){
 			const date =  $('#unique_date').val();
-			var day = new Date().toString().slice(0,15); 
-			if (date !== "")
+			var day = new Date().toString().slice(0,15);
+			var day1 = new Date(date).toString().slice(0,15);
+			var day2 = new Date().toString().slice(0,15);
+			var year = day1.toString().slice(10,15);
+			var month = day1.toString().slice(4,7)
+			var selectedDay = day1.toString().slice(8,10)
+			if (day2.toString().slice(4,7) == month && day2.toString().slice(10,15) == year && selectedDay > day2.slice(8,10))
 			{
-				day = new Date(date).toString().slice(0,15);
+				console.log("hello")
 			}
-			const value = $('#dcalories').val();
-			$.ajax({
-				url: `${API_URL}/data/calories/${currentUser}`,
-				type: 'PUT',
-				data: {dinner: value, day: day},
-				success: function(response){
-					console.log(response);
-					console.log(value);
-					window.location.href = '/calorieIntake';
-				} 
-			})	
+			else{
+				if (date !== "")
+				{
+					day = new Date(date).toString().slice(0,15);
+				}
+				const value = $('#dcalories').val();
+				$.ajax({
+					url: `${API_URL}/data/calories/${currentUser}`,
+					type: 'PUT',
+					data: {dinner: value, day: day},
+					success: function(response){
+						console.log(response);
+						console.log(value);
+						window.location.href = '/calorieIntake';
+					} 
+				})	
+			}
 		}
 	}
 	handleClickOutside(){
