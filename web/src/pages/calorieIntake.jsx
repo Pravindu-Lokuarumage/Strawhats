@@ -415,7 +415,7 @@ class CalorieIntake extends Component {
 					<div className="Cbuttons">
 						<div className="dateSelector text-center">
 						<div className="text-center"><h4>Select Day</h4></div>
-							<form action="/action_page.php">
+							<form action="/action_page.php" className="dateForm">
 								<label htmlFor="Date"> </label>
 								<input type="date" id="unique_date" name="date"></input>
 							</form>
