@@ -406,7 +406,7 @@ class CalorieIntake extends Component {
 		return(
 			<div className="calorieIntakePage">
 				<div id="navbar"><Navbar></Navbar></div>
-				<div className="container"> 
+				<div className="container CalorieC"> 
 					<div className="calorieBg">
 						<h1 className="text-center calorieH">Calorie Intake</h1>
 						<div id={"my_container"} className={"fatsecret_container"}></div>

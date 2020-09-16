@@ -12,7 +12,7 @@ class Features extends Component {
 		return(
             <div className="mainFeatures">
                 <div id="navbar"><Navbar></Navbar></div>
-                <div className="container">
+                <div className="container featuresContainer">
                 <div className="text-center logoHeader1">
                             <h2> FEATURES</h2>
                 </div>
