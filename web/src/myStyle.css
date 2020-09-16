@@ -147,18 +147,24 @@
 .dateForm{
     padding: 2px;
 }
-
 .dropdownM a:hover {background-color: #ddd;}
 .dropdownW a:hover {background-color: #ddd;}
 .show {display: block;}
-.calorieH{
-    background-color: rgba(255, 0, 0, 0.418);
-}
 .fatsecret_container{
-    background-color: rgba(231, 221, 247, 0.397)
+    background-color: rgb(255, 251, 251)
 }
 .calorieIntakePage{
-    background-color: rgba(255, 255, 255, 0.562);
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgb(48, 47, 47);
+}
+.calorieBg, .Csummary{
+    background-color: rgb(248, 197, 103);
+}
+.Cbuttons{
+    background-color: rgb(241, 235, 223);
+}
+.Cgraphs{
+    background-color: rgb(255, 200, 155)
 }
 .chartSize{
     width: 850px;
