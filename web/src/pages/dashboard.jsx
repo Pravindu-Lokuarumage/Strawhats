@@ -41,7 +41,7 @@ class  Dashboard extends Component {
                     <div className="text-center">
                         <h1>(Possibly) Something Related to a Social Aspect</h1>
                         <p>Im not sure about this part but maybe we can implement some social aspect to interact</p>
-                        <p>with friends or users or something (note: wont work on this until the other all tasks are completed)</p>
+                        <p>with friends or users or something (maybe we can implement the Friendlist Ranking system here instead of in Profile) (note: wont work on this until the other all tasks are completed)</p>
                     </div>
 				</div>
                 <div id="footer"><Footer></Footer></div>
