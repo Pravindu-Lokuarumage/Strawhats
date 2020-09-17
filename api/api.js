@@ -282,17 +282,40 @@ app.put('/api/data/calories/:user', (req, res) => {
     })
 })
 app.put('/api/profile/:user', (req, res) => {
-    const {height, weight} = req.body;
+    var {height, weight, loss, steps, intake} = req.body;
     const { user } = req.params;
     Profile.findOne({ user: user}, (error, username) => {
-        if (username !== null) { 
-            // username.weight = weight;
-            // username.height = height;           
-            condition = {height: height, weight: weight}
+        if (username !== null) {
+            if(height === undefined)
+            {
+                height = username.height
+            }  
+            if(weight === undefined)
+            {
+                weight = username.weight
+            } 
+            if(loss === undefined)
+            {
+                loss = username.goals.loss
+            } 
+            if(steps === undefined)
+            {
+                steps = username.goals.steps
+            }         
+            if(intake === undefined)
+            {
+                intake = username.goals.intake
+            } 
+            let goals = {
+                loss: loss,
+                steps: steps,
+                intake:intake
+            }        
+            condition = {height: height, weight: weight, goals: goals}
             username.update(condition)
             .then(doc =>{
                 if (!doc) {return res.status(404).end();}
-                return res.status(200).json(doc)
+                return res.status(200).json({doc:doc,data:req.body})
             })
             .catch(err => next(err));
         } 
@@ -404,7 +427,12 @@ app.post('/api/profile', (req, res) =>{
         weight,
         age,
         gender,
-        friends:[]
+        friends:[],
+        goals:{
+            loss:0,
+            steps:0,
+            intake:0
+        }
     });
     NewProfile.save(err =>{
         return err
