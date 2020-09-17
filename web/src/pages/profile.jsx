@@ -156,8 +156,8 @@ class  Profile extends Component {
 	render(){
 		return(
         	<div>
+				<div id="navbar"><Navbar></Navbar></div>
                 <div className="container">
-					<div id="navbar"><Navbar></Navbar></div>
 					<h1>User Profile</h1>
 					<div class="profile">
 						<div class="image">
@@ -192,8 +192,8 @@ class  Profile extends Component {
 						<Button variant="secondary" onClick={this.handleGoals}>Add Goals</Button>
 					</div>
 					 
-			    <div id="footer"><Footer></Footer></div>
 				</div>
+			    <div id="footer"><Footer></Footer></div>
 				<Modal show={this.state.show} onHide={this.handleClose} animation={false}>
         		    <Modal.Header closeButton>
         		    <Modal.Title>Edit Profile</Modal.Title>
