@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import $ from "jquery";
 // const API_URL = 'http://localhost:5000/api';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
@@ -17,15 +18,18 @@ class  Profile extends Component {
 		super(props)
 		this.state = {
 			profile:{},
-			show:false
+			calories:1,
+			show:false, 
+			show1:false,
+			day:new Date().toString().slice(0,15)
 		};
 		this.handleEdit = this.handleEdit.bind(this);
 		this.handleShow = this.handleShow.bind(this);
+		this.handleShow1 = this.handleShow1.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-
-
+		this.handleGoals = this.handleGoals.bind(this);
 	}
 	componentDidMount(){
 		if (currentUser){
@@ -35,10 +39,59 @@ class  Profile extends Component {
                     window.location.href = '/create'; 
                 }
                 else{
-                    this.setState({profile:response[0]})
+					this.setState({
+						profile:response[0],
+						loss:response[0].goals.loss,
+						steps:response[0].goals.steps,
+						intake:response[0].goals.intake,
+					})
+					console.log(this.state);
+					console.log(this.state.profile);
+					console.log(this.state.profile.goals);
+					console.log(this.state.profile.goals.loss);
+
                 }
 
 			})
+			$.get(`${API_URL}/data/${currentUser}`)
+        	.then(response => {
+        	    if (response[0]== null){
+        	    }
+        	    else{
+					var Tcalories = 0;
+					var Tsteps = 0;
+					var Theartrate = 0;
+					var tot = 0
+					console.log(response[0]);
+					response[0].stepsperd.forEach(element => {
+						if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
+						{
+							console.log("a")
+
+							Tsteps = Tsteps + parseInt(element.stepsperd, 10)
+							console.log(parseInt(element.stepsperd, 10))
+						}
+					});
+					response[0].heartrate.forEach(element => {
+						if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
+						{
+							Theartrate = Theartrate + parseInt(element.heartrate, 10)
+							tot = tot +1
+						}
+					});
+					response[0].calories.forEach(element => {
+						if(this.state.day == element.day)
+						{
+							Tcalories = parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10)
+						}
+					});
+					var avgH = Theartrate/tot
+					this.setState({
+						calories: Tcalories,
+						stepsTaken: Tsteps
+					});
+        	    }
+        	})
 		}
 		else{
 			const path = window.location.pathname;
@@ -52,19 +105,36 @@ class  Profile extends Component {
 		value = event.target.value;
         let nam = event.target.id;
         this.setState({
-				[nam]:value
+				[nam]:value,
+				goals:{
+					loss:this.state.loss,
+					steps:this.state.steps,
+					intake:this.state.intake
+				}
         })
         console.log(this.state);
     }
 	handleClose(){
-		this.setState({show:false})
+		this.setState({show:false,show1:false})
 	}
 	handleShow(){
 		this.setState({
 			weight:this.state.profile.weight,
-			height:this.state.profile.height
+			height:this.state.profile.height,
+			goals:this.state.profile.goals
 		})
 		this.setState({show:true})
+	}
+	handleShow1(){
+		this.setState({
+			weight:this.state.profile.weight,
+			height:this.state.profile.height,
+			goals:this.state.profile.goals,
+			loss:this.state.loss,
+			steps:this.state.steps,
+			intake:this.state.intake,
+		})
+		this.setState({show1:true})
 	}
     handleEdit(){
         this.handleShow();
@@ -73,16 +143,18 @@ class  Profile extends Component {
 		$.ajax({
 			url: `${API_URL}/profile/${currentUser}`,
 			type: 'PUT',
-			data: {weight: this.state.weight, height: this.state.height},
+			data: {weight: this.state.weight, height: this.state.height, loss:this.state.loss, steps:this.state.steps, intake:this.state.intake},
 			success: function(response){
 				console.log(response);
 				window.location.href = '/';
 			} 
 		})
 	}
+	handleGoals(){
+        this.handleShow1();
+	}
 	render(){
 		return(
-            //page html
         	<div>
                 <div className="container">
 					<div id="navbar"><Navbar></Navbar></div>
@@ -101,14 +173,29 @@ class  Profile extends Component {
 							<li>Goals</li>
 							</ul> 
 						</div>
-						<button onClick={this.handleEdit}>Edit</button>
+						<Button onClick={this.handleEdit}>Edit</Button>
+
+						<div>Goals</div>
+						<div>Weight target ({this.state.profile.weight}/{this.state.loss})</div>
+						<ProgressBar animated now={(this.state.profile.weight/this.state.loss)*100} />
+
+						<br/>
+						<div>Steps ({this.state.stepsTaken}/{this.state.steps})</div>
+						<ProgressBar animated now={(this.state.stepsTaken/this.state.steps)*100} />
+						<br/>
+						
+						<div>Calorie Intake ({this.state.calories}/{this.state.intake})</div>
+						<ProgressBar animated now={(this.state.calories/this.state.intake)*100} />
+
+
+						<Button variant="secondary" onClick={this.handleGoals}>Add Goals</Button>
 					</div>
 					 
 			    <div id="footer"><Footer></Footer></div>
 				</div>
 				<Modal show={this.state.show} onHide={this.handleClose} animation={false}>
         		    <Modal.Header closeButton>
-        		    <Modal.Title>Modal heading</Modal.Title>
+        		    <Modal.Title>Edit Profile</Modal.Title>
         		    </Modal.Header>
         		    <Modal.Body>
 						<Form>
@@ -124,6 +211,36 @@ class  Profile extends Component {
                                 </Form.Group>
                             </Form.Row>
                             
+                            <Button variant="primary" onClick={this.handleSubmit}>
+                                Submit
+                            </Button>
+                        </Form>
+				    </Modal.Body>
+        		    <Modal.Footer>
+        		      <Button variant="secondary" onClick={this.handleClose}>
+        		        Close
+        		      </Button>
+        		    </Modal.Footer>
+      		    </Modal>
+				  
+				<Modal show={this.state.show1} onHide={this.handleClose} animation={false}>
+        		    <Modal.Header closeButton>
+        		    	<Modal.Title>Goals</Modal.Title>
+        		    </Modal.Header>
+        		    <Modal.Body>
+						<Form>
+							<Form.Group controlId="loss">
+                                <Form.Label>Weight Loss Goal</Form.Label>
+                                <Form.Control placeholder="Ideal Weight" onChange={this.handleChange}/>
+                            </Form.Group>
+                            <Form.Group controlId="steps">
+                                <Form.Label>Daily Steps Goal</Form.Label>
+                                <Form.Control placeholder="Steps to walk" onChange={this.handleChange}/>
+                            </Form.Group>
+							<Form.Group controlId="intake">
+                                <Form.Label>Calorie Intake Goal</Form.Label>
+                                <Form.Control placeholder="Calories of daily diet" onChange={this.handleChange}/>
+                            </Form.Group>
                             <Button variant="primary" onClick={this.handleSubmit}>
                                 Submit
                             </Button>
