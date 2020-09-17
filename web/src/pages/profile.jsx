@@ -171,6 +171,7 @@ class  Profile extends Component {
 							<li>Weight: {this.state.profile.weight}</li>
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
 							<li>Goals</li>
+							<li>Friends:{this.state.profile.friends}</li>
 							</ul> 
 						</div>
 						<Button onClick={this.handleEdit}>Edit</Button>
