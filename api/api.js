@@ -406,7 +406,7 @@ app.post('/api/profile/friend/:user', (req, res) =>{
         if (username == null) {
         } else {
             if (friends !== undefined){
-                username.friends.push({friends});
+                username.friends.push(friends);
             }
             username.save(err =>{
                 return err
