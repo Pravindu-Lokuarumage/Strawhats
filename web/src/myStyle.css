@@ -1,70 +1,3 @@
-/*------------------------FEATURES_PAGE---------------------*/
-.logoHeader1{
-    text-align: center;
-    background-color: rgb(36, 207, 212);
-}
-.firstRow{
-    padding: 2%;
-    background-color: orange;
-    font-family: 'Times New Roman', Times, serif;
-}
-.firstHeader{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-}
-.secondRow{
-    padding: 2%;
-    background-color: grey;
-    font-family: 'Times New Roman', Times, serif;
-}
-.secondHeader{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-}
-.thirdRow{
-    padding: 2%;
-    background-color: orange;
-    font-family: 'Times New Roman', Times, serif;
-}
-.thirdHeader{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-}
-/*------------------------FEATURES_PAGE---------------------*/
-
-
-/*------------------------ABOUT_US_PAGE---------------------*/
-.logoHeader{
-    align-items: center;
-}
-.firstRow{
-    padding: 2%;
-    background-color: orange;
-    font-family: 'Times New Roman', Times, serif;
-}
-.firstHeader{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-}
-.secondRow{
-    padding: 2%;
-    background-color: grey;
-    font-family: 'Times New Roman', Times, serif;
-}
-.secondHeader{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-}
-.thirdRow{
-    padding: 2%;
-    background-color: orange;
-    font-family: 'Times New Roman', Times, serif;
-}
-.thirdHeader{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-}
-/*------------------------ABOUT_US_PAGE---------------------*/
 
 /*------------------------LOGIN_PAGE---------------------*/
 .user_card {
@@ -127,3 +60,180 @@
     outline: 0px ;
 }
 /*------------------------LOGIN_PAGE---------------------*/
+
+/*------------------------FEATURES_PAGE---------------------*/
+.logoHeader1{
+    text-align: center;
+    background-color: rgb(252, 139, 73);
+    padding: 2px;
+}
+.firstHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.secondHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.thirdHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.features-sec-1, .features-sec-3{
+    background-color: rgb(253, 195, 87);
+    padding: 2%;
+}
+.features-sec-2{
+    background-color: gray;
+    padding: 2%;
+}
+.mainFeatures{
+    background-color: rgb(48, 47, 47);
+}
+.featuresContainer{
+    font-family: 'Times New Roman', Times, serif;
+}
+/*------------------------FEATURES_PAGE---------------------*/
+
+
+/*------------------------Calorie_Intake_Page---------------------*/
+.dropbtnW, .dropbtnM {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropbtnW:hover, .dropbtn:focus, .dropbtnM:hover, .dropbtn:focus {
+    background-color: #2980B9;
+  }
+  
+  .dropdownW, .dropdownM  {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-contentW, .dropdown-contentM{
+    display: none;
+    position: absolute;
+    background-color:rgb(86, 163, 218);
+    min-width: 120px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-contentW a, .dropdown-contentM a  {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  .handleW, .handlePW, .handleNW{
+    background-color:  rgb(86, 163, 218);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  .handleM, .handlePM, .handleNM{
+    background-color:  rgb(86, 163, 218);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  .graphBtn{
+    background-color:  rgb(86, 163, 218);
+    color: white;
+    min-width: 172px;
+    padding: 2px;
+    font-size: 16px;
+    border: black;
+    cursor: pointer;
+  }
+.dateSelector{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+.dateForm{
+    padding: 2px;
+}
+.CalorieC{
+    font-family: 'Times New Roman', Times, serif;
+}
+.dropdownM a:hover {background-color: #ddd;}
+.dropdownW a:hover {background-color: #ddd;}
+.show {display: block;}
+.fatsecret_container{
+    background-color: rgb(216, 237, 245)
+}
+.calorieIntakePage{
+    background-color: rgb(48, 47, 47);
+}
+.calorieBg, .Csummary{
+    background-color: rgb(253, 195, 87);
+}
+.Cbuttons{
+    background-color: rgb(241, 235, 223);
+}
+.Cgraphs{
+    background-color: rgb(255, 200, 155)
+}
+.chartSize{
+    width: 850px;
+    height:500px
+}
+/*------------------------Calorie_Intake_Page--------------------*/
+
+
+/*------------------------ABOUT_US_PAGE---------------------*/
+.forBackground{
+    background-color: rgb(48, 47, 47);
+}
+.logoRow{
+    background-color: grey;
+    align-items: center;
+}
+.logoHeader{
+    align-items: center;
+}
+.firstRow{
+    padding: 2%;
+    background-color: orange;
+    font-family: 'Times New Roman', Times, serif;
+}
+.firstHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.secondRow{
+    padding: 2%;
+    background-color: grey;
+    font-family: 'Times New Roman', Times, serif;
+}
+.secondHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.thirdRow{
+    padding: 2%;
+    background-color: orange;
+    font-family: 'Times New Roman', Times, serif;
+}
+.thirdHeader{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+}
+.review{
+    background-color: grey;
+}
+.topReviews{
+    background-color: orange;
+}
+/*------------------------ABOUT_US_PAGE---------------------*/

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button  from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 import $ from "jquery";
 // const API_URL = 'http://localhost:5000/api';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
@@ -12,8 +16,16 @@ class  Profile extends Component {
     constructor(props){
 		super(props)
 		this.state = {
-			profile:{}
+			profile:{},
+			show:false
 		};
+		this.handleEdit = this.handleEdit.bind(this);
+		this.handleShow = this.handleShow.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+
+
 	}
 	componentDidMount(){
 		if (currentUser){
@@ -34,6 +46,39 @@ class  Profile extends Component {
 				window.location.href = '/login'; 
 			}
 		}
+	}
+	handleChange(event){
+		let value
+		value = event.target.value;
+        let nam = event.target.id;
+        this.setState({
+				[nam]:value
+        })
+        console.log(this.state);
+    }
+	handleClose(){
+		this.setState({show:false})
+	}
+	handleShow(){
+		this.setState({
+			weight:this.state.profile.weight,
+			height:this.state.profile.height
+		})
+		this.setState({show:true})
+	}
+    handleEdit(){
+        this.handleShow();
+	}
+	handleSubmit(){
+		$.ajax({
+			url: `${API_URL}/profile/${currentUser}`,
+			type: 'PUT',
+			data: {weight: this.state.weight, height: this.state.height},
+			success: function(response){
+				console.log(response);
+				window.location.href = '/';
+			} 
+		})
 	}
 	render(){
 		return(
@@ -57,10 +102,40 @@ class  Profile extends Component {
 							<li>Friends:{this.state.profile.friends}</li>
 							</ul> 
 						</div>
+						<button onClick={this.handleEdit}>Edit</button>
 					</div>
 					 
 			    <div id="footer"><Footer></Footer></div>
 				</div>
+				<Modal show={this.state.show} onHide={this.handleClose} animation={false}>
+        		    <Modal.Header closeButton>
+        		    <Modal.Title>Modal heading</Modal.Title>
+        		    </Modal.Header>
+        		    <Modal.Body>
+						<Form>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="weight">
+                                    <Form.Label>Weight</Form.Label>
+                                    <Form.Control placeholder={this.state.profile.weight} onChange={this.handleChange}/>
+                                </Form.Group>
+
+                                <Form.Group as={Col} controlId="height">
+                                    <Form.Label>Height</Form.Label>
+                                    <Form.Control placeholder={this.state.profile.height} onChange={this.handleChange}/>
+                                </Form.Group>
+                            </Form.Row>
+                            
+                            <Button variant="primary" onClick={this.handleSubmit}>
+                                Submit
+                            </Button>
+                        </Form>
+				    </Modal.Body>
+        		    <Modal.Footer>
+        		      <Button variant="secondary" onClick={this.handleClose}>
+        		        Close
+        		      </Button>
+        		    </Modal.Footer>
+      		    </Modal>
         	</div>
     	);
 	}

@@ -281,6 +281,23 @@ app.put('/api/data/calories/:user', (req, res) => {
         } 
     })
 })
+app.put('/api/profile/:user', (req, res) => {
+    const {height, weight} = req.body;
+    const { user } = req.params;
+    Profile.findOne({ user: user}, (error, username) => {
+        if (username !== null) { 
+            // username.weight = weight;
+            // username.height = height;           
+            condition = {height: height, weight: weight}
+            username.update(condition)
+            .then(doc =>{
+                if (!doc) {return res.status(404).end();}
+                return res.status(200).json(doc)
+            })
+            .catch(err => next(err));
+        } 
+    })
+})
 /**
  * @api {post} /api/authenticate    posts user and password to authenticate
  * @apiName Authenticate
@@ -406,7 +423,7 @@ app.post('/api/profile/friend/:user', (req, res) =>{
         if (username == null) {
         } else {
             if (friends !== undefined){
-                username.friends.push({friends});
+                username.friends.push(friends);
             }
             username.save(err =>{
                 return err
