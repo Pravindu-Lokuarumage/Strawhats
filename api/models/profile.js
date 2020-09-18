@@ -7,5 +7,6 @@ module.exports = mongoose.model('profile', new mongoose.Schema({
     age: Number,
     gender: String,
     friends: Array,
-    goals: Object
+    goals: Object,
+    points: Number
 }));
