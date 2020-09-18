@@ -71,19 +71,66 @@ class Info extends Component {
     componentDidUpdate(){
         
     }
-    
+    arrSum = function(arr){
+      return arr.reduce(function(a,b){
+        return Number(a) + Number(b)
+      }, 0);
+    }
     getData(){
         $.get(`${API_URL}/data/${currentUser}`)
         .then(response => {
             if (response[0]== null){
             }
             else{
+                var ctime =[];
+                var cdata =[];
                 var htime =[];
                 var hdata =[];
                 var stime =[];
                 var sdata =[];
                 var tempdata =[];
                 var chartTime = 0;
+                var caloriesCal = false
+                response[0].caloriesBurn.forEach(element =>{
+                  var timestamp = new Date(element.time)
+
+                  if (timestamp.getDate() === new Date().getDate() - 1)
+                  {
+                    caloriesCal = true
+                  }
+                  cdata.push(element.caloriesBurn)
+                  ctime.push(timestamp.toDateString())
+
+                })
+                if (!caloriesCal)
+                {
+                  var harr = []
+                  response[0].heartrate.forEach(element => {
+                    var timestamp = new Date(element.time)
+                    
+                    if (timestamp.getDate() === this.state.time.getDate() - 1)
+                    {
+                      harr.push(element.heartrate);
+                    }
+                  }); 
+                  const avg = this.arrSum(harr)/harr.length
+                  var val = 0;
+                  if (this.state.profile.gender === 'Male')
+					        {
+					        	val = ((-55.0969 + (0.6309*avg) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*24
+					        }
+                  else
+                  {
+					        	val = ((-20.4022 + (0.4472*avg) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*24
+                  }
+                  console.log(val)
+                  $.post(`${API_URL}/data/${currentUser}`, {caloriesBurn: val})
+                  .then((response) =>{
+	    	          if (response.success) {
+                      console.log(response);
+	    	          	}
+	    	          });
+                }
 
 
                 response[0].heartrate.forEach(element => {
@@ -152,7 +199,8 @@ class Info extends Component {
                         {
                           label:'Heart Rate',
                           data:hdata,
-                          backgroundColor:'rgba(255, 99, 132, 0.6)'
+                          backgroundColor:'rgba(255, 99, 132, 0.6)',
+                          pointRadius: 0
                         }
                       ]
                     },
@@ -162,7 +210,19 @@ class Info extends Component {
                           {
                             label:'Steps',
                             data:sdata,
-                            backgroundColor:'rgba(255, 99, 132, 0.6)'
+                            backgroundColor:'rgba(255, 99, 132, 0.6)',
+                            pointRadius: 0
+                          }
+                        ]
+                      },
+                    cchartData:{
+                        labels: ctime,
+                        datasets:[
+                          {
+                            label:'Calories Burned',
+                            data:cdata,
+                            backgroundColor:'rgba(255, 99, 132, 0.6)',
+                            pointRadius: 0
                           }
                         ]
                       }
@@ -173,23 +233,29 @@ class Info extends Component {
     render(){
         return(
             <div>
-                    <div id="navbar"><Navbar></Navbar></div>
-                    <div>
-                      <h3>Daily Calories Burned</h3>
-                      <Calories heartrate={this.state.hData} profile={this.state.profile} day={this.state.time}></Calories>
-                      <div>{this.state.calories}</div>
-                    </div>
-                    <div>
-                      <Chart chartData={this.state.hchartData}/>
-                      <div>Day - <span>{this.state.time.getDate()}</span></div>
-                      <button onClick={() => this.handlePrevious()}>Previous Day</button>
-                      <button onClick={() => this.handleToday()}>Today</button>
-                      <button onClick={() => this.handleNext()}>Next Day</button>
-                      <Chart chartData={this.state.schartData}/>
+              <div id="navbar"><Navbar></Navbar></div>
+              <div>
+                <h3>Daily Calories Burned</h3>
+                <Calories heartrate={this.state.hData} profile={this.state.profile} day={this.state.time}></Calories>
+              </div>
+              <div className='container'>
+                <button onClick={() => this.handlePrevious()}>Previous Day</button>
+                <button onClick={() => this.handleToday()}>Today</button>
+                <button onClick={() => this.handleNext()}>Next Day</button>
+                <div>Day - <span>{this.state.time.getDate()}/{this.state.time.getMonth()}/{this.state.time.getFullYear()}</span></div>
 
-                    </div>
-                    <div id="footer"><Footer></Footer></div>
-                </div>
+              </div>
+              <div className='container'>
+                <Chart title="Daily Heart Rate" chartData={this.state.hchartData}/>
+              </div>
+              <div className='container'>
+                <Chart title="Daily Steps" chartData={this.state.schartData}/>              
+              </div>
+              <div className='container'>
+                <Chart title="Calories Burned" chartData={this.state.cchartData}/>              
+              </div>
+              <div id="footer"><Footer></Footer></div>
+            </div>
         );
     }
     
