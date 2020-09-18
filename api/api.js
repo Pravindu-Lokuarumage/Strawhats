@@ -208,7 +208,7 @@ app.get('/api/review', (req, res) => {
  * }
  * */
 app.post('/api/data/:user', (req, res) => {
-    const {heartrate,stepsperd} = req.body;
+    const {heartrate,stepsperd,caloriesBurn} = req.body;
     const { user } = req.params;
     Data.findOne({ user: user}, (error, username) => {
         if (username == null) {
@@ -225,13 +225,15 @@ app.post('/api/data/:user', (req, res) => {
             })
         } else {
             const time = new Date();
-            var exist = false;
             if (heartrate !== undefined){
                 username.heartrate.push({heartrate, time});
             }
-
             if (stepsperd !== undefined){
                 username.stepsperd.push({stepsperd, time});
+            }
+            if (caloriesBurn !== undefined){
+                time.setDate(time.getDate()-1)
+                username.caloriesBurn.push({caloriesBurn, time});
             }
             username.save(err =>{
                 return err
