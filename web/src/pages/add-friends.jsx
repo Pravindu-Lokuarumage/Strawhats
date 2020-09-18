@@ -59,7 +59,8 @@ class  AddFriends extends Component {
         	<div>
                 <div className="container">
 					<div id="navbar"><Navbar></Navbar></div>
-                    <div>
+                    <h1>Add Friends</h1>
+                    <div >
                     <div class="profiles">						
                         {this.state.profile.map(friends =>{
                         if(friends.user !== currentUser && (this.state.user === undefined ||this.state.user.indexOf(friends.user) === -1 )){

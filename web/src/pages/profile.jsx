@@ -8,9 +8,12 @@ import Col from 'react-bootstrap/Col';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Goals from '../components/goals'
 import $ from "jquery";
+import Friendlist from '../components/friend-list';
+
 // const API_URL = 'http://localhost:5000/api';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
+
 
 
 
@@ -169,10 +172,14 @@ class  Profile extends Component {
 							<li>Height: {this.state.profile.height}</li>
 							<li>Weight: {this.state.profile.weight}</li>
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
-							<li>Goals</li>
-							<li>Friends:{this.state.profile.friends}</li>
+							<li>Goals</li>						
 							</ul> 
+							<div class="friends">						
+								<Friendlist friends = {this.state.profile.friends}> </Friendlist>
+							</div>
 						</div>
+
+
 						<Button onClick={this.handleEdit}>Edit</Button>
 
 						<div>Goals</div>
