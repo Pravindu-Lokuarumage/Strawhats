@@ -18,7 +18,8 @@ class  FriendProfile extends Component {
     constructor(props){
 		super(props)
 		this.state ={
-			profile:{}
+            profile:{},
+			day:new Date().toString().slice(0,15)
 		}
     }
 
@@ -53,12 +54,11 @@ class  FriendProfile extends Component {
 				var Tcalories = 0;
 				var Tsteps = 0;
 				var Theartrate = 0;
-				var tot = 0
+				var total = 0
 				console.log(response[0]);
 				response[0].stepsperd.forEach(element => {
-					if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
+					if(new Date(this.state.day).getDate() - new Date(element.time).getDate()<7)
 					{
-						console.log("a")
 						Tsteps = Tsteps + parseInt(element.stepsperd, 10)
 						console.log(parseInt(element.stepsperd, 10))
 					}
@@ -67,7 +67,7 @@ class  FriendProfile extends Component {
 					if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
 					{
 						Theartrate = Theartrate + parseInt(element.heartrate, 10)
-						tot = tot +1
+						total = total +1
 					}
 				});
 				response[0].calories.forEach(element => {
@@ -75,8 +75,10 @@ class  FriendProfile extends Component {
 					{
 						Tcalories = parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10)
 					}
-				});
-				var avgH = Theartrate/tot
+                });
+                var hours = new Date(this.state.day).getHours()
+                var avgH = Theartrate/total 
+                var b = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
 				this.setState({
 					calories: Tcalories,
 					stepsTaken: Tsteps
@@ -93,10 +95,6 @@ class  FriendProfile extends Component {
                 <div className="container">
 					<div id="navbar"><Navbar></Navbar></div>
                     <div>
-                    <div class="profiles">						
-						<Friend user={this.state.profile.user} age={this.state.profile.age}></Friend>
-
-					</div>
                     <div class="profile">
 						<div class="image">
 							<img src="https://cdn1.vectorstock.com/i/1000x1000/43/45/male-and-female-avatar-profile-picture-silhouette-vector-4684345.jpg" class="float-right" alt="profile avatar" width="220" height="160"></img>
@@ -105,11 +103,6 @@ class  FriendProfile extends Component {
 							<li>Name: {this.state.profile.name}</li>
 							<li>Gender: {this.state.profile.gender}</li>
 							<li>Age: {this.state.profile.age}</li>
-							<li>Height: {this.state.profile.height}</li>
-							<li>Weight: {this.state.profile.weight}</li>
-							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
-							<li>Goals</li>
-							<li>Friends:{this.state.profile.friends}</li>
 							</ul> 
 						</div>
 
