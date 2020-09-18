@@ -71,7 +71,6 @@ class  Profile extends Component {
 						if(new Date(this.state.day).getDate() - new Date(element.time).getDate() < 7)
 						{
 							Tsteps = Tsteps + parseInt(element.stepsperd, 10)
-							console.log(parseInt(element.stepsperd, 10))
 						}
 					});
 					response[0].heartrate.forEach(element => {
@@ -87,10 +86,22 @@ class  Profile extends Component {
 							Tcalories = parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10)
 						}
 					});
+					var calB = 0
 					var avgH = Theartrate/tot
+					var hours = new Date().getHours()
+
+					if (this.state.profile.gender === 'Male')
+					{
+						calB = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
+					}
+					else{
+						calB = ((-20.4022 + (0.4472*avgH) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*hours
+					}
+					calB = Math.round(calB)
 					this.setState({
 						calories: Tcalories,
-						stepsTaken: Tsteps
+						stepsTaken: Tsteps,
+						Burned: calB
 					});
         	    }
         	})
@@ -142,10 +153,28 @@ class  Profile extends Component {
         this.handleShow();
 	}
 	handleSubmit(){
+		var BMR = 0
+		if (this.state.profile.gender === 'male')
+		{
+			BMR = 88.362 + (13.397 * this.state.profile.weight) + (4.799 * this.state.profile.height) - (5.677 * this.state.profile.age)
+		}
+		else
+		{
+			BMR = 447.593 + (9.247 * this.state.profile.weight) + (3.098 * this.state.profile.height) - (4.330 * this.state.profile.age)
+		}
+		if(this.state.loss - this.state.profile.weight > 0)
+		{
+			BMR = BMR + 1000 + 10 *(this.state.loss - this.state.profile.weight)
+		}
+		else
+		{
+			BMR = BMR + 200 + 10 *(this.state.loss - this.state.profile.weight)
+		}
+		BMR = Math.round(BMR)
 		$.ajax({
 			url: `${API_URL}/profile/${currentUser}`,
 			type: 'PUT',
-			data: {weight: this.state.weight, height: this.state.height, loss:this.state.loss, steps:this.state.steps, intake:this.state.intake},
+			data: {weight: this.state.weight, height: this.state.height, loss:this.state.loss, steps:this.state.steps, intake:BMR},
 			success: function(response){
 				console.log(response);
 				window.location.href = '/';
@@ -183,7 +212,7 @@ class  Profile extends Component {
 						<Button onClick={this.handleEdit}>Edit</Button>
 
 						<div>Goals</div>
-						<Goals weight={this.state.profile.weight} loss={this.state.loss} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
+						<Goals weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
 
 						<Button variant="secondary" onClick={this.handleGoals}>Add Goals</Button>
 					</div>
