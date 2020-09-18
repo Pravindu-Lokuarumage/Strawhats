@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Goals from '../components/goals'
 import $ from "jquery";
 // const API_URL = 'http://localhost:5000/api';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
@@ -64,10 +65,8 @@ class  Profile extends Component {
 					var tot = 0
 					console.log(response[0]);
 					response[0].stepsperd.forEach(element => {
-						if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
+						if(new Date(this.state.day).getDate() - new Date(element.time).getDate() < 7)
 						{
-							console.log("a")
-
 							Tsteps = Tsteps + parseInt(element.stepsperd, 10)
 							console.log(parseInt(element.stepsperd, 10))
 						}
@@ -177,17 +176,7 @@ class  Profile extends Component {
 						<Button onClick={this.handleEdit}>Edit</Button>
 
 						<div>Goals</div>
-						<div>Weight target ({this.state.profile.weight}/{this.state.loss})</div>
-						<ProgressBar animated now={(this.state.profile.weight/this.state.loss)*100} />
-
-						<br/>
-						<div>Steps ({this.state.stepsTaken}/{this.state.steps})</div>
-						<ProgressBar animated now={(this.state.stepsTaken/this.state.steps)*100} />
-						<br/>
-						
-						<div>Calorie Intake ({this.state.calories}/{this.state.intake})</div>
-						<ProgressBar animated now={(this.state.calories/this.state.intake)*100} />
-
+						<Goals weight={this.state.profile.weight} loss={this.state.loss} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
 
 						<Button variant="secondary" onClick={this.handleGoals}>Add Goals</Button>
 					</div>
