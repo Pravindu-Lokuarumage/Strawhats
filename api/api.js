@@ -282,7 +282,7 @@ app.put('/api/data/calories/:user', (req, res) => {
     })
 })
 app.put('/api/profile/:user', (req, res) => {
-    var {height, weight, loss, steps, intake} = req.body;
+    var {height, weight, loss, steps, intake,points} = req.body;
     const { user } = req.params;
     Profile.findOne({ user: user}, (error, username) => {
         if (username !== null) {
@@ -306,12 +306,16 @@ app.put('/api/profile/:user', (req, res) => {
             {
                 intake = username.goals.intake
             } 
+            if(points === undefined)
+            {
+                points = username.points
+            } 
             let goals = {
                 loss: loss,
                 steps: steps,
                 intake:intake
             }        
-            condition = {height: height, weight: weight, goals: goals}
+            condition = {height: height, weight: weight, goals: goals,points:points}
             username.update(condition)
             .then(doc =>{
                 if (!doc) {return res.status(404).end();}
@@ -432,7 +436,8 @@ app.post('/api/profile', (req, res) =>{
             loss:0,
             steps:0,
             intake:0
-        }
+        },
+        points:0
     });
     NewProfile.save(err =>{
         return err
