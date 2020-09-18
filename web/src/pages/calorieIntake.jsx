@@ -103,6 +103,11 @@ class CalorieIntake extends Component {
 		var j = 6;
 		var weekValues = [];
 		var weekDays = []
+		// var date = new Date().toString().slice(4,10)
+		var date = new Date().setDate()
+		
+		// console.log(date);
+		// console.log(days[days.length-1]);
 		for(i = days.length - this.state.weekValue; i >= days.length - (this.state.weekValue+6); i--)
 		{
 			if (weeklyC[i] !== undefined && days[i] !== undefined)
@@ -113,6 +118,10 @@ class CalorieIntake extends Component {
 			}
 			else
 			{
+				
+				weekValues[j] = 0;
+				weekDays[j] = days;
+				j--;
 			}
 		}
 		this.setState({
@@ -203,14 +212,16 @@ class CalorieIntake extends Component {
 		}
 		for (i = days.length - 1; i >= 0; i--)
 		{
-			if (days[i].slice(0,3) == this.state.monthValue)
+			if (days[i].slice(0,3) == this.state.monthValue && monthlyC[i] !== undefined && days[i] !== undefined)
 			{
 				monthValues[j] = monthlyC[i];
 				monthDays[j] = days[i];
 				j--;
 			}
 			else{
-
+				monthValues[j] = 0;
+				monthDays[j] = 0;
+				j--;
 			}
 		}
 		this.setState({
