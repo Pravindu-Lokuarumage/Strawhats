@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Chart from '../components/chart';
 import $ from "jquery";
+import Calories from '../components/calCalories';
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
@@ -13,7 +14,9 @@ class Info extends Component {
         this.state = {
           hchartData:{},
           schartData:{},
-          time:new Date()
+          time:new Date(),
+          profile:{},
+          calories:0
         };
         this.handlePrevious = this.handlePrevious.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -22,13 +25,13 @@ class Info extends Component {
     }
     handlePrevious(){
       var temp = this.state.time;
-      temp.setDate(temp.getDate() -1);
+      temp.setDate(temp.getDate() - 1);
       this.setState({time:temp})
       this.getData();
     }
     handleNext(){
       var temp = this.state.time;
-      temp.setDate(temp.getDate() +1);
+      temp.setDate(temp.getDate() + 1);
       this.setState({time:temp})
       this.getData();
     }
@@ -37,12 +40,38 @@ class Info extends Component {
       this.setState({time:temp})
       this.getData();
     }
+    componentDidMount(){
+      this.myInterval = setInterval(() => {
+        this.getData();
+      }, 1000*60);
+    }
+    componentWillUnmount(){
+      clearInterval(this.myInterval);
+    }
     componentWillMount(){
+        if (currentUser){
+          $.get(`${API_URL}/profile/${currentUser}`)
+          .then(response => {
+            if (response[0]== null){
+                window.location.href = '/create'; 
+            }
+            else{
+                this.setState({profile:response[0]})
+            }
+          })
+        }
+        else{
+          const path = window.location.pathname;
+            if (path !== '/login' && path !== '/registration') { 
+            window.location.href = '/login'; 
+          }
+        }
         this.getData();
     }
     componentDidUpdate(){
         
     }
+    
     getData(){
         $.get(`${API_URL}/data/${currentUser}`)
         .then(response => {
@@ -53,22 +82,70 @@ class Info extends Component {
                 var hdata =[];
                 var stime =[];
                 var sdata =[];
+                var tempdata =[];
+                var chartTime = 0;
 
 
                 response[0].heartrate.forEach(element => {
-                    var timestamp = new Date(element.time)
-                    if (timestamp.getDate()== this.state.time.getDate())
-                    {
-                      htime.push(timestamp.toTimeString().slice(0,8));
-                      hdata.push(element.heartrate);
+                  var timestamp = new Date(element.time)
+                  if (timestamp.getDate() == this.state.time.getDate())
+                  {
+                    if (chartTime == 1000*60*60*24){
+                      this.state.time.setHours(0,0,0,chartTime-1)
                     }
+                    else{
+                      this.state.time.setHours(0,0,0,chartTime)
+                    }
+
+                    while (timestamp.getTime()>this.state.time.getTime() && chartTime < 1000*60*60*24) {
+
+                      this.state.time.setHours(0,0,0,chartTime)
+
+                      htime.push(this.state.time.toTimeString().slice(0,8));
+                      hdata.push(null);
+                      chartTime = chartTime + 1000*60*15;
+                    }
+                    htime.push(timestamp.toTimeString().slice(0,8));
+                    hdata.push(element.heartrate);
+                    tempdata.push(element.heartrate);
+                  }
                 });
+                while (this.state.time.getHours()<24 && this.state.time.getHours()!==23){
+                  this.state.time.setHours(0,0,0,chartTime)
+                  htime.push(this.state.time.toTimeString().slice(0,8));
+                  hdata.push(null);
+                  chartTime = chartTime + 1000*60*15;
+                }
+                chartTime = 0;
                 response[0].stepsperd.forEach(element => {
+                  var timestamp = new Date(element.time)
+                  if (timestamp.getDate()== this.state.time.getDate())
+                  {
+                    if (chartTime == 1000*60*60*24){
+                      this.state.time.setHours(0,0,0,chartTime-1)
+                    }
+                    else{
+                      this.state.time.setHours(0,0,0,chartTime)
+                    }
+                    while (timestamp.getTime()>this.state.time.getTime() && chartTime < 1000*60*60*24) {
+
+                      this.state.time.setHours(0,0,0,chartTime)
+                      stime.push(this.state.time.toTimeString().slice(0,8));
+                      sdata.push(null);
+                      chartTime = chartTime + 1000*60*15;
+                    }
                     stime.push(new Date(element.time).toTimeString().slice(0,8));
                     sdata.push(element.stepsperd);
+                  }
                 });
-                
+                while (this.state.time.getHours()<24 && this.state.time.getHours()!==23){
+                  this.state.time.setHours(0,0,0,chartTime)
+                  stime.push(this.state.time.toTimeString().slice(0,8));
+                  sdata.push(null);
+                  chartTime = chartTime + 1000*60*15;
+                }
                 this.setState({
+                    hData:tempdata,
                     hchartData:{
                       labels: htime,
                       datasets:[
@@ -90,7 +167,6 @@ class Info extends Component {
                         ]
                       }
                   });
-                console.log(this.state)
             }
         })
     }
@@ -99,11 +175,18 @@ class Info extends Component {
             <div>
                     <div id="navbar"><Navbar></Navbar></div>
                     <div>
+                      <h3>Daily Calories Burned</h3>
+                      <Calories heartrate={this.state.hData} profile={this.state.profile} day={this.state.time}></Calories>
+                      <div>{this.state.calories}</div>
+                    </div>
+                    <div>
                       <Chart chartData={this.state.hchartData}/>
-                      <button onClick={() => this.handlePrevious()}>Yesterday</button>
+                      <div>Day - <span>{this.state.time.getDate()}</span></div>
+                      <button onClick={() => this.handlePrevious()}>Previous Day</button>
                       <button onClick={() => this.handleToday()}>Today</button>
-                      <button onClick={() => this.handleNext()}>Tommorow</button>
+                      <button onClick={() => this.handleNext()}>Next Day</button>
                       <Chart chartData={this.state.schartData}/>
+
                     </div>
                     <div id="footer"><Footer></Footer></div>
                 </div>
