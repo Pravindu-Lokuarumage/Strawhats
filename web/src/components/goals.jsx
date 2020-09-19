@@ -11,7 +11,7 @@ class Friend extends Component {
   render(){
     return(
       <div>
-            <div>Weight target ({this.props.weight}/{this.props.loss})</div>
+            <div>Calories to Burn daily ({this.props.weight}/{this.props.loss}) Target Weight ({this.props.target})</div>
 			<ProgressBar animated now={(this.props.weight/this.props.loss)*100} />
 			<br/>
 			<div>Steps ({this.props.stepsTaken}/{this.props.steps})</div>
