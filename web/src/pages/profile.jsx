@@ -22,7 +22,8 @@ class  Profile extends Component {
 		super(props)
 		this.state = {
 			profile:{},
-			calories:1,
+			calories:0,
+			caloriesEaten:0,
 			show:false, 
 			show1:false,
 			day:new Date().toString().slice(0,15)
@@ -45,6 +46,7 @@ class  Profile extends Component {
                 else{
 					this.setState({
 						profile:response[0],
+						weight:response[0].weight.toFixed(0),
 						loss:response[0].goals.loss,
 						steps:response[0].goals.steps,
 						intake:response[0].goals.intake,
@@ -53,58 +55,175 @@ class  Profile extends Component {
 					console.log(this.state.profile);
 					console.log(this.state.profile.goals);
 					console.log(this.state.profile.goals.loss);
-
+					//if(response[0].updated.toDateString() !== new Date().toDateString()){
+						// $.ajax({
+						// 	url: `${API_URL}/profile/${currentUser}`,
+						// 	type: 'PUT',
+						// 	data: {weight: this.state.weight, height: this.state.height, loss:this.state.loss, steps:this.state.steps, intake:BMR, updated: new Date()},
+						// 	success: function(response){
+						// 		console.log(response);
+						// 		window.location.href = '/';
+						// 	} 
+						// })
+					//}
+					return (response[0]);
                 }
 
 			})
-			$.get(`${API_URL}/data/${currentUser}`)
-        	.then(response => {
-        	    if (response[0]== null){
-        	    }
-        	    else{
-					var Tcalories = 0;
-					var Tsteps = 0;
-					var Theartrate = 0;
-					var tot = 0
-					console.log(response[0]);
-					response[0].stepsperd.forEach(element => {
-						if(new Date(this.state.day).getDate() - new Date(element.time).getDate() < 7)
-						{
-							Tsteps = Tsteps + parseInt(element.stepsperd, 10)
-						}
-					});
-					response[0].heartrate.forEach(element => {
-						if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
-						{
-							Theartrate = Theartrate + parseInt(element.heartrate, 10)
-							tot = tot +1
-						}
-					});
-					response[0].calories.forEach(element => {
-						if(this.state.day == element.day)
-						{
-							Tcalories = parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10)
-						}
-					});
-					var calB = 0
-					var avgH = Theartrate/tot
-					var hours = new Date().getHours()
+			.then(res =>{
+				console.log("g")
+				console.log(res)
+				$.get(`${API_URL}/data/${currentUser}`)
+        		.then(response => {
+        		    if (response[0]== null){
+        		    }
+        		    else{
+						var Tcalories = 0;
+						var TcaloriesYesterday = 0;
+						var Tsteps = 0;
+						var Theartrate = 0;
+						var tot = 0
+						console.log(response[0]);
+						response[0].stepsperd.forEach(element => {
+							if(new Date(this.state.day).getDate() - new Date(element.time).getDate() < 7)
+							{
+								Tsteps = Tsteps + parseInt(element.stepsperd, 10)
+							}
+						});
+						response[0].heartrate.forEach(element => {
+							if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
+							{
+								Theartrate = Theartrate + parseInt(element.heartrate, 10)
+								tot = tot +1
+							}
+						});
+						response[0].calories.forEach(element => {
+							if(this.state.day === element.day)
+							{
+								if (element.breakfast !== null)
+								{
+									Tcalories = Tcalories + parseInt(element.breakfast, 10)
+								}
+								if (element.lunch !== null)
+								{
+									Tcalories = Tcalories + parseInt(element.lunch, 10)
+								}
+								if (element.dinner !== null)
+								{
+									Tcalories = Tcalories + parseInt(element.dinner, 10)
+								}
 
-					if (this.state.profile.gender === 'Male')
-					{
-						calB = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
+							}
+							if(new Date(new Date(this.state.day).setDate(new Date(this.state.day).getDate()-1)).toDateString() === new Date(element.day).toDateString())
+							{
+								if (element.breakfast !== null)
+								{
+									TcaloriesYesterday = TcaloriesYesterday + parseInt(element.breakfast, 10)
+								}
+								if (element.lunch !== null)
+								{
+									TcaloriesYesterday = TcaloriesYesterday + parseInt(element.lunch, 10)
+								}
+								if (element.dinner !== null)
+								{
+									TcaloriesYesterday = TcaloriesYesterday + parseInt(element.dinner, 10)
+								}
+								console.log(TcaloriesYesterday)
+							}
+
+
+						});
+						var calB = 0
+						var avgH = Theartrate/tot
+						var hours = new Date().getHours()
+
+						if (this.state.profile.gender === 'Male')
+						{
+							calB = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
+						}
+						else{
+							calB = ((-20.4022 + (0.4472*avgH) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*hours
+						}
+						calB = Math.round(calB)
+						this.setState({
+							calories: Tcalories,
+							caloriesEaten: TcaloriesYesterday,
+							stepsTaken: Tsteps,
+							Burned: calB
+						});
+						console.log(res)
+
+						return(res)
+        		    }
+				})
+				.then(res =>{
+					console.log(new Date(this.state.profile.updated).toDateString())
+					console.log(new Date().toDateString())
+					console.log(this.state)
+					if(new Date(this.state.profile.updated).toDateString() !== new Date().toDateString()){
+						$.get(`${API_URL}/data/${currentUser}`)
+        				.then(response => {
+        				    if (response[0]== null){
+        				    }
+        				    else{
+								var caloriesCal = false
+								var caloriesLost = 0
+        				        response[0].caloriesBurn.forEach(element =>{
+        				          var timestamp = new Date(element.time)
+								
+        				          if (timestamp.getDate() === new Date().getDate() - 1)
+        				          {
+									caloriesLost = element.caloriesBurn
+									caloriesCal = true
+        				          }							  
+								})
+								if (!caloriesCal)
+                				{
+                				  	var harr = []
+                				  	response[0].heartrate.forEach(element => {
+                				    	var timestamp = new Date(element.time)
+                				    	if (timestamp.getDate() === this.state.time.getDate() - 1)
+                				    	{
+                				    		harr.push(element.heartrate);
+                				    	}
+                					}); 
+                					const avg = this.arrSum(harr)/harr.length
+                					var val = 0;
+                					if (this.state.profile.gender === 'Male')
+									{
+										val = ((-55.0969 + (0.6309*avg) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*24
+									}
+                					else
+                					{
+									    val = ((-20.4022 + (0.4472*avg) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*24
+                					}
+									caloriesLost = val
+                					$.post(`${API_URL}/data/${currentUser}`, {caloriesBurn: val})
+                					.then((response) =>{
+	    	    					    if (response.success) {
+                					    	console.log(response);
+	    	    						}
+	    	    					});
+								}
+								return(caloriesLost)
+							}
+						})
+						.then(lost =>{
+							var w = this.state.profile.weight;
+							w = (this.state.caloriesEaten - lost)/3500 *0.45 + w
+							$.ajax({
+								url: `${API_URL}/profile/${currentUser}`,
+								type: 'PUT',
+								data: {weight: w, updated: new Date()},
+								success: function(response){
+									console.log(response);
+									window.location.href = '/';
+								} 
+							})
+						})
 					}
-					else{
-						calB = ((-20.4022 + (0.4472*avgH) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*hours
-					}
-					calB = Math.round(calB)
-					this.setState({
-						calories: Tcalories,
-						stepsTaken: Tsteps,
-						Burned: calB
-					});
-        	    }
-        	})
+				})
+			})
 		}
 		else{
 			const path = window.location.pathname;
@@ -199,7 +318,7 @@ class  Profile extends Component {
 							<li>Gender: {this.state.profile.gender}</li>
 							<li>Age: {this.state.profile.age}</li>
 							<li>Height: {this.state.profile.height}</li>
-							<li>Weight: {this.state.profile.weight}</li>
+							<li>Weight: {this.state.weight}</li>
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
 							<li>Goals</li>						
 							</ul> 
