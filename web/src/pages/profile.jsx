@@ -81,17 +81,22 @@ class  Profile extends Component {
 						var Tcalories = 0;
 						var TcaloriesYesterday = 0;
 						var Tsteps = 0;
+						var TstepsYesterday = 0;
 						var Theartrate = 0;
 						var tot = 0
 						console.log(response[0]);
 						response[0].stepsperd.forEach(element => {
-							if(new Date(this.state.day).getDate() - new Date(element.time).getDate() < 7)
+							if(new Date(this.state.day).getDate() === new Date(element.time).getDate())
 							{
 								Tsteps = Tsteps + parseInt(element.stepsperd, 10)
 							}
+							if(new Date(this.state.day).getDate()-1 === new Date(element.time).getDate())
+							{
+								TstepsYesterday = TstepsYesterday + parseInt(element.stepsperd, 10)
+							}
 						});
 						response[0].heartrate.forEach(element => {
-							if(new Date(this.state.day).getDate() == new Date(element.time).getDate())
+							if(new Date(this.state.day).getDate() === new Date(element.time).getDate())
 							{
 								Theartrate = Theartrate + parseInt(element.heartrate, 10)
 								tot = tot +1
@@ -112,7 +117,6 @@ class  Profile extends Component {
 								{
 									Tcalories = Tcalories + parseInt(element.dinner, 10)
 								}
-
 							}
 							if(new Date(new Date(this.state.day).setDate(new Date(this.state.day).getDate()-1)).toDateString() === new Date(element.day).toDateString())
 							{
@@ -130,8 +134,6 @@ class  Profile extends Component {
 								}
 								console.log(TcaloriesYesterday)
 							}
-
-
 						});
 						var calB = 0
 						var avgH = Theartrate/tot
@@ -148,6 +150,7 @@ class  Profile extends Component {
 						this.setState({
 							calories: Tcalories,
 							caloriesEaten: TcaloriesYesterday,
+							stepsTakenY: TstepsYesterday,
 							stepsTaken: Tsteps,
 							Burned: calB
 						});
@@ -214,7 +217,7 @@ class  Profile extends Component {
 							$.ajax({
 								url: `${API_URL}/profile/${currentUser}`,
 								type: 'PUT',
-								data: {weight: w, updated: new Date()},
+								data: {weight: w, points:this.state.stepsTakenY, updated: new Date()},
 								success: function(response){
 									console.log(response);
 									window.location.href = '/';
@@ -320,19 +323,18 @@ class  Profile extends Component {
 							<li>Height: {this.state.profile.height}</li>
 							<li>Weight: {this.state.weight}</li>
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
-							<li>Goals</li>						
 							</ul> 
-							<div class="friends">						
-								<Friendlist friends = {this.state.profile.friends}> </Friendlist>
-							</div>
+							<Button onClick={this.handleEdit}>  Edit  </Button>
 						</div>
+						<br/>
+						<div class="friends">						
+								<Friendlist friends = {this.state.profile.friends}> </Friendlist>
+						</div>
+						<br/>
 
-
-						<Button onClick={this.handleEdit}>Edit</Button>
-
-						<div>Goals</div>
-						<Goals weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
-
+						<h3>Goals</h3>
+						<Goals target = {this.state.loss} weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
+						<br/>
 						<Button variant="secondary" onClick={this.handleGoals}>Add Goals</Button>
 					</div>
 					 
@@ -381,10 +383,6 @@ class  Profile extends Component {
                             <Form.Group controlId="steps">
                                 <Form.Label>Daily Steps Goal</Form.Label>
                                 <Form.Control placeholder="Steps to walk" onChange={this.handleChange}/>
-                            </Form.Group>
-							<Form.Group controlId="intake">
-                                <Form.Label>Calorie Intake Goal</Form.Label>
-                                <Form.Control placeholder="Calories of daily diet" onChange={this.handleChange}/>
                             </Form.Group>
                             <Button variant="primary" onClick={this.handleSubmit}>
                                 Submit
