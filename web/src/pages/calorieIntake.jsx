@@ -396,7 +396,7 @@ class CalorieIntake extends Component {
 					success: function(response){
 						console.log(response);
 						console.log(value);
-						window.location.href = '/calorieIntake';
+						// window.location.href = '/calorieIntake';
 					} 
 				})
 			}
