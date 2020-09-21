@@ -175,7 +175,7 @@ class  Profile extends Component {
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
 							<li>Goals</li>						
 							</ul> 
-							<div class="friends">						
+							<div className="float-right friends">						
 								<Friendlist friends = {this.state.profile.friends}> </Friendlist>
 							</div>
 						</div>
