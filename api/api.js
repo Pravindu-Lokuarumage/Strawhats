@@ -208,7 +208,7 @@ app.get('/api/review', (req, res) => {
  * }
  * */
 app.post('/api/data/:user', (req, res) => {
-    const {heartrate,stepsperd} = req.body;
+    const {heartrate,stepsperd,caloriesBurn} = req.body;
     const { user } = req.params;
     Data.findOne({ user: user}, (error, username) => {
         if (username == null) {
@@ -225,13 +225,15 @@ app.post('/api/data/:user', (req, res) => {
             })
         } else {
             const time = new Date();
-            var exist = false;
             if (heartrate !== undefined){
                 username.heartrate.push({heartrate, time});
             }
-
             if (stepsperd !== undefined){
                 username.stepsperd.push({stepsperd, time});
+            }
+            if (caloriesBurn !== undefined){
+                time.setDate(time.getDate()-1)
+                username.caloriesBurn.push({caloriesBurn, time});
             }
             username.save(err =>{
                 return err
@@ -282,7 +284,7 @@ app.put('/api/data/calories/:user', (req, res) => {
     })
 })
 app.put('/api/profile/:user', (req, res) => {
-    var {height, weight, loss, steps, intake} = req.body;
+    var {height, weight, loss, steps, intake,points,updated} = req.body;
     const { user } = req.params;
     Profile.findOne({ user: user}, (error, username) => {
         if (username !== null) {
@@ -306,12 +308,20 @@ app.put('/api/profile/:user', (req, res) => {
             {
                 intake = username.goals.intake
             } 
+            if(points === undefined)
+            {
+                points = username.points
+            } 
+            if(updated === undefined)
+            {
+                updated = username.updated
+            }
             let goals = {
                 loss: loss,
                 steps: steps,
                 intake:intake
             }        
-            condition = {height: height, weight: weight, goals: goals}
+            condition = {height: height, weight: weight, goals: goals,points:points, updated:updated}
             username.update(condition)
             .then(doc =>{
                 if (!doc) {return res.status(404).end();}
@@ -420,6 +430,7 @@ app.post('/api/registration', (req, res) => {
  * */
 app.post('/api/profile', (req, res) =>{
     const {user, name, height, weight, age, gender} = req.body;
+    const day = new Date()
     const NewProfile = new Profile({
         user,
         name,
@@ -432,7 +443,9 @@ app.post('/api/profile', (req, res) =>{
             loss:0,
             steps:0,
             intake:0
-        }
+        },
+        points:0,
+        updated: day
     });
     NewProfile.save(err =>{
         return err

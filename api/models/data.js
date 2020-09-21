@@ -3,5 +3,6 @@ module.exports = mongoose.model('data', new mongoose.Schema({
     user: String,
     heartrate: Array,
     stepsperd: Array,
-    calories: Array
+    calories: Array,
+    caloriesBurn:Array
 }));
