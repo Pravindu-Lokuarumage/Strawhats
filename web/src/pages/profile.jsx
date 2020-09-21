@@ -36,6 +36,11 @@ class  Profile extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleGoals = this.handleGoals.bind(this);
 	}
+	arrSum = function(arr){
+		return arr.reduce(function(a,b){
+		  return Number(a) + Number(b)
+		}, 0);
+	}
 	componentDidMount(){
 		if (currentUser){
 			$.get(`${API_URL}/profile/${currentUser}`)
@@ -180,17 +185,25 @@ class  Profile extends Component {
 									caloriesCal = true
         				          }							  
 								})
+								console.log(caloriesCal)
+
 								if (!caloriesCal)
                 				{
                 				  	var harr = []
                 				  	response[0].heartrate.forEach(element => {
-                				    	var timestamp = new Date(element.time)
-                				    	if (timestamp.getDate() === this.state.time.getDate() - 1)
+										var timestamp = new Date(element.time)
+										console.log(timestamp)
+										
+                				    	if (timestamp.getDate() === new Date().getDate() - 1)
                 				    	{
                 				    		harr.push(element.heartrate);
                 				    	}
                 					}); 
-                					const avg = this.arrSum(harr)/harr.length
+									var avg = this.arrSum(harr)/harr.length
+									if (harr.length === 0){
+										avg = 65
+									}
+									
                 					var val = 0;
                 					if (this.state.profile.gender === 'Male')
 									{
@@ -199,19 +212,25 @@ class  Profile extends Component {
                 					else
                 					{
 									    val = ((-20.4022 + (0.4472*avg) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*24
-                					}
+									}
+									
 									caloriesLost = val
-                					$.post(`${API_URL}/data/${currentUser}`, {caloriesBurn: val})
+
+									console.log(caloriesLost)
+									
+                					$.post(`${API_URL}/data/${currentUser}`, {caloriesBurn: caloriesLost})
                 					.then((response) =>{
 	    	    					    if (response.success) {
                 					    	console.log(response);
 	    	    						}
 	    	    					});
 								}
+
 								return(caloriesLost)
 							}
 						})
 						.then(lost =>{
+							console.log(lost)
 							var w = this.state.profile.weight;
 							w = (this.state.caloriesEaten - lost)/3500 *0.45 + w
 							$.ajax({
