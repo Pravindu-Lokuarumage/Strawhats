@@ -343,6 +343,9 @@ class  Profile extends Component {
 							<li>Weight: {this.state.weight}</li>
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
 							</ul> 
+							<div className="float-right friends">						
+								<Friendlist friends = {this.state.profile.friends}> </Friendlist>
+							</div>
 							<Button onClick={this.handleEdit}>  Edit  </Button>
 						</div>
 						<br/>

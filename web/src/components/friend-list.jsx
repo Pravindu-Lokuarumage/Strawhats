@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import $, { uniqueSort } from 'jquery';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
-
+var count = 0;
 class FriendList extends Component { 
     constructor(props){
         super(props)
@@ -43,12 +43,18 @@ class FriendList extends Component {
       <Card>
         <div>
             <h3>Friends</h3>
-            {this.state.profiles.map(profiles => {
+
+            {this.state.profiles.map(profiles => {             
                 if(this.state.list.includes(profiles.user)){
+                    // count = count + 1;
+                    // console.log(count);
+                    // console.log(profiles.user);
                     return(
                     <div>
-                        {profiles.user}
-                        <button type="button" name="button" className="viewfrnd_btn" id ={profiles.user} onClick={()=>this.handleClick_view(profiles.user)}>View Profile</button>
+                        {/* {count} */}
+                        
+                        <button type="button" name="button" className="viewfrnd_btn" id ={profiles.user} onClick={()=>this.handleClick_view(profiles.user)}>{profiles.user}</button>
+                        ---{profiles.points}
                     </div>
                     )
                 }
@@ -56,6 +62,7 @@ class FriendList extends Component {
                     return(
                     <div>
                         {profiles.user}
+                        ---{profiles.points}
                     </div>
                     )
                 }
