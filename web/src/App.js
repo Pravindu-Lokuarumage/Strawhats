@@ -14,6 +14,7 @@ import Login from './pages/login';
 import AddFriends from './pages/add-friends';
 import FriendProfile from './pages/friend-profile';
 import Dashboard from './pages/dashboard'
+import Activities from './pages/activities'
 
 class App extends Component {  
   render () {
@@ -23,6 +24,7 @@ class App extends Component {
         <Route exact path="/" component = {Profile}/>
         <Route exact path="/create" component = {NewProfile}/>
         <Route exact path="/info" component = {Info}/>
+        <Route exact path="/activities" component = {Activities}/>
         <Route exact path="/about-me" component = {AboutUe}/>
         <Route exact path="/login" component = {Login}/>
         <Route exact path="/features" component = {Features}/>
