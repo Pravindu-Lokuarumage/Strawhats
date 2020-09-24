@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Chart from '../components/chart';
 import $ from "jquery";
+import '../myStyle.css'
 import Calories from '../components/calCalories';
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
@@ -21,6 +22,7 @@ class Info extends Component {
         this.handlePrevious = this.handlePrevious.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleToday = this.handleToday.bind(this);
+        this.dropdownInfo = this.dropdownInfo.bind(this);
 
     }
     handlePrevious(){
@@ -131,8 +133,6 @@ class Info extends Component {
 	    	          	}
 	    	          });
                 }
-
-
                 response[0].heartrate.forEach(element => {
                   var timestamp = new Date(element.time)
                   if (timestamp.getDate() == this.state.time.getDate())
@@ -230,6 +230,16 @@ class Info extends Component {
             }
         })
     }
+    handleClick = (e) => {
+      if (this.node.contains(e.target))
+      {
+        return;
+      }
+      this.handleClickOutside();
+    }
+    dropdownInfo(){
+      document.getElementById("myDropdownInfo").classList.toggle("show");
+    }
     render(){
         return(
             <div>
@@ -238,13 +248,24 @@ class Info extends Component {
                 <h3>Daily Calories Burned</h3>
                 <Calories heartrate={this.state.hData} profile={this.state.profile} day={this.state.time}></Calories>
               </div>
-              <div className='container'>
+              {/* <div className='container'>
                 <button onClick={() => this.handlePrevious()}>Previous Day</button>
                 <button onClick={() => this.handleToday()}>Today</button>
                 <button onClick={() => this.handleNext()}>Next Day</button>
                 <div>Day - <span>{this.state.time.getDate()}/{this.state.time.getMonth()}/{this.state.time.getFullYear()}</span></div>
-
-              </div>
+              </div> */}
+              <div className="dropdownInfo" ref={node => this.node = node}>
+									<button onClick={() => this.dropdownInfo()} className="dropbtnInfo">Monthly Graphs</button>
+									<div id="myDropdownInfo" className="dropdown-contentInfo">
+										{/* <button onClick={() => this.handleMonth()} className="handleM">This Month</button>
+										<button onClick={() => this.prevMonth()} className="handlePM">Previous Month</button>
+										<button onClick={() => this.nextMonth()} className="handleNM">Next Month</button> */}
+                    <button onClick={() => this.handlePrevious()} className='handleDay'>Previous Day</button>
+                    <button onClick={() => this.handleToday()} className='handleTDay'>Today</button>
+                    <button onClick={() => this.handleNext()} className='handleNDay'>Next Day</button>
+									</div>
+								</div>
+              <div>Day - <span>{this.state.time.getDate()}/{this.state.time.getMonth()}/{this.state.time.getFullYear()}</span></div>
               <div className='container'>
                 <Chart title="Daily Heart Rate" chartData={this.state.hchartData}/>
               </div>
