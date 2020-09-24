@@ -42,19 +42,18 @@ class FriendList extends Component {
     return(
       <Card>
         <div>
-            <h3>Friends</h3>
+            <h3>Friends Ranking</h3>
 
-            {this.state.profiles.map(profiles => {             
-                if(this.state.list.includes(profiles.user)){
-                    // count = count + 1;
-                    // console.log(count);
+            {this.state.profiles.map(profiles => {    
+                 console.log(count);        
+                if(this.state.list.includes(profiles.user)){ 
+                    count = count + 1;                   
+                    console.log(count);
                     // console.log(profiles.user);
                     return(
-                    <div>
-                        {/* {count} */}
-                        
-                        <button type="button" name="button" className="viewfrnd_btn" id ={profiles.user} onClick={()=>this.handleClick_view(profiles.user)}>{profiles.user}</button>
-                        ---{profiles.points}
+                    <div>                       
+                        <button type="button" name="button" className="btn-primary" id ={profiles.user} onClick={()=>this.handleClick_view(profiles.user)}>{profiles.user}</button>
+                        <p class="text-right">Points---{profiles.points}</p>
                     </div>
                     )
                 }
@@ -62,7 +61,7 @@ class FriendList extends Component {
                     return(
                     <div>
                         {profiles.user}
-                        ---{profiles.points}
+                        <p class="text-right">Points---{profiles.points}</p>
                     </div>
                     )
                 }
