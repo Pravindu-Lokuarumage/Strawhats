@@ -3,7 +3,7 @@
 .user_card {
     height: 600px;
     width: 450px;
-    margin-top: auto;
+    margin-top: 60px;
     margin-bottom: auto;
     background: orange;
     position: relative;
@@ -265,3 +265,9 @@
     background-color: orange;
 }
 /*------------------------ABOUT_US_PAGE---------------------*/
+
+/*------------------------ADD_FRIENDS---------------------*/
+
+.body {
+    background: linear-gradient(to right, #f09206f1, #79786c75);
+}

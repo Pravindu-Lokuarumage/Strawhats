@@ -482,7 +482,7 @@ app.post('/api/profile', (req, res) =>{
     })
 });
 app.post('/api/event/:user', (req, res) =>{
-    const {start,end,name,data} = req.body;
+    const {start,end,name,data,type} = req.body;
     const { user } = req.params;
     Event.findOne({ name: name}, (error, event) => {
         if (event == null) {
@@ -491,6 +491,7 @@ app.post('/api/event/:user', (req, res) =>{
                 users:[user],
                 start,
                 end,
+                type,
                 data:[]
             });
             NewEvent.save(err =>{

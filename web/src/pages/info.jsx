@@ -242,17 +242,29 @@ class Info extends Component {
     }
     render(){
         return(
+          <div class="body">
             <div>
               <div id="navbar"><Navbar></Navbar></div>
               <div>
-                <h3>Daily Calories Burned</h3>
-                <Calories heartrate={this.state.hData} profile={this.state.profile} day={this.state.time}></Calories>
+              <div className="col-lg-7 mx-auto text-dark text-center pt-2">
+           		 <h3 className="display-4">DAILY CALORIES AND HEARTRATE</h3>
+          		</div>
+              <br></br>
+              <div className="text-center">
+              <h6>Calories burned today:- <Calories heartrate={this.state.hData} profile={this.state.profile} day={this.state.time}></Calories></h6>
               </div>
+<<<<<<< HEAD
               {/* <div className='container'>
+=======
+              </div>
+              <div className='text-center'>
+              <br></br>
+>>>>>>> e43282c3cf513cc802358167938815a515d80b39
                 <button onClick={() => this.handlePrevious()}>Previous Day</button>
                 <button onClick={() => this.handleToday()}>Today</button>
                 <button onClick={() => this.handleNext()}>Next Day</button>
                 <div>Day - <span>{this.state.time.getDate()}/{this.state.time.getMonth()}/{this.state.time.getFullYear()}</span></div>
+<<<<<<< HEAD
               </div> */}
               <div className="dropdownInfo" ref={node => this.node = node}>
 									<button onClick={() => this.dropdownInfo()} className="dropbtnInfo">Monthly Graphs</button>
@@ -267,15 +279,21 @@ class Info extends Component {
 								</div>
               <div>Day - <span>{this.state.time.getDate()}/{this.state.time.getMonth()}/{this.state.time.getFullYear()}</span></div>
               <div className='container'>
+=======
+
+              </div>
+              <div className="col-md-8" >
+>>>>>>> e43282c3cf513cc802358167938815a515d80b39
                 <Chart title="Daily Heart Rate" chartData={this.state.hchartData}/>
               </div>
-              <div className='container'>
+              <div className='col-md-8 float-right'>
                 <Chart title="Daily Steps" chartData={this.state.schartData}/>              
               </div>
               <div className='container'>
                 <Chart title="Calories Burned" chartData={this.state.cchartData}/>              
               </div>
               <div id="footer"><Footer></Footer></div>
+            </div>
             </div>
         );
     }

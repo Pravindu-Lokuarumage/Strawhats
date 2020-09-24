@@ -11,10 +11,12 @@ class Friend extends Component {
   render(){
     return(
       <Card>
-        <div>{this.props.user}</div>
-        <div>{this.props.gender}</div>
-        <div>{this.props.age}</div>
-      </Card>            
+        <div class="card bg-secondary text-white">
+        <div>Name:- {this.props.user}</div>
+        <div>Gender:- {this.props.gender}</div>
+        <div>Age:-    {this.props.age}</div>
+        </div>
+      </Card>        
     );
   }
     

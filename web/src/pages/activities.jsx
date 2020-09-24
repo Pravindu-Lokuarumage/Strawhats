@@ -4,9 +4,16 @@ import Footer from '../components/footer';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Accordion  from 'react-bootstrap/Accordion';
+import EventModal from '../components/eventModal';
+import EventModal2 from '../components/eventModalOther';
 import Goals from '../components/goals'
 import $ from "jquery";
 import Event from '../components/event';
+import AccordianElement from '../components/accordionElement'
 
 // const API_URL = 'http://localhost:5000/api';
 const API_URL = 'https://api-cyan-six.vercel.app/api';
@@ -23,10 +30,10 @@ class  Activities extends Component {
             profile:{},
             friends:[],
             show:false,
+            type:"jogging",
             msg:""
         };
         this.handleNew = this.handleNew.bind(this);
-        this.handleJoin = this.handleJoin.bind(this);
         this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -47,15 +54,7 @@ class  Activities extends Component {
 	handleShow(){
 		this.setState({show:true})
     }
-    handleJoin(event){
-        $.post(`${API_URL}/event/${currentUser}`, {user: event.target.user, name: event.target.name})
-		.then((response) =>{
-			console.log(response)
-			if (response.success) {
-				window.location.href="/activities"			
-			}
-		});
-    }
+    
     handleNew(){
         if(new Date(this.state.end).getTime()>new Date(this.state.start).getTime()){
             if (new Date()<new Date(this.state.start).getTime()){
@@ -65,7 +64,7 @@ class  Activities extends Component {
                 }
                 else{
 
-                    $.post(`${API_URL}/event/${currentUser}`, {start: this.state.start, end: this.state.end, name: this.state.name})
+                    $.post(`${API_URL}/event/${currentUser}`, {start: this.state.start, end: this.state.end, name: this.state.name, type:this.state.type})
                     .then((response) =>{
                 	    console.log(response)
                 	    if (response.success) {
@@ -105,52 +104,89 @@ class  Activities extends Component {
                 <div className="container">
 					<h1>Activities</h1>
 					<div class="event">
-                    {this.state.events.map(event => {
-                        var a = event.users.includes(currentUser);
-                        if (a){
-                            return(
-                                <div>
-                                    <Event key={event._id} users ={event.users} name={event.name} start = {event.start} end ={event.end}></Event> 
-                                </div>
-                            )
-                        }                                           
-                    })}
-					<p>friends events</p>
-                    {this.state.events.map(event => {
-                        this.state.friends.values()
-                        var a = false;
-                        var b = false;
-                        for (let index = 0; index < this.state.friends.length; index++) {
-                            const element = this.state.friends[index];
-                            a = event.users.includes(element);  
+                    <Accordion>
+                        {this.state.events.map(event => {
+                            var a = event.users.includes(currentUser);
                             if (a){
-                                a = !event.users.includes(currentUser);
-                                break;
-                            }                          
-                        }
-                        b = new Date().getTime() < new Date(event.start).getTime();
-                        if (a){
-                            if (b){
                                 return(
-                                    <div>
-                                        <Event key={event._id} users ={event.users} name={event.name} start = {event.start} end ={event.end}></Event>
-                                        <Button id={event.users} name={event.name} onClick={this.handleJoin}>Join</Button> 
-                                    </div>
+                                    <AccordianElement key={event._id} type={event.type} users ={event.users} user = {currentUser} name={event.name} start = {event.start} end ={event.end}></AccordianElement>
                                 )
+                            }                                           
+                        })}
+                    </Accordion>
+					<h3>Friends events</h3>
+                    <Row>
+                        <Col>
+                    <h4>Future events</h4>
+                        {this.state.events.map(event => {
+                            this.state.friends.values()
+                            var a = false;
+                            var b = false;
+                            for (let index = 0; index < this.state.friends.length; index++) {
+                                const element = this.state.friends[index];
+                                a = event.users.includes(element);  
+                                if (a){
+                                    a = !event.users.includes(currentUser);
+                                    break;
+                                }                          
+                            }
+                            b = new Date().getTime() < new Date(event.start).getTime();
+                            if (a){
+                                if (b){
+                                    return(
+                                        <Row>
+                                            <Col>
+                                                {event.name} - 
+                                            </Col>
+                                            <Col>
+                                                <EventModal2 key={event._id} users ={event.users} name={event.name} start = {event.start} end ={event.end}></EventModal2>
+                                            </Col>
+                                        </Row>
+                                        
+                                    )
 
+                                }
+
+                            }                                           
+                        })}
+                        </Col>
+                        <Col>
+					<h4>Past events</h4>
+                    
+                        {this.state.events.map(event => {
+                            this.state.friends.values()
+                            var a = false;
+                            var b = false;
+                            for (let index = 0; index < this.state.friends.length; index++) {
+                                const element = this.state.friends[index];
+                                a = event.users.includes(element);  
+                                if (a){
+                                    a = !event.users.includes(currentUser);
+                                    break;
+                                }                          
                             }
-                            else{
-                                return(
-                                    <div>
-                                        <Event key={event._id} users ={event.users} name={event.name} start = {event.start} end ={event.end}></Event>
-                                    </div>
-                                )
-                            }
-                            
-                        }                                           
-                    })}
+                            b = new Date().getTime() < new Date(event.start).getTime();
+                            if (a){
+                                if (!b){
+                                    return(
+
+                                        <Row>
+                                            <Col>
+                                                {event.name} - 
+                                            </Col>
+                                            <Col>
+                                                <EventModal key={event._id} users ={event.users} name={event.name} start = {event.start} end ={event.end}></EventModal>
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+
+                            }                                           
+                        })}
+                        </Col>
+                    </Row>
 					</div>
-					 <div>Create Event</div>
+					 <h3>Create Event</h3>
                      <Button onClick={this.handleShow}>Create Event</Button>
 				</div>
 			    <div id="footer"><Footer></Footer></div>
@@ -171,6 +207,14 @@ class  Activities extends Component {
                             <Form.Group controlId="end">
                                 <Form.Label>End Time</Form.Label>
                                 <Form.Control required type="datetime-local" onChange={this.handleChange}/>
+                            </Form.Group>
+                            <Form.Group controlId="type">
+                                <Form.Label>Event Type</Form.Label>
+                                <Form.Control as="select"required type="text" onChange={this.handleChange}>
+                                  <option>Jogging</option>
+                                  <option>Swimming</option>
+                                  <option>Cycling</option>
+                                </Form.Control>
                             </Form.Group>
                             <Button variant="primary" onClick={this.handleNew}>
                                 Submit

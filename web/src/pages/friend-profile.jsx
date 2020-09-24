@@ -102,28 +102,44 @@ class  FriendProfile extends Component {
 		return(
             //page html
         	<div>
-                <div className="container">
-					<div id="navbar"><Navbar></Navbar></div>
-                    <div>
-                    <div class="profile">
-						<div class="image">
-							<img src="https://cdn1.vectorstock.com/i/1000x1000/43/45/male-and-female-avatar-profile-picture-silhouette-vector-4684345.jpg" class="float-right" alt="profile avatar" width="220" height="160"></img>
-							<h2>Dashboard </h2>
-							<ul>
-							<li>Name: {this.state.profile.name}</li>
-							<li>Gender: {this.state.profile.gender}</li>
-							<li>Age: {this.state.profile.age}</li>
-							</ul> 
-						</div>
+                <div class="body">
+                <div id="navbar"><Navbar></Navbar></div>
+                <div className="container">					
+                    
+				<div className="row">
+          		<div className="col-lg-7 mx-auto text-white text-center pt-5">
+           		 <h1 className="display-5">Dashboard</h1>
+          		</div>
+				  </div>
+				  
+				  <div className="bg-white shadow rounded overflow-hidden">
+					  
+        			<div className="px-4 pt-0 pb-4 bg-dark">
+         				 <div className="media align-items-end profile-header"> 
+						            
+            				<div className="media-body mb-5 text-white">
+								<br></br>
+							<img src="https://www.iconfinder.com/data/icons/professional-avatar-5/48/manager_male_avatar_men_character_professions-512.png" class="float-right" alt="profile avatar" width="220" height="200"></img>
+              			<h4 className="mt-0 mb-0">{this.state.profile.name}</h4>
+						  <br></br>
+              		<p className="medium mb-4"> <i className="fa fa-map-marker mr-2" />Gender: {this.state.profile.gender}</p>
+					  <p className="medium mb-4"> <i className="fa fa-map-marker mr-2" />Age: {this.state.profile.age}</p>
 
-						<div>Goals</div>
-						<Goals target = {this.state.loss} weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
-
+                     <br></br><br></br><br></br> 
+                      <div>Goals</div>
+						<Goals target = {this.state.loss} weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>  
 					</div>
+            		</div>
+					
+          			</div>
+        		</div>
+                    
                     </div>
-			    <div id="footer"><Footer></Footer></div>
+			    
 				</div>
-        	</div>
+        	
+            <div id="footer"><Footer></Footer></div>
+            </div>
     	);
 	}
     

@@ -5,6 +5,7 @@ import $ from "jquery";
 import Friend from '../components/friend';
 
 
+
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 const currentUser = localStorage.getItem('user');
 
@@ -57,26 +58,33 @@ class  AddFriends extends Component {
 		return(
             //page html
         	<div>
+                <div class="body">
+                <div id="navbar"><Navbar></Navbar></div>
+                
                 <div className="container">
-					<div id="navbar"><Navbar></Navbar></div>
-                    <h1>Add Friends</h1>
+					
+                <div className="col-lg-7 mx-auto text-white text-center pt-2">
+           		 <h3 className="display-4">DISCOVER</h3>
+          		</div>
                     <div >
-                    <div class="profiles">						
+                   
+                    <div class="profiles">
                         {this.state.profile.map(friends =>{
                         if(friends.user !== currentUser && (this.state.user === undefined ||this.state.user.indexOf(friends.user) === -1 )){
                             return(<div>
-                            <Friend key={friends._id} user={friends.user}></Friend> 
-                            <button type="button" name="button" className="viewfrnd_btn" id ={friends.user} onClick={()=>this.handleClick_view(friends.user)}>View Profile</button>
-                            <button type="button" name="button" className="addfrnd_btn"  id ={friends.user} onClick={()=>this.handleClick_add(friends.user)}>Add Friend</button>   
+                            <Friend key={friends._id} user={friends.user} age = {friends.age} gender = {friends.gender}></Friend> 
+                            <button type="button" name="button" className="float-right btn btn-dark " id ={friends.user} onClick={()=>this.handleClick_view(friends.user)}>View Profile </button>
+                            <button type="button" name="button" className="btn btn-dark"  id ={friends.user} onClick={()=>this.handleClick_add(friends.user)}>Add Friend</button>                            
                             </div>)                      
                             }   
-    })}	                        
-                                               			
-					</div>
+    })}	                                                                   			
+                    </div>	
                     </div>
-			    <div id="footer"><Footer></Footer></div>
-				</div>
+			    
         	</div>
+            </div>
+            <div id="footer"><Footer></Footer></div>
+				</div>
     	);
 	}
     

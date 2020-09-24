@@ -8,7 +8,7 @@ import '../myStyle.css'
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 // const API_URL = 'http://localhost:5000/api';
-class Login extends Component {
+class Change extends Component {
 
 	constructor(props){
 		super(props)
@@ -20,22 +20,30 @@ class Login extends Component {
 	}
 
 	handleClick(){
-		//login funtionality
+        var a = false;
 		const user = $('#user').val();
-		const password = $('#password').val();
-		$.post(`${API_URL}/authenticate`, { user, password })
-		.then((response) =>{
-			if (response.success) {
-				localStorage.setItem('user', user);
-				localStorage.setItem('isAuthenticated', true);
-				window.location.href = '/';
-			} 	else {
-					this.setState({
-						msg: response.error,
-						className:"alert alert-danger"
-				});
-			}
-		});
+        const password = $('#password').val();
+        const new_password = $('#new_password').val();
+        $.ajax({
+            url: `${API_URL}/change/password`,
+            type: 'PUT',
+            data: {user: user, password: password, new_password: new_password},
+            success: function(response){
+                console.log(response);
+                if(response.error)
+                {
+                    a = true;
+                    
+                }
+                else{
+                    window.location.href = '/login';
+                }              
+            } 
+        }).then((response)=>{
+            this.setState({
+            msg: response.error,
+            className:"alert alert-danger"
+        });})
 	}
 	render(){
 		return(
@@ -60,20 +68,23 @@ class Login extends Component {
                   <div className="input-group-append">
                     <span className="input-group-text"><i className="fas fa-key" /></span>
                   </div>
-                  <input type="password" className="form-control " placeholder="Password" id="password" />
+                  <input type="password" className="form-control " placeholder="Old-Password" id="password" />
+                </div>
+                <div className="input-group mb-2">
+                  <div className="input-group-append">
+                    <span className="input-group-text"><i className="fas fa-key" /></span>
+                  </div>
+                  <input type="password" className="form-control " placeholder="New-Password" id="new_password" />
                 </div>
                 <div className="d-flex justify-content-center mt-3 login_container">
-                  <button type="button" name="button" className="btn login_btn" onClick={this.handleClick}>Login</button>
+                  <button type="button" name="button" className="btn login_btn" onClick = {() => this.handleClick()}>Change</button>
                 </div>
               </form>
             </div>
             <div className="mt-4">
-              <div className="d-flex justify-content-center links">
+              {/* <div className="d-flex justify-content-center links">
                 <h6>Don't have an account? <a href="/registeration">Register here</a></h6>
-                </div>
-                <div className="d-flex justify-content-center links">
-                <h6>Want to <a href="/changepw">change password?</a></h6>
-                </div>
+                </div> */}
                 <div id="message" className="d-flex justify-content-center links">
 					        <div className="{this.state.className}">
                     {this.state.msg}
@@ -88,4 +99,4 @@ class Login extends Component {
 	
 }
 
-export default Login;
+export default Change;
