@@ -344,17 +344,17 @@ class  Profile extends Component {
 							<li>BMI: {this.state.profile.weight/(this.state.profile.height*this.state.profile.height)*10000}</li>
 							</ul> 							
 							<Button onClick={this.handleEdit}>  Edit  </Button>
-						</div>
-						
+						</div>						
 						<div className="float-right friends">						
 							<Friendlist friends = {this.state.profile.friends}> </Friendlist>
 						</div>
-						
-
+						<br></br>
+						<br></br><br></br>
 						<h3>Goals</h3>
 						<Goals target = {this.state.loss} weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
 						<br/>
 						<Button variant="secondary" onClick={this.handleGoals}>Add Goals</Button>
+						<br></br>
 					</div>
 					 
 				</div>
