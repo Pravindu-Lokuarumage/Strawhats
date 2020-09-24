@@ -40,7 +40,7 @@ class Login extends Component {
 	render(){
 		return(
 			<div className="container h-100">
-        <div id="navbar"><Navbar></Navbar></div>
+        {/* <div id="navbar"><Navbar></Navbar></div> */}
         <div className="d-flex justify-content-center h-100">
           <div className="user_card">
             <div className="d-flex justify-content-center">
@@ -70,6 +70,9 @@ class Login extends Component {
             <div className="mt-4">
               <div className="d-flex justify-content-center links">
                 <h6>Don't have an account? <a href="/registeration">Register here</a></h6>
+                </div>
+                <div className="d-flex justify-content-center links">
+                <h6>Want to <a href="/changepw">change password?</a></h6>
                 </div>
                 <div id="message" className="d-flex justify-content-center links">
 					        <div className="{this.state.className}">
