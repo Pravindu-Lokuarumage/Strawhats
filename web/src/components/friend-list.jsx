@@ -42,6 +42,7 @@ class FriendList extends Component {
     return(
       <Card>
         <div>
+        <div class="card bg-secondary text-white">
             <h3>Friends Ranking</h3>
 
             {this.state.profiles.map(profiles => {    
@@ -52,8 +53,8 @@ class FriendList extends Component {
                     // console.log(profiles.user);
                     return(
                     <div>                       
-                        <button type="button" name="button" className="btn-primary" id ={profiles.user} onClick={()=>this.handleClick_view(profiles.user)}>{profiles.user}</button>
-                        <p class="text-right">Points---{profiles.points}</p>
+                        <button type="button" name="button" className="btn btn-dark" id ={profiles.user} onClick={()=>this.handleClick_view(profiles.user)}>{profiles.user}</button>
+                        <p class="text-right">Points:--{profiles.points}</p>
                     </div>
                     )
                 }
@@ -61,11 +62,12 @@ class FriendList extends Component {
                     return(
                     <div>
                         {profiles.user}
-                        <p class="text-right">Points---{profiles.points}</p>
+                        <p class="text-right">Points:--{profiles.points}</p>
                     </div>
                     )
                 }
             })}
+        </div>
         </div>
       </Card>            
     );
