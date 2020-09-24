@@ -15,7 +15,7 @@ class Features extends Component {
             window.location.href="/calorieIntake";				                
         }
         handleClick_act(){
-            window.location.href="/Activities";				                
+            window.location.href="/trackMe";				                
         }
         
 
