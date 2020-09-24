@@ -21,7 +21,7 @@ class Chart extends Component {
     } 
   render(){
     return(
-        <Card>
+        <Card className='bg-dark'>
           <Card.Header>
               <Row>
                   <Col>
