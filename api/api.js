@@ -374,6 +374,22 @@ app.post('/api/authenticate', (req, res) => {
         }
     })
 })
+app.put('/api/change/password', (req, res) => {
+    const { user, password, new_password } = req.body;
+    User.findOne({ user, password }, (error, username) => {
+        if (username == null) {
+            return res.json({ error: "Incorrect username or password", user: user })
+        } 
+        else {
+            username.update({password:new_password})
+            .then(doc =>{
+                if (!doc) {return res.status(404).end();}
+                return res.status(200).json(doc)
+            })
+            .catch(err => next(err));
+        }
+    })
+})
 /**
  * @api {post} /api/registration    posts user and password into database
  * @apiName RegisterUser
