@@ -94,34 +94,16 @@
     font-family: 'Times New Roman', Times, serif;
 }
 /*------------------------FEATURES_PAGE---------------------*/
-
-/*------------------------INFO(Vitals)_PAGE---------------------*/
-.dropbtnInfo{
-    background-color: #3498DB;
+.handlePday, .handleTday, .handleNday{
+    background-color:  rgb(86, 163, 218);
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
   }
-  .dropbtnInfo:hover, .dropbtn:focus {
-    background-color: #2980B9;
-  }
-  .dropdownInfo {
-    position: relative;
-    display: inline-block;
-  }
-  .dropdown-contentInfo{
-    display: none;
-    position: absolute;
-    background-color:rgb(86, 163, 218);
-    min-width: 120px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  .dropdownInfo a:hover {background-color: #ddd;}
-.show {display: block;}
+/*------------------------INFO(Vitals)_PAGE---------------------*/
+
 /*------------------------INFO(Vitals)_PAGE---------------------*/
 
 /*------------------------Calorie_Intake_Page---------------------*/
