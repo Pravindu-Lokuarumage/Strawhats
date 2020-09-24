@@ -12,6 +12,7 @@ import EventModal from '../components/eventModal';
 import EventModal2 from '../components/eventModalOther';
 import Goals from '../components/goals'
 import $ from "jquery";
+import '../myStyle.css'
 import Event from '../components/event';
 import AccordianElement from '../components/accordionElement'
 
@@ -99,25 +100,30 @@ class  Activities extends Component {
 	}
 	render(){
 		return(
-        	<div>
+        	<div className='body'>
 				<div id="navbar"><Navbar></Navbar></div>
-                <div className="container">
-					<h1>Activities</h1>
+                <div className="container text-white">
+                <h1 className='text-center display-4'>Events</h1>
+                    <div className='text-center Cevent'>
+                    <h3>Create Event</h3>
+                    <Button onClick={this.handleShow}>Create Event</Button>
+                    </div>
+                    <h3 className='text-center'> Joined Events </h3>
 					<div class="event">
-                    <Accordion>
-                        {this.state.events.map(event => {
-                            var a = event.users.includes(currentUser);
-                            if (a){
-                                return(
-                                    <AccordianElement key={event._id} type={event.type} users ={event.users} user = {currentUser} name={event.name} start = {event.start} end ={event.end}></AccordianElement>
-                                )
-                            }                                           
-                        })}
-                    </Accordion>
-					<h3>Friends events</h3>
+                        <Accordion>
+                            {this.state.events.map(event => {
+                                var a = event.users.includes(currentUser);
+                                if (a){
+                                    return(
+                                        <AccordianElement key={event._id} type={event.type} users ={event.users} user = {currentUser} name={event.name} start = {event.start} end ={event.end}></AccordianElement>
+                                    )
+                                }                                           
+                            })}
+                        </Accordion>
+					<h2 className='text-center'>Friends events</h2>
                     <Row>
                         <Col>
-                    <h4>Future events</h4>
+                        <h4>Future events</h4>
                         {this.state.events.map(event => {
                             this.state.friends.values()
                             var a = false;
@@ -186,8 +192,6 @@ class  Activities extends Component {
                         </Col>
                     </Row>
 					</div>
-					 <h3>Create Event</h3>
-                     <Button onClick={this.handleShow}>Create Event</Button>
 				</div>
 			    <div id="footer"><Footer></Footer></div>
 				<Modal show={this.state.show} onHide={this.handleClose} animation={false}>

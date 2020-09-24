@@ -94,6 +94,8 @@
     font-family: 'Times New Roman', Times, serif;
 }
 /*------------------------FEATURES_PAGE---------------------*/
+
+/*------------------------INFO(Vitals)_PAGE---------------------*/
 .handlePday, .handleTday, .handleNday{
     background-color:  rgb(86, 163, 218);
     color: white;
@@ -104,7 +106,6 @@
   }
 /*------------------------INFO(Vitals)_PAGE---------------------*/
 
-/*------------------------INFO(Vitals)_PAGE---------------------*/
 
 /*------------------------Calorie_Intake_Page---------------------*/
 .dropbtnW, .dropbtnM {
