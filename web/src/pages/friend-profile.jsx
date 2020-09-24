@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
-import Friend from '../components/friend';
+import Goals from '../components/goals';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 
@@ -57,7 +57,7 @@ class  FriendProfile extends Component {
 				var total = 0
 				console.log(response[0]);
 				response[0].stepsperd.forEach(element => {
-					if(new Date(this.state.day).getDate() - new Date(element.time).getDate()<7)
+					if(new Date(this.state.day).getDate() === new Date(element.time).getDate())
 					{
 						Tsteps = Tsteps + parseInt(element.stepsperd, 10)
 						console.log(parseInt(element.stepsperd, 10))
@@ -76,12 +76,22 @@ class  FriendProfile extends Component {
 						Tcalories = parseInt(element.breakfast, 10) + parseInt(element.lunch, 10) + parseInt(element.dinner, 10)
 					}
                 });
-                var hours = new Date(this.state.day).getHours()
-                var avgH = Theartrate/total 
-                var b = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
+				var avgH = Theartrate/total 
+				var calB = 0
+				var hours = new Date().getHours()
+
+						if (this.state.profile.gender === 'Male')
+						{
+							calB = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
+						}
+						else{
+							calB = ((-20.4022 + (0.4472*avgH) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*hours
+						}
+						calB = Math.round(calB)
 				this.setState({
 					calories: Tcalories,
-					stepsTaken: Tsteps
+					stepsTaken: Tsteps,
+					Burned: calB
 				});
     	    }
     	})
@@ -107,17 +117,7 @@ class  FriendProfile extends Component {
 						</div>
 
 						<div>Goals</div>
-						<div>Weight target ({this.state.profile.weight}/{this.state.loss})</div>
-						<ProgressBar animated now={(this.state.profile.weight/this.state.loss)*100} />
-
-						<br/>
-						<div>Steps ({this.state.stepsTaken}/{this.state.steps})</div>
-						<ProgressBar animated now={(this.state.stepsTaken/this.state.steps)*100} />
-						<br/>
-						
-						<div>Calorie Intake ({this.state.calories}/{this.state.intake})</div>
-						<ProgressBar animated now={(this.state.calories/this.state.intake)*100} />
-
+						<Goals target = {this.state.loss} weight={this.state.Burned} loss={Math.abs(this.state.intake) + (this.state.profile.weight-this.state.loss)/(Math.abs(this.state.profile.weight-this.state.loss))*600} stepsTaken={this.state.stepsTaken} steps={this.state.steps} calories={this.state.calories} intake={this.state.intake}></Goals>
 
 					</div>
                     </div>
