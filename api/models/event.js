@@ -4,5 +4,6 @@ module.exports = mongoose.model('event', new mongoose.Schema({
     users: Array,
     start: Date,
     end: Date,
-    data: Array
+    data: Array,
+    type: String
 }));
