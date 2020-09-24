@@ -18,10 +18,7 @@ class CalorieIntake extends Component {
 			day: new Date().toString().slice(0,15),
 			monthValue: new Date().toString().slice(4,7),
 			checkDay: Boolean,
-			// checkWeek: Boolean,
 			checkMonth: Boolean,
-			// weekValue: 1,
-			// weekCounter: 0,
 			monthSetDays: '',
 			title: "",
 			error: ""
@@ -30,9 +27,6 @@ class CalorieIntake extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleDay = this.handleDay.bind(this);
-		// this.handleWeek = this.handleWeek.bind(this);
-		// this.prevWeek= this.prevWeek.bind(this);
-		// this.nextWeek= this.nextWeek.bind(this);
 		this.handleMonth = this.handleMonth.bind(this);
 		this.prevMonth= this.prevMonth.bind(this);
 		this.nextMonth= this.nextMonth.bind(this);
@@ -81,144 +75,6 @@ class CalorieIntake extends Component {
 		this.setState({title:"Daily Calories"})
 		this.setState({check:false})
 	}
-	//Handles the current Week
-	// handleWeek(){
-	// 	var week = new Date().toString().slice(8,10);
-	// 	var month = new Date().toString().slice(4,7);
-	// 	if (parseInt(week, 10) >= 1 && parseInt(week, 10) <= 7){
-	// 		this.setState({weekCounter: 1})}
-	// 	if (parseInt(week, 10) >= 8 && parseInt(week, 10) <= 14){
-	// 		this.setState({weekCounter: 2})}
-	// 	if (parseInt(week, 10) >= 15 && parseInt(week, 10) <= 21){
-	// 		this.setState({weekCounter: 3})}
-	// 	if (parseInt(week, 10) >= 21 && parseInt(week, 10) <= 28){
-	// 		this.setState({weekCounter: 4})}
-	// 	this.setState({monthValue: month})
-	// 	console.log(this.state.weekCounter);
-	// 	// this.setState({weekValue: 1})
-	// 	this.setState({checkWeek:true});
-	// 	this.getData();
-	// }
-	// //Handles the Graph Element for the Previous Week
-	// prevWeek(){
-	// 	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-	// 	if (this.state.monthValue == months[0] && this.state.weekCounter == 1)
-	// 	{
-	// 		this.setState({monthValue: months[months.length - 1]});
-	// 		console.log(this.state.monthValue);
-	// 		this.setState({weekCounter:4});
-	// 	}
-	// 	else if (this.state.weekCounter == 1){
-	// 		for (var i = 1; i < months.length; i++)
-	// 		{
-	// 			if (this.state.monthValue == months[i])
-	// 			{
-	// 				// console.log("hello");
-	// 				this.setState({monthValue: months[i-1]})
-	// 				console.log(this.state.monthValue);
-	// 			}
-	// 		}
-	// 		this.setState({weekCounter:4});
-	// 	}
-	// 	else{
-	// 		this.setState({weekCounter: this.state.weekCounter - 1});
-	// 	}
-	// 	// console.log(this.state.weekCounter);
-	// 	console.log(this.state.weekCounter);
-	// 	this.setState({weekValue: this.state.weekValue + 7})
-	// 	this.setState({checkWeek:true});
-	// 	this.getData();
-	// }
-	// //Handles the Graph Element for the Next Weel
-	// nextWeek(){
-	// 	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-	// 	if (this.state.monthValue == months[12])
-	// 	{
-	// 		this.setState({monthValue: months[0]});
-	// 		console.log(this.state.monthValue);
-	// 	}
-	// 	else {
-	// 		for (var i = 0; i < months.length-1; i++)
-	// 		{
-	// 			if (this.state.monthValue == months[i])
-	// 			{
-	// 				this.setState({monthValue: months[i+1]})
-	// 				console.log(this.state.monthValue);
-	// 			}
-	// 		}
-	// 	}	
-	// 	this.setState({weekValue: this.state.weekValue - 7})
-	// 	this.setState({checkWeek:true});
-	// 	this.getData();
-	// }
-	// //Generates the Charts for weeks
-	// weeklyChart(monthlyC, days){
-	// 	var i;
-	// 	var j;
-	// 	var k = 6;
-	// 	var monthValues = [];
-	// 	var monthDays = [];
-	// 	var weekValues = [];
-	// 	var weekDays = [];
-	// 	if (this.state.monthValue == new Date().toString().slice(4,7))
-	// 	{
-	// 		var date = new Date().getDate();
-	// 		j = parseInt(date) - 1;
-	// 	}
-	// 	else if (this.state.monthValue == 'Feb')
-	// 	{
-	// 		j = 27;
-	// 	}
-	// 	else if (this.state.monthValue == 'Jan', 'Mar', 'May', 'Jul', 'Aug', 'Oct', 'Dec')
-	// 	{
-	// 		j = 30;
-	// 	}
-	// 	else if (this.state.monthValue == 'Apr', 'Jun', 'Sep', 'Oct', 'Nov')
-	// 	{
-	// 		j = 29;
-	// 	}
-	// 	for (var z = j; z >= 0; z--)
-	// 	{
-	// 		if (z < 9 && z >= 0)
-	// 		{
-	// 			monthDays[z] = this.state.monthValue + " 0" + (z+1).toString();
-	// 		}
-	// 		else{
-	// 			monthDays[z] = this.state.monthValue + " " + (z+1).toString();
-	// 		}
-	// 		monthValues[z] = 0;
-	// 	}
-	// 	for (i = monthDays.length - 1; i > 0; i--)
-	// 	{
-	// 		for(var z = days.length - 1; z >= 0; z--)
-	// 		{
-	// 			if (monthDays[i] == days[z])
-	// 			{
-	// 				monthValues[i] = monthlyC[z];
-	// 			}
-	// 		}
-	// 	}
-	// 	for(var z = monthDays.length - this.state.weekValue; z > monthDays.length - (monthDays.length-(this.state.weekValue+8)); z--)
-	// 	{
-	// 		weekDays[k] = monthDays[z];
-	// 		weekValues[k] = monthValues[z];
-	// 		k--;
-	// 	}
-	// 	this.setState({
-	// 		CchartData:{
-	// 			labels: weekDays,
-	// 			datasets:[
-	// 				{
-	// 				label:'Calories Taken',
-	// 				data: weekValues,
-	// 				backgroundColor:'rgba(255, 99, 132, 0.6)'
-	// 				}
-	// 			]
-	// 		}
-	// 	});
-	// 	this.setState({title:"Weekly Calories"})
-	// 	this.setState({checkWeek:false});
-	// }
 	handleMonth(){
 		var month = new Date().toString().slice(4,7); 
 		this.setState({monthValue: month})
@@ -396,7 +252,7 @@ class CalorieIntake extends Component {
 					success: function(response){
 						console.log(response);
 						console.log(value);
-						// window.location.href = '/calorieIntake';
+						window.location.href = '/calorieIntake';
 					} 
 				})
 			}
@@ -492,17 +348,10 @@ class CalorieIntake extends Component {
 		{
 			return;
 		}
-		// else if (this.nodeW.contains(e.target))
-		// {
-		// 	return;
-		// }
 		this.handleClickOutside();
 	}
 	dropdownM(){
 		document.getElementById("myDropdownM").classList.toggle("show");
-	}
-	dropdownW(){
-		document.getElementById("myDropdownW").classList.toggle("show");
 	}
 	render(){
 		return(
@@ -549,21 +398,12 @@ class CalorieIntake extends Component {
 					</div>
 					</div>
 					<div className="Cgraphs">
-						{/* <h3 className="text-center Csummary"> Summary </h3> */}
 						<div className="row">
 							<div className="chartSize col-md-10 position-relative">
 							<Chart title={this.state.title} legendPosition='bottom' chartData={this.state.CchartData} />
 							</div>
 							<div className="col-md-2 position-relative">
 							<div><br></br><br></br></div>
-								{/* <div className="dropdownW" ref={nodeW => this.nodeW = nodeW}>
-									<button onClick={() => this.dropdownW()} className="dropbtnW">Weekly Graphs</button>
-									<div id="myDropdownW" className="dropdown-contentW">
-										<button onClick={() => this.handleWeek()} className="handleW">This Week</button>
-										<button onClick={() => this.prevWeek()} className="handlePW">Previous Week</button>
-										<button onClick={() => this.nextWeek()} className="handleNW">Next Week</button>
-									</div>
-								</div> */}
 								<div><br></br><br></br><br></br><br></br></div>
 								<div className="dropdownM" ref={node => this.node = node}>
 									<button onClick={() => this.dropdownM()} className="dropbtnM">Monthly Graphs</button>
