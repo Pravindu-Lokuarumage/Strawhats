@@ -256,9 +256,9 @@ class Info extends Component {
               </div>
               <div className='text-center'>
               <br></br>
-                <button onClick={() => this.handlePrevious()}>Previous Day</button>
-                <button onClick={() => this.handleToday()}>Today</button>
-                <button onClick={() => this.handleNext()}>Next Day</button>
+                <button onClick={() => this.handlePrevious()} className="handlePday">Previous Day</button>
+                <button onClick={() => this.handleToday()} className="handleTday">Today</button>
+                <button onClick={() => this.handleNext()} className="handleNday">Next Day</button>
                 <div>Day - <span>{this.state.time.getDate()}/{this.state.time.getMonth()}/{this.state.time.getFullYear()}</span></div>
               </div>
               <div className='container'>
