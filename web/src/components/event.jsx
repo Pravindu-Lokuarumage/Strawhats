@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Card from 'react-bootstrap/Card'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import Chart from '../components/chart'
+import Chart from '../components/barChart'
 import {Link} from 'react-router-dom';
 import $ from "jquery";
 
@@ -137,9 +137,15 @@ class Event extends Component {
             if (user.user === currentUser){
                 return(
                     <div key ={user.user}>
-                        <div>{user.Tsteps}</div>
-                        <div>{user.distance}</div>
-                        <div>{user.calories}</div>
+                        <div>
+                            {user.Tsteps}
+                        </div>
+                        <div>
+                            {user.distance}
+                        </div>
+                        <div>
+                            {user.calories}
+                        </div>
                     </div>
                 )
             }                                     
