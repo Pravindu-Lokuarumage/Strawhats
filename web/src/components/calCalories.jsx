@@ -19,6 +19,7 @@ class Calories extends Component {
         if(this.state.data !== this.props.heartrate)
         {
             const avg = this.arrSum(this.props.heartrate)/this.props.heartrate.length
+            console.log(avg)
             const today = new Date()
             var hours = today.getHours()
             if (today.getDate() !== this.props.day.getDate())
@@ -27,7 +28,7 @@ class Calories extends Component {
             }
             this.setState({
                 data:this.props.heartrate,
-                caloriesBurn:((-55.0969 + (0.6309*avg) + (0.1988*this.props.profile.weight) + (0.2017*this.props.profile.age))/4.184)*60*hours
+                caloriesBurn:((-55.0969 + (0.6309*avg) + (0.1988*this.props.profile.weight) + (0.2017*this.props.profile.age))/4.184)*60*hours/1.5
             })
         }
     }

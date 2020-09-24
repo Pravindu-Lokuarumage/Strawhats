@@ -60,17 +60,6 @@ class  Profile extends Component {
 					console.log(this.state.profile);
 					console.log(this.state.profile.goals);
 					console.log(this.state.profile.goals.loss);
-					//if(response[0].updated.toDateString() !== new Date().toDateString()){
-						// $.ajax({
-						// 	url: `${API_URL}/profile/${currentUser}`,
-						// 	type: 'PUT',
-						// 	data: {weight: this.state.weight, height: this.state.height, loss:this.state.loss, steps:this.state.steps, intake:BMR, updated: new Date()},
-						// 	success: function(response){
-						// 		console.log(response);
-						// 		window.location.href = '/';
-						// 	} 
-						// })
-					//}
 					return (response[0]);
                 }
 
@@ -146,10 +135,10 @@ class  Profile extends Component {
 
 						if (this.state.profile.gender === 'Male')
 						{
-							calB = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours
+							calB = ((-55.0969 + (0.6309*avgH) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*hours/1.5
 						}
 						else{
-							calB = ((-20.4022 + (0.4472*avgH) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*hours
+							calB = ((-20.4022 + (0.4472*avgH) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*hours/1.5
 						}
 						calB = Math.round(calB)
 						this.setState({

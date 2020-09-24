@@ -6,6 +6,7 @@ const User = require('./models/user');
 const Profile = require('./models/profile');
 const Review = require('./models/reviews');
 const Data = require('./models/data');
+const Event = require('./models/event');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -105,6 +106,14 @@ app.get('/api/profile', (req, res) => {
             return err
             ? res.send(err)
             : res.send(profile);
+        }
+    )
+});
+app.get('/api/event', (req, res) => {
+    Event.find({}, (err, event) => {
+            return err
+            ? res.send(err)
+            : res.send(event);
         }
     )
 });
@@ -365,6 +374,22 @@ app.post('/api/authenticate', (req, res) => {
         }
     })
 })
+app.put('/api/change/password', (req, res) => {
+    const { user, password, new_password } = req.body;
+    User.findOne({ user, password }, (error, username) => {
+        if (username == null) {
+            return res.json({ error: "Incorrect username or password", user: user })
+        } 
+        else {
+            username.update({password:new_password})
+            .then(doc =>{
+                if (!doc) {return res.status(404).end();}
+                return res.status(200).json(doc)
+            })
+            .catch(err => next(err));
+        }
+    })
+})
 /**
  * @api {post} /api/registration    posts user and password into database
  * @apiName RegisterUser
@@ -456,7 +481,45 @@ app.post('/api/profile', (req, res) =>{
  		});
     })
 });
+app.post('/api/event/:user', (req, res) =>{
+    const {start,end,name,data} = req.body;
+    const { user } = req.params;
+    Event.findOne({ name: name}, (error, event) => {
+        if (event == null) {
+            const NewEvent = new Event({
+                name,
+                users:[user],
+                start,
+                end,
+                data:[]
+            });
+            NewEvent.save(err =>{
+                return err
+                 ? res.send(err)
+                 : res.json({
+                     success: true,
+                     message: 'Created new event'
+                 });
+            })
+        } else {
+            if (user !== undefined){
+                event.users.push(user);
+            }
+            if (data !== undefined){
+                event.data.push(data);            
+            }
 
+            event.save(err =>{
+                return err
+                 ? res.send(err)
+                 : res.json({
+                     success: true,
+                     message: 'Updated event'
+                 });
+            })
+        }
+    })
+});
 app.post('/api/profile/friend/:user', (req, res) =>{
     const {friends} = req.body;
     const { user } = req.params;

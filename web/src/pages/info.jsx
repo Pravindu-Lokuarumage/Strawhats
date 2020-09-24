@@ -117,11 +117,11 @@ class Info extends Component {
                   var val = 0;
                   if (this.state.profile.gender === 'Male')
 					        {
-					        	val = ((-55.0969 + (0.6309*avg) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*24
+					        	val = ((-55.0969 + (0.6309*avg) + (0.1988*this.state.profile.weight) + (0.2017*this.state.profile.age))/4.184)*60*24/1.5
 					        }
                   else
                   {
-					        	val = ((-20.4022 + (0.4472*avg) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*24
+					        	val = ((-20.4022 + (0.4472*avg) - (0.1263*this.state.profile.weight) + (0.074*this.state.profile.age))/4.184)*60*24/1.5
                   }
                   console.log(val)
                   $.post(`${API_URL}/data/${currentUser}`, {caloriesBurn: val})
