@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Pie} from 'react-chartjs-2';
 
-class PieChart extends Component { 
+class Chart extends Component { 
     constructor(props){
         super(props);
       }
@@ -22,7 +22,7 @@ class PieChart extends Component {
             title:{
               display:this.props.displayTitle,
               text:this.props.title,
-              fontSize:25
+              fontSize:25,
             },
             legend:{
               display:this.props.displayLegend,
@@ -36,4 +36,4 @@ class PieChart extends Component {
     
 }
 
-export default PieChart;
+export default Chart;
