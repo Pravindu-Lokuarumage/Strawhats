@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
+import PieChart from '../components/pieChart';
 
-// const API_URL = 'https://api-cyan-six.vercel.app/api';
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://api-cyan-six.vercel.app/api';
+// const API_URL = 'http://localhost:5000/api';
 const currentUser = localStorage.getItem('user');
 class  TrackMe extends Component {
     constructor(props){
@@ -14,6 +15,7 @@ class  TrackMe extends Component {
 			Duration: Number,
 			DurationType: 'Time Duration',
 			calConst: Number,
+			CchartData:{}
 		};
 		this.handleClick = this.handleClick.bind(this);
 		this.dropdownDuration = this.dropdownDuration.bind(this);
@@ -87,123 +89,163 @@ class  TrackMe extends Component {
 		//Approximately 6 calories are burned a min
 		this.setState({calConst: 6})
 		this.setState({type: 'pushups'})
-		this.addExercise();
+		this.addExercise('pushups', 6);
 	}
 	pullups(){
 		//const for 1 mins calories burned
 		//Approximately 9 calories are burned a min
 		this.setState({calConst: 9})
 		this.setState({type: 'pullups'})
-		this.addExercise();
+		this.addExercise('pullups', 9);
 	}
 	squats(){
 		//const for 1 mins calories burned
 		//Approximately 5.5 calories are burned a min
 		this.setState({calConst: 5.5})
 		this.setState({type: 'squats'})
-		this.addExercise();
+		this.addExercise('squats', 5.5);
 	}
 	planks(){
 		//const for 1 mins calories burned
 		//Approximately 4 calories are burned a min
 		this.setState({calConst: 4})
 		this.setState({type: 'planks'})
-		this.addExercise();
+		this.addExercise('planks', 4);
 	}
 	sPlanks(){
 		//const for 1 mins calories burned
 		//Approximately 5 calories are burned a min
 		this.setState({calConst: 5})
 		this.setState({type: 'side planks'})
-		this.addExercise();
+		this.addExercise('side planks', 5);
 	}
 	sitUps(){
 		//const for 1 mins calories burned
 		//Approximately 6 calories are burned a min
 		this.setState({calConst: 6})
 		this.setState({type: 'sit ups'})
-		this.addExercise();
+		this.addExercise('sit ups', 6);
 	}
 	crunches(){
 		//const for 1 mins calories burned
 		//Approximately 5.4 calories are burned a min
 		this.setState({calConst: 5.4})
 		this.setState({type: 'crunches'})
-		this.addExercise();
+		this.addExercise('crunches', 5.4);
 	}
 	lunges(){
 		//const for 1 mins calories burned
 		//Approximately 6.2 calories are burned a min
 		this.setState({calConst: 6.2})
 		this.setState({type: 'lunges'})
-		this.addExercise();
+		this.addExercise('lunges', 6.2);
 	}
 	gBridge(){
 		//const for 1 mins calories burned
 		//Approximately 4.3 calories are burned a min
 		this.setState({calConst: 4.3})
 		this.setState({type: 'glute bridge'})
-		this.addExercise();
+		this.addExercise('glute bridge', 4.3);
 	}
 	wSits(){
 		//const for 1 mins calories burned
 		//Approximately 4.4 calories are burned a min
 		this.setState({calConst: 4.4})
 		this.setState({type: 'wall sits'})
-		this.addExercise();
+		this.addExercise('wall sits', 4.4);
 	}
 	rowing(){
 		//const for 1 mins calories burned
 		//Approximately 6.5 calories are burned a min
 		this.setState({calConst: 6.5})
 		this.setState({type: 'rowing'})
-		this.addExercise();
+		this.addExercise('rowing', 6.5);
 	}
 	jRopes(){
 		//const for 1 mins calories burned
 		//Approximately 5.3 calories are burned a min
 		this.setState({calConst: 5.3})
 		this.setState({type: 'jumping ropes'})
-		this.addExercise();
+		this.addExercise('jumping ropes', 5.3);
 	}
 	cFits(){
 		//const for 1 mins calories burned
 		//Approximately 4.1 calories are burned a min
 		this.setState({calConst: 4.1})
 		this.setState({type: 'cross fits'})
-		this.addExercise();
+		this.addExercise('cross fits', 4.1);
 	}
 	lRaises(){
 		//const for 1 mins calories burned
 		//Approximately 4.2 calories are burned a min
 		this.setState({calConst: 4.2})
-		this.setState({calConst: 4.1})
 		this.setState({type: 'legs raises'})
-		this.addExercise();
+		this.addExercise('leg raises', 4.2);
 	}
 	bDips(){
 		//const for 1 mins calories burned
 		//Approximately 5.12 calories are burned a min
 		this.setState({calConst: 5.12})
 		this.setState({type: 'bench dips'})
-		this.addExercise();
+		this.addExercise('bench dips', 5.12);
 	}
-	addExercise(){
+	getData(){
+        $.get(`${API_URL}/data/${currentUser}`)
+        .then(response => {
+            if (response[0]== null){
+            }
+            else{
+				var pushups = 0;
+				var pullups = 0;
+				var squats= 0;
+				response[0].excercisedCalories.forEach(element => {
+					if(element.type == pushups)
+					{
+						pushups = pushups + element.calories
+					}
+					if(element.type == pullups)
+					{
+						pullups = pushups + element.calories
+					}
+					if(element.type == squats)
+					{
+						squats = squats + element.calories
+					}
+				});
+            }
+        })
+    }
+	addExercise(type, value){
 		var day = new Date();
-		var caloriesBurned = this.state.calConst * this.state.Duration;
+		var caloriesBurned = value * this.state.Duration;
 		console.log(caloriesBurned);
 		console.log(day);
 		$.ajax({
 			url: `${API_URL}/data/excercisedCalories/${currentUser}`,
 			type: 'PUT',
-			data: {type: this.state.type, calories: caloriesBurned, day: day},
+			data: {type: type, caloriesBurned: caloriesBurned, day: day},
 			success: function(response){
 				console.log(response);
 				console.log(caloriesBurned);
-			} 
+			}
 		})
+		this.pieGraph();
 	}
-	
+	pieGraph(values){
+		this.setState({
+			CchartData:{
+				labels: 'push ups, pull ups, squats',
+				datasets:[
+					{
+					label:'Excercised Calories',
+					data: values,
+					backgroundColor:'rgba(160, 160, 224, 0.63)'
+					}
+				]
+			}
+		});
+		this.setState({title:"Monthly Calories"})
+	}
 	renderDuration(){
 		// <div className="dropdownDuration" ref={node => this.node = node}>
 		// <button onClick={() => this.dropdownDuration()} className="dropbtnDuration">Select Duration</button>
@@ -224,6 +266,7 @@ class  TrackMe extends Component {
 				<div className="container">
 					<h1 className='text-center'>Excersices</h1>
 					<h3>Select Time Duration</h3>
+					{/* <PieChart title='Excercised Calories' legendPosition='bottom' chartData={this.state.CchartData} /> */}
 					<div className="dropdownDuration" ref={node => this.node = node}>
 							<button onClick={() => this.dropdownDuration()} className="dropbtnDuration">{this.state.DurationType}</button>
 							<div id="myDropdownDuration" className="dropdown-contentDuration">
