@@ -12,6 +12,7 @@ class  TrackMe extends Component {
 		super(props)
 		this.state = {
 			Duration: Number,
+			Tcal: 0,
 			DurationType: 'Time Duration',
 			check: false,
 			CchartData:{}
@@ -193,6 +194,7 @@ class  TrackMe extends Component {
 					TotalCalories = TotalCalories + parseInt(element.calories,10);
 				});
 			}
+			this.setState({Tcal:TotalCalories})
 			if (pushups !== 0){ values.push(pushups)
 			label.push('Push Ups')}
 			if (pullups !== 0){ values.push(pullups)
@@ -226,7 +228,7 @@ class  TrackMe extends Component {
 			console.log(values);
 			if(values.length === 0)
 			{
-				this.pieGraph(['No Excercises Today'], [0]);
+				this.pieGraph(['No Exercises Today'], [0]);
 			}
 			else if (this.state.check == true)
 			{
@@ -257,7 +259,7 @@ class  TrackMe extends Component {
 			<div className='body'>
 			<div id="navbar"><Navbar></Navbar></div>
 				<div className="container">
-					<h1 className='text-center'>Excersices</h1>
+					<h1 className='text-center'>Exercises</h1>
 					<div className='row'>
 						<div className='text-center col-md-6'>
 							<h3>Select Time Duration</h3>
@@ -271,13 +273,18 @@ class  TrackMe extends Component {
 									<button onClick={() => this.handle2hours()} className='h120'>2 hours</button>
 								</div>
 							</div>
+							<br></br><br></br><br></br>
+							<div>
+								<h3>Exercised calories burned Today:</h3>
+								<h3>{this.state.Tcal}</h3>
+							</div>
 						</div>	
 						<div className='col-md-6'>
 						<Chart title='Excercised Calories' legendPosition='bottom' chartData={this.state.CchartData} />
 						</div>
 					</div>
 				<br></br><br></br>
-				<h2 className='text-center'>Select Excersice</h2>
+				<h2 className='text-center'>Select Exercise</h2>
 				<br></br>
 				</div>
 				<div className='row'>
