@@ -292,6 +292,16 @@ app.put('/api/data/calories/:user', (req, res) => {
         } 
     })
 })
+app.put('/api/data/excercisedCalories/:user', (req, res) => {
+    const {caloriesBurned, type, day} = req.body;
+    const { user } = req.params;
+    Data.findOne({ user: user}, (error, username) => {
+        if (username !== null) {
+            cond = username.excercisedCalories;
+            cond.push({type: type, calories: caloriesBurned, day: day});
+        } 
+    })
+})
 app.put('/api/profile/:user', (req, res) => {
     var {height, weight, loss, steps, intake,points,updated} = req.body;
     const { user } = req.params;
