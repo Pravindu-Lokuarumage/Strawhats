@@ -334,14 +334,6 @@ class CalorieIntake extends Component {
 			openDropdown.classList.remove('show');
 		  }
 		}
-		var dropdownsW = document.getElementsByClassName("dropdown-contentW");
-		var j;
-		for (j = 0; j < dropdownsW.length; j++) {
-		  var openDropdown = dropdownsW[j];
-		  if (openDropdown.classList.contains('show')) {
-			openDropdown.classList.remove('show');
-		  }
-		}
 	}
 	handleClick = (e) => {
 		if (this.node.contains(e.target))
