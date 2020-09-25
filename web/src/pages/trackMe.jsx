@@ -11,10 +11,9 @@ class  TrackMe extends Component {
     constructor(props){
 		super(props)
 		this.state = {
-			Type: String,
 			Duration: Number,
 			DurationType: 'Time Duration',
-			calConst: Number,
+			check: false,
 			CchartData:{}
 		};
 		this.handleClick = this.handleClick.bind(this);
@@ -23,7 +22,7 @@ class  TrackMe extends Component {
 		this.timeDuration = this.timeDuration.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 	}
-	componentWDidMount(){		
+	componentDidMount(){		
 		this.getData();
 	}
 	componentWillMount(){		
@@ -85,108 +84,63 @@ class  TrackMe extends Component {
 		this.handleClickOutside();
 	}
 	pushups(){
-		//const for 1 mins calories burned
 		//Approximately 6 calories are burned a min
-		this.setState({calConst: 6})
-		this.setState({type: 'pushups'})
 		this.addExercise('pushups', 6);
 	}
 	pullups(){
-		//const for 1 mins calories burned
 		//Approximately 9 calories are burned a min
-		this.setState({calConst: 9})
-		this.setState({type: 'pullups'})
 		this.addExercise('pullups', 9);
 	}
 	squats(){
-		//const for 1 mins calories burned
 		//Approximately 5.5 calories are burned a min
-		this.setState({calConst: 5.5})
-		this.setState({type: 'squats'})
 		this.addExercise('squats', 5.5);
 	}
 	planks(){
-		//const for 1 mins calories burned
 		//Approximately 4 calories are burned a min
-		this.setState({calConst: 4})
-		this.setState({type: 'planks'})
 		this.addExercise('planks', 4);
 	}
 	sPlanks(){
-		//const for 1 mins calories burned
 		//Approximately 5 calories are burned a min
-		this.setState({calConst: 5})
-		this.setState({type: 'side planks'})
 		this.addExercise('side planks', 5);
 	}
 	sitUps(){
-		//const for 1 mins calories burned
 		//Approximately 6 calories are burned a min
-		this.setState({calConst: 6})
-		this.setState({type: 'sit ups'})
 		this.addExercise('sit ups', 6);
 	}
 	crunches(){
-		//const for 1 mins calories burned
 		//Approximately 5.4 calories are burned a min
-		this.setState({calConst: 5.4})
-		this.setState({type: 'crunches'})
 		this.addExercise('crunches', 5.4);
 	}
 	lunges(){
-		//const for 1 mins calories burned
 		//Approximately 6.2 calories are burned a min
-		this.setState({calConst: 6.2})
-		this.setState({type: 'lunges'})
 		this.addExercise('lunges', 6.2);
 	}
 	gBridge(){
-		//const for 1 mins calories burned
 		//Approximately 4.3 calories are burned a min
-		this.setState({calConst: 4.3})
-		this.setState({type: 'glute bridge'})
 		this.addExercise('glute bridge', 4.3);
 	}
 	wSits(){
-		//const for 1 mins calories burned
 		//Approximately 4.4 calories are burned a min
-		this.setState({calConst: 4.4})
-		this.setState({type: 'wall sits'})
 		this.addExercise('wall sits', 4.4);
 	}
 	rowing(){
-		//const for 1 mins calories burned
 		//Approximately 6.5 calories are burned a min
-		this.setState({calConst: 6.5})
-		this.setState({type: 'rowing'})
 		this.addExercise('rowing', 6.5);
 	}
 	jRopes(){
-		//const for 1 mins calories burned
 		//Approximately 5.3 calories are burned a min
-		this.setState({calConst: 5.3})
-		this.setState({type: 'jumping ropes'})
 		this.addExercise('jumping ropes', 5.3);
 	}
 	cFits(){
-		//const for 1 mins calories burned
 		//Approximately 4.1 calories are burned a min
-		this.setState({calConst: 4.1})
-		this.setState({type: 'cross fits'})
 		this.addExercise('cross fits', 4.1);
 	}
 	lRaises(){
-		//const for 1 mins calories burned
 		//Approximately 4.2 calories are burned a min
-		this.setState({calConst: 4.2})
-		this.setState({type: 'legs raises'})
 		this.addExercise('leg raises', 4.2);
 	}
 	bDips(){
-		//const for 1 mins calories burned
 		//Approximately 5.12 calories are burned a min
-		this.setState({calConst: 5.12})
-		this.setState({type: 'bench dips'})
 		this.addExercise('bench dips', 5.12);
 	}
 	addExercise(type, value){
@@ -204,6 +158,11 @@ class  TrackMe extends Component {
 		this.getData();
 	}
 	getData(){
+		if(this.state.check == false)
+		{
+			this.pieGraph(['Fetching Excercise Data'], [0]);
+			this.setState({check:true});
+		}
         $.get(`${API_URL}/data/${currentUser}`)
         .then(response => {
 			var pushups = 0;  var pullups = 0; var squats = 0; var planks = 0; var sidePlanks = 0;
@@ -264,7 +223,15 @@ class  TrackMe extends Component {
 			label.push('Leg Raises')}
 			if (Bdips !== 0){ values.push(Bdips)
 			label.push('Bench Dips')}
-			this.pieGraph(label,values)
+			console.log(values);
+			if(values.length === 0)
+			{
+				this.pieGraph(['No Excercises Today'], [0]);
+			}
+			else if (this.state.check == true)
+			{
+				this.pieGraph(label,values)
+			}
         })
     }
 	pieGraph(label, values){
