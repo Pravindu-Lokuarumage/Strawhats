@@ -106,6 +106,60 @@
   }
 /*------------------------INFO(Vitals)_PAGE---------------------*/
 
+/*------------------------Tracking(Excersie)_PAGE---------------------*/
+
+.dropbtnDuration {
+    background-color: rgb(219, 71, 52);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  .addExcercise{
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+ 
+  .dropbtnDuration:hover, .dropbtnDuration:focus {
+    background-color: rgb(33, 42, 48);
+  }
+  
+  .dropdownDuration{
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-contentDuration{
+    display: none;
+    position: absolute;
+    background-color:rgb(219, 71, 52);
+    min-width: 120px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-contentDuration a{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  .h10, .h20, .h30, .h60, .h120{
+    background-color:  rgb(219, 71, 52);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+/*------------------------Tracking(Excersie)_PAGE---------------------*/
 
 /*------------------------Calorie_Intake_Page---------------------*/
 .dropbtnW, .dropbtnM {
