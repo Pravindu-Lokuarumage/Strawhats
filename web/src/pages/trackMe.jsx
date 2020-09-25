@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import $ from "jquery";
-import PieChart from '../components/pieChart';
+import Chart from '../components/pieChart';
 
 const API_URL = 'https://api-cyan-six.vercel.app/api';
 // const API_URL = 'http://localhost:5000/api';
@@ -20,14 +20,14 @@ class  TrackMe extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.dropdownDuration = this.dropdownDuration.bind(this);
 		this.addExercise = this.addExercise.bind(this);
-		this.renderDuration = this.renderDuration.bind(this);
 		this.timeDuration = this.timeDuration.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 	}
-	componentDidMount(){
-		
+	componentWDidMount(){		
+		this.getData();
 	}
-	componentWillMount(){
+	componentWillMount(){		
+		this.getData();
 		document.addEventListener('mousedown', this.handleClick, false)
 	}
 	componentWillUnmount(){
@@ -189,74 +189,100 @@ class  TrackMe extends Component {
 		this.setState({type: 'bench dips'})
 		this.addExercise('bench dips', 5.12);
 	}
-	getData(){
-        $.get(`${API_URL}/data/${currentUser}`)
-        .then(response => {
-            if (response[0]== null){
-            }
-            else{
-				var pushups = 0;
-				var pullups = 0;
-				var squats= 0;
-				response[0].excercisedCalories.forEach(element => {
-					if(element.type == pushups)
-					{
-						pushups = pushups + element.calories
-					}
-					if(element.type == pullups)
-					{
-						pullups = pushups + element.calories
-					}
-					if(element.type == squats)
-					{
-						squats = squats + element.calories
-					}
-				});
-            }
-        })
-    }
 	addExercise(type, value){
 		var day = new Date();
 		var caloriesBurned = value * this.state.Duration;
-		console.log(caloriesBurned);
-		console.log(day);
 		$.ajax({
 			url: `${API_URL}/data/excercisedCalories/${currentUser}`,
 			type: 'PUT',
 			data: {type: type, caloriesBurned: caloriesBurned, day: day},
 			success: function(response){
 				console.log(response);
-				console.log(caloriesBurned);
+				window.location.href = '/trackMe';
 			}
 		})
-		this.pieGraph();
+		this.getData();
 	}
-	pieGraph(values){
+	getData(){
+        $.get(`${API_URL}/data/${currentUser}`)
+        .then(response => {
+			var pushups = 0;  var pullups = 0; var squats = 0; var planks = 0; var sidePlanks = 0;
+			var situps = 0; var crunches = 0; var lunges = 0; var gluteBridge = 0; var wallSits = 0;
+			var rowing= 0; var jumpingRopes = 0; var crossFit = 0; var legRaises = 0; var Bdips = 0;
+			var values = [];
+			var label = [];
+			var TotalCalories = 0;
+            if (response[0]== null){
+            }
+            else{
+				response[0].excercisedCalories.forEach(element => {
+					if(element.type === 'pushups') pushups = pushups + parseInt(element.calories,10);
+					if(element.type === 'pullups') pullups = pullups + parseInt(element.calories,10);
+					if(element.type === 'squats') squats = squats + parseInt(element.calories,10);
+					if(element.type === 'planks') planks = planks + parseInt(element.calories,10);
+					if(element.type === 'side planks') sidePlanks = sidePlanks + parseInt(element.calories,10);
+					if(element.type === 'sit ups') situps = situps + parseInt(element.calories,10);
+					if(element.type === 'crunches') crunches = crunches + parseInt(element.calories,10);
+					if(element.type === 'lunges') lunges = lunges + parseInt(element.calories,10);
+					if(element.type === 'glute bridge') gluteBridge = gluteBridge + parseInt(element.calories,10);
+					if(element.type === 'wall sits') wallSits = wallSits + parseInt(element.calories,10);
+					if(element.type === 'rowing') rowing = rowing + parseInt(element.calories,10);
+					if(element.type === 'jumping ropes') jumpingRopes = jumpingRopes + parseInt(element.calories,10);
+					if(element.type === 'cross fits') crossFit = crossFit + parseInt(element.calories,10);
+					if(element.type === 'leg raises') legRaises = legRaises + parseInt(element.calories,10);
+					if(element.type === 'bench dips') Bdips = Bdips + parseInt(element.calories,10);
+					TotalCalories = TotalCalories + parseInt(element.calories,10);
+				});
+			}
+			if (pushups !== 0){ values.push(pushups)
+			label.push('Push Ups')}
+			if (pullups !== 0){ values.push(pullups)
+			label.push('Pull Ups')}
+			if (squats !== 0){ values.push(squats)
+			label.push('Squats')}
+			if (planks !== 0){ values.push(planks)
+			label.push('Planks')}
+			if (sidePlanks !== 0){ values.push(sidePlanks)
+			label.push('Side Planks')}
+			if (situps !== 0){ values.push(situps)
+			label.push('Sit Ups')}
+			if (crunches !== 0){ values.push(crunches)
+			label.push('Crunches')}
+			if (lunges !== 0){ values.push(lunges)
+			label.push('Lunges')}
+			if (gluteBridge !== 0){ values.push(gluteBridge)
+			label.push('Glute Bridge')}
+			if (wallSits !== 0){ values.push(wallSits)
+			label.push('Wall Sits')}
+			if (rowing !== 0){ values.push(rowing)
+			label.push('Rowing')}
+			if (jumpingRopes !== 0){ values.push(jumpingRopes)
+			label.push('Jumping Ropes')}
+			if (crossFit !== 0){ values.push(crossFit)
+			label.push('Cross Fit')}
+			if (legRaises !== 0){ values.push(legRaises)
+			label.push('Leg Raises')}
+			if (Bdips !== 0){ values.push(Bdips)
+			label.push('Bench Dips')}
+			this.pieGraph(label,values)
+        })
+    }
+	pieGraph(label, values){
 		this.setState({
 			CchartData:{
-				labels: 'push ups, pull ups, squats',
+				labels: label,
 				datasets:[
 					{
 					label:'Excercised Calories',
 					data: values,
-					backgroundColor:'rgba(160, 160, 224, 0.63)'
+					backgroundColor: ['rgb(58, 113, 231)', 'rgb(225, 58, 231)', 'rgb(231, 58, 72)', ' rgb(58, 196, 231)'
+					, 'rgb(60, 248, 207)', 'rgb(248, 167, 60)', 'rgb(207, 248, 60)', 'rgb(60, 248, 60)', 'rgb(60, 95, 248)'
+					, 'rgb(205, 135, 252)', '#f09206f1', 'rgb(255, 55, 171)', 'rgb(0, 221, 221)', 'rgb(182, 255, 45)', 'rgb(108, 45, 255)']
 					}
 				]
 			}
 		});
 		this.setState({title:"Monthly Calories"})
-	}
-	renderDuration(){
-		// <div className="dropdownDuration" ref={node => this.node = node}>
-		// <button onClick={() => this.dropdownDuration()} className="dropbtnDuration">Select Duration</button>
-		// 	<div id="myDropdownDuration" className="dropdown-contentDuration">
-		// 		<p className='10min'>10 minutes</p>
-		// 		<p className='20min'>20 minutes</p>
-		// 		<p className='30min'>30 minutes</p>
-		// 		<p className='60min'>1 hour</p>
-		// 		<p className='120min'>2 hours</p>
-		// 	</div>
-		// </div>
 	}
 	render(){
 		return(
@@ -265,21 +291,27 @@ class  TrackMe extends Component {
 			<div id="navbar"><Navbar></Navbar></div>
 				<div className="container">
 					<h1 className='text-center'>Excersices</h1>
-					<h3>Select Time Duration</h3>
-					{/* <PieChart title='Excercised Calories' legendPosition='bottom' chartData={this.state.CchartData} /> */}
-					<div className="dropdownDuration" ref={node => this.node = node}>
-							<button onClick={() => this.dropdownDuration()} className="dropbtnDuration">{this.state.DurationType}</button>
-							<div id="myDropdownDuration" className="dropdown-contentDuration">
-								<button onClick={() => this.handle10mins()} className='h10'>10 minutes</button>
-								<button onClick={() => this.handle20mins()} className='h20'>20 minutes</button>
-								<button onClick={() => this.handle30mins()} className='h30'>30 minutes</button>
-								<button onClick={() => this.handle1hour()} className='h60'>1 hour</button>
-								<button onClick={() => this.handle2hours()} className='h120'>2 hours</button>
+					<div className='row'>
+						<div className='text-center col-md-6'>
+							<h3>Select Time Duration</h3>
+							<div className="dropdownDuration" ref={node => this.node = node}>
+								<button onClick={() => this.dropdownDuration()} className="dropbtnDuration">{this.state.DurationType}</button>
+								<div id="myDropdownDuration" className="dropdown-contentDuration">
+									<button onClick={() => this.handle10mins()} className='h10'>10 minutes</button>
+									<button onClick={() => this.handle20mins()} className='h20'>20 minutes</button>
+									<button onClick={() => this.handle30mins()} className='h30'>30 minutes</button>
+									<button onClick={() => this.handle1hour()} className='h60'>1 hour</button>
+									<button onClick={() => this.handle2hours()} className='h120'>2 hours</button>
+								</div>
 							</div>
+						</div>	
+						<div className='col-md-6'>
+						<Chart title='Excercised Calories' legendPosition='bottom' chartData={this.state.CchartData} />
 						</div>
-						<br></br><br></br>
-					<h2 className='text-center'>Select Excersice</h2>
-					<br></br>
+					</div>
+				<br></br><br></br>
+				<h2 className='text-center'>Select Excersice</h2>
+				<br></br>
 				</div>
 				<div className='row'>
 					<div className='col-md-4 text-center'>
