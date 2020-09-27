@@ -301,10 +301,10 @@ app.post('/api/data/:user', (req, res) => {
  * @apiGroup Data
  * 
  * @apiParam {String} user          Unique username
- * @apiParam {Number} [breakfast]   breakfast calories data
- * @apiParam {Number} [lunch]   lunch calories data
- * @apiParam {Number} [dinner]   dinner calories data
- *  @apiParam {Date} [day]   day data
+ * @apiParam {Number} [breakfast]   Breakfast calories data
+ * @apiParam {Number} [lunch]       Lunch calories data
+ * @apiParam {Number} [dinner]      Dinner calories data
+ * @apiParam {Date} [day]           Day data
  * 
  * @apiSuccessExample {json} Success-Response:
  * {
@@ -372,10 +372,10 @@ app.put('/api/data/calories/:user', (req, res) => {
  * @apiName PutCaloriesburned
  * @apiGroup Data
  * 
- * @apiParam {String} user          Unique username
- * @apiParam {Number} [caloriesBurned]   calories burned data
- * @apiParam {String} type   type of exercise done
- * @apiParam {Date} [day]   day data
+ * @apiParam {String} user               Unique username
+ * @apiParam {Number} [caloriesBurned]   Calories burned data
+ * @apiParam {String} type               Type of exercise
+ * @apiParam {Date} [day]                Day for the exercise
  * 
  * 
  * @apiSuccessExample {json} Success-Response:
@@ -424,13 +424,13 @@ app.put('/api/data/excercisedCalories/:user', (req, res) => {
  * @apiGroup Profile
  * 
  * @apiParam {String} user          Unique username
- * @apiParam {Number} [height]   height data
- * @apiParam {Number} [weight]   weight data
- * @apiParam {Number} [loss]   weight loss data
- * @apiParam {Number} [steps]   steps data
- * @apiParam {Number} [intake]   calorie intake data
- * @apiParam {Number} [points]   Ranking points data
- * @apiParam {Date} [updated]   date for the update data
+ * @apiParam {Number} [height]      Height data
+ * @apiParam {Number} [weight]      Weight data
+ * @apiParam {Number} [loss]        Weight loss goal
+ * @apiParam {Number} [steps]       Steps Goal data
+ * @apiParam {Number} [intake]      Calorie intake data
+ * @apiParam {Number} [points]      Ranking points data
+ * @apiParam {Date} [updated]       Date for the update
  * 
  * 
  * @apiSuccessExample {json} Success-Response:
