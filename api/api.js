@@ -299,6 +299,12 @@ app.put('/api/data/excercisedCalories/:user', (req, res) => {
         if (username !== null) {
             cond = username.excercisedCalories;
             cond.push({type: type, calories: caloriesBurned, day: day});
+            username.update({excercisedCalories: cond})
+            .then(doc =>{
+                if (!doc) {return res.status(404).end();}
+                return res.status(200).json(doc)
+            })
+            .catch(err => next(err));
         } 
     })
 })
