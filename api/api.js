@@ -384,6 +384,26 @@ app.post('/api/authenticate', (req, res) => {
         }
     })
 })
+/**
+ * @api {put} /api/change/password    saves new changed password to user 
+ * @apiName ChangePassword
+ * @apiGroup User
+ * 
+ * @apiParam {String} user              username of the user
+ * @apiParam {String} password          existing password for the user
+ * @apiParam {String} new_password      new changed password for that user
+ * 
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *      "success": true,
+ *      "message": "Password changed successfully"
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "error":"Incorrect username or password"
+ * }
+ * */
 app.put('/api/change/password', (req, res) => {
     const { user, password, new_password } = req.body;
     User.findOne({ user, password }, (error, username) => {
@@ -491,6 +511,29 @@ app.post('/api/profile', (req, res) =>{
  		});
     })
 });
+/**
+ * @api {Post} /api/event/:user    posts events from the user
+ * @apiName PostEvents
+ * @apiGroup Events
+ * 
+ * @apiParam {String} user      Unique username
+ * @apiParam {String} name      Name of user
+ * @apiParam {Number} start     start time of the event
+ * @apiParam {Number} end       end time of the event
+ * @apiParam {String} type      Type of event
+ * @apiParam {String} data[]    Array of event data
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *      "success": true,
+ *      "message": "Created new event"
+ *      "message": "Updated event"
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "Error status: 404"
+ * }
+ * */
 app.post('/api/event/:user', (req, res) =>{
     const {start,end,name,data,type} = req.body;
     const { user } = req.params;
@@ -531,6 +574,26 @@ app.post('/api/event/:user', (req, res) =>{
         }
     })
 });
+/**
+ * @api {post} /api/profile/friend/:user    posts added friends to the user
+ * @apiName FriendsArray
+ * @apiGroup Friend
+ * 
+ * @apiParam {String} user          Unique username
+ * @apiParam {String} friends       name of the friend 
+ * 
+ * 
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *      "success": true,
+ *      "message": "Updated friends"
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "error status":"404"
+ * }
+ * */
 app.post('/api/profile/friend/:user', (req, res) =>{
     const {friends} = req.body;
     const { user } = req.params;
