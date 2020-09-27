@@ -109,6 +109,46 @@ app.get('/api/profile', (req, res) => {
         }
     )
 });
+/**
+ * @api {get} /api/event    Request all events
+ * @apiName GetEvent
+ * @apiGroup event
+ * 
+ * @apiParam {String} user      Unique username
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * [
+ *     {
+ *         "users": [
+ *             "Pravindu",
+ *             "Arshad"
+ *         ],
+ *         "data": [],
+ *         "_id": "5f6b078b3277d60008608890",
+ *         "name": "Make it Happen",
+ *         "start": "2020-09-23T12:00:00.000Z",
+ *         "end": "2020-09-23T18:00:00.000Z",
+ *         "__v": 1
+ *     },
+ *     {
+ *         "users": [
+ *             "Arshad",
+ *             "Hamza",
+ *             "Pravindu"
+ *         ],
+ *         "data": [],
+ *         "_id": "5f6b079f3277d60008608891",
+ *         "name": "No more Waiting",
+ *         "start": "2020-09-22T23:00:00.000Z",
+ *         "end": "2020-09-23T12:00:00.000Z",
+ *         "__v": 2
+ *     }
+ * ]
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "Event does not exist"
+ * }
+ * */
 app.get('/api/event', (req, res) => {
     Event.find({}, (err, event) => {
             return err
@@ -255,6 +295,41 @@ app.post('/api/data/:user', (req, res) => {
         }
     })
 })
+/**
+ * @api {put} /api/data/calories/:user      puts calories into database
+ * @apiName PutCalories
+ * @apiGroup Data
+ * 
+ * @apiParam {String} user          Unique username
+ * @apiParam {Number} [breakfast]   breakfast calories data
+ * @apiParam {Number} [lunch]   lunch calories data
+ * @apiParam {Number} [dinner]   dinner calories data
+ *  @apiParam {Date} [day]   day data
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *  "n": 1,
+ *  "nModified": 1,
+ *  "opTime": {
+ *      "ts": "6877070457187598337",
+ *       "t": 3
+ *  },
+ *  "electionId": "7fffffff0000000000000003",
+ *  "ok": 1,
+ *  "$clusterTime": {
+ *     "clusterTime": "6877070457187598337",
+ *      "signature": {
+ *          "hash": "qmGjXdGR78YGb8bao7PiIJeaDrQ=",
+ *          "keyId": "6865279852837076995"
+ *      }
+ *  },
+ *  "operationTime": "6877070457187598337"
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "Error Status: 404"
+ * }
+ * */
 app.put('/api/data/calories/:user', (req, res) => {
     const {breakfast,lunch,dinner, day} = req.body;
     const { user } = req.params;
@@ -292,6 +367,41 @@ app.put('/api/data/calories/:user', (req, res) => {
         } 
     })
 })
+/**
+ * @api {put} /api/data/excercisedCalories/:user      puts Exercised calories burned into database
+ * @apiName PutCaloriesburned
+ * @apiGroup Data
+ * 
+ * @apiParam {String} user          Unique username
+ * @apiParam {Number} [caloriesBurned]   calories burned data
+ * @apiParam {String} type   type of exercise done
+ * @apiParam {Date} [day]   day data
+ * 
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *     "n": 1,
+ *     "nModified": 1,
+ *     "opTime": {
+ *         "ts": "6877075216011362305",
+ *         "t": 3
+ *     },
+ *     "electionId": "7fffffff0000000000000003",
+ *     "ok": 1,
+ *     "$clusterTime": {
+ *         "clusterTime": "6877075216011362305",
+ *         "signature": {
+ *             "hash": "pF2LIOMptvI4WpRi88j9mU3hrB8=",
+ *             "keyId": "6865279852837076995"
+ *         }
+ *     },
+ *     "operationTime": "6877075216011362305"
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "Error Status: 404"
+ * }
+ * */
 app.put('/api/data/excercisedCalories/:user', (req, res) => {
     const {caloriesBurned, type, day} = req.body;
     const { user } = req.params;
@@ -308,6 +418,56 @@ app.put('/api/data/excercisedCalories/:user', (req, res) => {
         } 
     })
 })
+/**
+ * @api {put} /api/profile/:user      puts Exercised calories burned into database
+ * @apiName PutProfileData
+ * @apiGroup Profile
+ * 
+ * @apiParam {String} user          Unique username
+ * @apiParam {Number} [height]   height data
+ * @apiParam {Number} [weight]   weight data
+ * @apiParam {Number} [loss]   weight loss data
+ * @apiParam {Number} [steps]   steps data
+ * @apiParam {Number} [intake]   calorie intake data
+ * @apiParam {Number} [points]   Ranking points data
+ * @apiParam {Date} [updated]   date for the update data
+ * 
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *     "doc": {
+ *         "n": 1,
+ *         "nModified": 1,
+ *         "opTime": {
+ *             "ts": "6877081636987469825",
+ *             "t": 3
+ *         },
+ *         "electionId": "7fffffff0000000000000003",
+ *         "ok": 1,
+ *         "$clusterTime": {
+ *             "clusterTime": "6877081636987469825",
+ *             "signature": {
+ *                 "hash": "/CAuqVHTjT2cuNuhY1rbHsF2g3I=",
+ *                 "keyId": "6865279852837076995"
+ *             }
+ *         },
+ *         "operationTime": "6877081636987469825"
+ *     },
+ *     "data": {
+ *         "height": "160",
+ *         "weight": "50",
+ *         "loss": "1",
+ *         "steps": "1200",
+ *         "intake": "1230",
+ *         "points": "1000",
+ *         "updated": "Tue Sep 15 2020"
+ *     }
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ *      "Error Status: 404"
+ * }
+ * */
 app.put('/api/profile/:user', (req, res) => {
     var {height, weight, loss, steps, intake,points,updated} = req.body;
     const { user } = req.params;
